@@ -1,0 +1,4 @@
+Hypothesis,Evaluated_Feature,Observed_Correlation,Directional_Result,Domain_Note
+Previous_WatLevel positively associates with higher water level predictions,Previous_WatLevel,0.9705,Consistent with Domain Expectation,Higher prior groundwater table depth strongly associates with higher current predicted depth.
+Surf_Elev captures regional topographical head gradient,Surf_Elev,0.9065,Consistent with Domain Expectation,Reflects learned topographical adjustment across west-to-east elevation slope.
+Annual precipitation anomaly provides secondary recharge response,Annual_Precipitation_Total,-0.1927,Reflects Model Sensitivity,Captures secondary macro-climatic signal without proving causal recharge mechanism.

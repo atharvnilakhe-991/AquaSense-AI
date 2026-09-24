@@ -1,0 +1,12 @@
+Check_ID,Check_Name,Status,Details
+LC-07,Target Segregation Check,PASS,Target 'WatLevel' strictly segregated from predictor matrices.
+LC-04,TIFF Exclusion Check,PASS,TIFF_Value strictly excluded from all ablation configurations.
+LC-02,Temporal Precedence Check,PASS,"Date_prior < Date_prediction verified across all 3,844 rows (0 violations)."
+LC-03,Strengthened Dual-Lag Date Fidelity Check,PASS,Previous_WatLevel & Previous2_WatLevel independently reconstructed & verified against unique prior DateMsr (0 violations).
+LC-05,Same-Date Leakage Check,PASS,Same-date observations receive identical prior state (0 inconsistencies across 36 rows).
+LC-06,Cold-Start Integrity Check,PASS,All 170 cold-start rows have 100% NaN across all 12 history features (0 fabricated values).
+LC-01,Well Overlap Check (Repeated Holdout),PASS,Strict 0 well overlap verified across all 10 seed holdouts.
+LC-08,Row-Level Split Contamination Check (Repeated),PASS,Splits partitioned strictly at well-level with 0 row leakage.
+LC-09,Evaluation Row Alignment Check (Repeated),PASS,Identical test rows evaluated across all configurations A0–A4.
+LC-01b,Well Overlap Check (Spatial Clusters),PASS,Strict 0 well overlap verified across all 5 spatial cluster folds.
+LC-09b,Evaluation Row Alignment Check (Spatial),PASS,Identical test rows evaluated across all spatial configurations A0–A4.

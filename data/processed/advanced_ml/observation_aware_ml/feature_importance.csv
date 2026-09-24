@@ -1,0 +1,157 @@
+Regime,Config_Key,Configuration,Model,Feature,Feature_Type,Importance
+Temporal,Model_A,Model A (Environmental Only),Random Forest,LatDD,Environmental,0.7066689794792278
+Temporal,Model_A,Model A (Environmental Only),Random Forest,LongDD,Environmental,0.026535560430367713
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Surf_Elev,Environmental,0.2652402746530178
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Annual_Temperature_Mean,Environmental,0.00027460897030792935
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Annual_Precipitation_Total,Environmental,0.000346227506768061
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Annual_Humidity_Mean,Environmental,0.00038053152883008696
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Annual_WindSpeed_Mean,Environmental,0.00036276280795481886
+Temporal,Model_A,Model A (Environmental Only),Random Forest,Annual_SolarRadiation_Mean,Environmental,0.00019105462352566805
+Temporal,Model_A,Model A (Environmental Only),XGBoost,LatDD,Environmental,0.5179141759872437
+Temporal,Model_A,Model A (Environmental Only),XGBoost,LongDD,Environmental,0.11201850324869156
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Surf_Elev,Environmental,0.36568573117256165
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Annual_Temperature_Mean,Environmental,0.0007208149181678891
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Annual_Precipitation_Total,Environmental,0.0010670291958376765
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Annual_Humidity_Mean,Environmental,0.0012121732579544187
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Annual_WindSpeed_Mean,Environmental,0.0009065925260074437
+Temporal,Model_A,Model A (Environmental Only),XGBoost,Annual_SolarRadiation_Mean,Environmental,0.0004750211082864553
+Temporal,Model_A,Model A (Environmental Only),LightGBM,LatDD,Environmental,3718.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,LongDD,Environmental,3462.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Surf_Elev,Environmental,3278.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Annual_Temperature_Mean,Environmental,1110.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Annual_Precipitation_Total,Environmental,1050.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Annual_Humidity_Mean,Environmental,781.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Annual_WindSpeed_Mean,Environmental,956.0
+Temporal,Model_A,Model A (Environmental Only),LightGBM,Annual_SolarRadiation_Mean,Environmental,645.0
+Temporal,Model_B,Model B (Environmental + History),Random Forest,LatDD,Environmental,0.022588472548911755
+Temporal,Model_B,Model B (Environmental + History),Random Forest,LongDD,Environmental,0.002246113733856992
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Surf_Elev,Environmental,0.015258859723662282
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Annual_Temperature_Mean,Environmental,8.528712927789346e-05
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Annual_Precipitation_Total,Environmental,0.00010463247284228515
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Annual_Humidity_Mean,Environmental,0.00013158243777033324
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Annual_WindSpeed_Mean,Environmental,7.466644140481912e-05
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Annual_SolarRadiation_Mean,Environmental,7.225248068640851e-05
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Previous_WatLevel,Observation_History,0.6592813493880266
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Previous2_WatLevel,Observation_History,0.00026938065647082816
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Days_Since_Previous,Observation_History,0.0006916789550628351
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Years_Since_Previous,Observation_History,0.0006176889712546257
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Rolling_Mean_3,Observation_History,0.19743971256487347
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Rolling_Std_3,Observation_History,0.00015477085028067127
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Previous_Level_Change,Observation_History,9.238666121321289e-05
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Recent_Trend,Observation_History,9.552757530509235e-05
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Historical_Mean,Observation_History,0.054679277107663106
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Historical_Std,Observation_History,0.0001269796894700562
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Historical_Min,Observation_History,0.028199112151693184
+Temporal,Model_B,Model B (Environmental + History),Random Forest,Historical_Max,Observation_History,0.0177902684602736
+Temporal,Model_B,Model B (Environmental + History),XGBoost,LatDD,Environmental,0.008178865537047386
+Temporal,Model_B,Model B (Environmental + History),XGBoost,LongDD,Environmental,0.0016463828505948186
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Surf_Elev,Environmental,0.005652190651744604
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Annual_Temperature_Mean,Environmental,0.00019802413589786738
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Annual_Precipitation_Total,Environmental,0.00011249987437622622
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Annual_Humidity_Mean,Environmental,0.0001803702616598457
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Annual_WindSpeed_Mean,Environmental,0.0001675199018791318
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Annual_SolarRadiation_Mean,Environmental,9.448294440517202e-05
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Previous_WatLevel,Observation_History,0.3138311505317688
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Previous2_WatLevel,Observation_History,0.00015038087440188974
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Days_Since_Previous,Observation_History,0.0007180545944720507
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Years_Since_Previous,Observation_History,0.0005998497945256531
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Rolling_Mean_3,Observation_History,0.08589506149291992
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Rolling_Std_3,Observation_History,5.728104952140711e-05
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Previous_Level_Change,Observation_History,4.581808389048092e-05
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Recent_Trend,Observation_History,8.183300087694079e-05
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Historical_Mean,Observation_History,0.04749118536710739
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Historical_Std,Observation_History,4.4850858103018254e-05
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Historical_Min,Observation_History,0.15404127538204193
+Temporal,Model_B,Model B (Environmental + History),XGBoost,Historical_Max,Observation_History,0.3808128833770752
+Temporal,Model_B,Model B (Environmental + History),LightGBM,LatDD,Environmental,1741.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,LongDD,Environmental,1242.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Surf_Elev,Environmental,1654.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Annual_Temperature_Mean,Environmental,356.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Annual_Precipitation_Total,Environmental,445.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Annual_Humidity_Mean,Environmental,505.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Annual_WindSpeed_Mean,Environmental,324.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Annual_SolarRadiation_Mean,Environmental,239.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Previous_WatLevel,Observation_History,963.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Previous2_WatLevel,Observation_History,553.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Days_Since_Previous,Observation_History,1377.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Years_Since_Previous,Observation_History,213.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Rolling_Mean_3,Observation_History,558.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Rolling_Std_3,Observation_History,905.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Previous_Level_Change,Observation_History,752.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Recent_Trend,Observation_History,776.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Historical_Mean,Observation_History,454.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Historical_Std,Observation_History,920.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Historical_Min,Observation_History,527.0
+Temporal,Model_B,Model B (Environmental + History),LightGBM,Historical_Max,Observation_History,496.0
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,LatDD,Environmental,0.022590844011723663
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,LongDD,Environmental,0.0022301890430648464
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Surf_Elev,Environmental,0.015235567606561085
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Annual_Temperature_Mean,Environmental,7.575595218942734e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Annual_Precipitation_Total,Environmental,0.00010017962265095276
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Annual_Humidity_Mean,Environmental,0.0001346717957104362
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Annual_WindSpeed_Mean,Environmental,7.286600239271221e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Annual_SolarRadiation_Mean,Environmental,6.005550358529587e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Previous_WatLevel,Observation_History,0.6615339224527613
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Previous2_WatLevel,Observation_History,0.00022297331171386005
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Days_Since_Previous,Observation_History,0.0004980627525677754
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Years_Since_Previous,Observation_History,0.00047409144074544665
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Rolling_Mean_3,Observation_History,0.1926779849256009
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Rolling_Std_3,Observation_History,0.00010946558414859155
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Previous_Level_Change,Observation_History,8.563479835079045e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Recent_Trend,Observation_History,7.449272474148929e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Historical_Mean,Observation_History,0.05648554837637512
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Historical_Std,Observation_History,0.0001158834431454478
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Historical_Min,Observation_History,0.02821565617723671
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Historical_Max,Observation_History,0.017355061389417788
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Previous_Observation_Count,Quality_Proxy,0.0011212812264235282
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Observation_Density,Quality_Proxy,0.0005272546746856485
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Long_Gap_Flag,Quality_Proxy,1.386510800992137e-06
+Temporal,Model_C,Model C (Environmental + History + Quality),Random Forest,Very_Long_Gap_Flag,Quality_Proxy,1.1706734061854394e-06
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,LatDD,Environmental,0.007909338921308517
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,LongDD,Environmental,0.0012984361965209246
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Surf_Elev,Environmental,0.005923208314925432
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Annual_Temperature_Mean,Environmental,0.00013951948494650424
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Annual_Precipitation_Total,Environmental,0.00016115135804284364
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Annual_Humidity_Mean,Environmental,0.00015940386219881475
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Annual_WindSpeed_Mean,Environmental,0.00014632723468821496
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Annual_SolarRadiation_Mean,Environmental,0.00010025357187259942
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Previous_WatLevel,Observation_History,0.29132723808288574
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Previous2_WatLevel,Observation_History,0.0002222714974777773
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Days_Since_Previous,Observation_History,0.0002880590036511421
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Years_Since_Previous,Observation_History,0.00022566341795027256
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Rolling_Mean_3,Observation_History,0.060982778668403625
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Rolling_Std_3,Observation_History,4.556524072540924e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Previous_Level_Change,Observation_History,4.4379692553775385e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Recent_Trend,Observation_History,6.105571083026007e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Historical_Mean,Observation_History,0.11907807737588882
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Historical_Std,Observation_History,3.963286872021854e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Historical_Min,Observation_History,0.10753240436315536
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Historical_Max,Observation_History,0.4041958451271057
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Previous_Observation_Count,Quality_Proxy,6.545786891365424e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Observation_Density,Quality_Proxy,5.39842621947173e-05
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Long_Gap_Flag,Quality_Proxy,0.0
+Temporal,Model_C,Model C (Environmental + History + Quality),XGBoost,Very_Long_Gap_Flag,Quality_Proxy,0.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,LatDD,Environmental,1711.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,LongDD,Environmental,1295.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Surf_Elev,Environmental,1522.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Annual_Temperature_Mean,Environmental,339.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Annual_Precipitation_Total,Environmental,433.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Annual_Humidity_Mean,Environmental,451.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Annual_WindSpeed_Mean,Environmental,305.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Annual_SolarRadiation_Mean,Environmental,225.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Previous_WatLevel,Observation_History,1000.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Previous2_WatLevel,Observation_History,475.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Days_Since_Previous,Observation_History,1220.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Years_Since_Previous,Observation_History,252.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Rolling_Mean_3,Observation_History,522.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Rolling_Std_3,Observation_History,801.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Previous_Level_Change,Observation_History,697.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Recent_Trend,Observation_History,727.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Historical_Mean,Observation_History,521.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Historical_Std,Observation_History,909.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Historical_Min,Observation_History,530.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Historical_Max,Observation_History,442.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Previous_Observation_Count,Quality_Proxy,444.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Observation_Density,Quality_Proxy,178.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Long_Gap_Flag,Quality_Proxy,1.0
+Temporal,Model_C,Model C (Environmental + History + Quality),LightGBM,Very_Long_Gap_Flag,Quality_Proxy,0.0

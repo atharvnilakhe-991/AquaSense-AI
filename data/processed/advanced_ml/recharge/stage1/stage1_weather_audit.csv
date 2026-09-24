@@ -1,0 +1,7 @@
+Variable,Description,Status,Min,Mean,Median,Max,Missing_Code_Count,Null_Count
+T2M,Daily Mean Temperature at 2m (°C),AVAILABLE,-21.59,11.42,11.68,34.08,0,0
+PRECTOTCORR,Corrected Daily Precipitation (mm/day),AVAILABLE,0.0,1.7,0.02,90.3,0,0
+RH2M,Relative Humidity at 2m (%),AVAILABLE,24.27,62.84,62.65,97.66,0,0
+WS2M,Wind Speed at 2m (m/s),AVAILABLE,0.59,3.51,3.28,11.03,0,0
+ALLSKY_SFC_SW_DWN,All-Sky Surface Downward Solar Irradiance (MJ/m²/day),AVAILABLE,0.9,16.34,15.92,32.3,0,0
+PET (Potential Evapotranspiration),Direct daily potential evapotranspiration measurement,UNAVAILABLE in raw dataset (Relegated to Future Enhancement),,,,,0,0

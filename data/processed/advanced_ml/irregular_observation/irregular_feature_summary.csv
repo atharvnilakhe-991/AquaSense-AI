@@ -1,0 +1,17 @@
+feature_name,dtype,missing_count,missing_percentage,min,max,mean,median
+Previous_WatLevel,float64,170,4.42,-2.7,223.29,67.6857,37.725
+Previous2_WatLevel,float64,336,8.74,-2.7,223.29,68.1868,38.02
+Days_Since_Previous,float64,170,4.42,1.0,6189.0,284.8454,338.5
+Years_Since_Previous,float64,170,4.42,0.0027,16.9446,0.7799,0.9268
+Previous_Observation_Count,int64,0,0.0,0.0,45.0,13.6358,12.0
+Rolling_Mean_3,float64,170,4.42,-0.55,221.89,67.6165,37.47
+Rolling_Std_3,float64,336,8.74,0.0,19.0396,1.5273,1.313
+Previous_Level_Change,float64,336,8.74,-33.21,15.83,0.0738,0.08
+Recent_Trend,float64,336,8.74,-578.3125,956.955,10.9759,0.0909
+Historical_Mean,float64,170,4.42,1.23,218.998,67.2132,37.3951
+Historical_Std,float64,336,8.74,0.0,12.1837,2.2829,2.228
+Historical_Min,float64,170,4.42,-2.7,217.05,63.7513,33.72
+Historical_Max,float64,170,4.42,1.23,223.29,70.7761,40.18
+Long_Gap_Flag,int64,0,0.0,0.0,1.0,0.0255,0.0
+Very_Long_Gap_Flag,int64,0,0.0,0.0,1.0,0.0052,0.0
+Observation_Density,float64,0,0.0,0.0,4.6667,1.1883,1.0

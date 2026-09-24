@@ -1,0 +1,4 @@
+Temporal_Split,Year_Range,Min_Date,Max_Date,Total_Observations,Warm_Start_Observations,Cold_Start_Observations,Unique_Wells
+test,2023–2024,2023-04-06,2024-05-01,188,180,8,117
+train,2000–2019,2000-04-04,2019-04-29,3247,3086,161,161
+validation,2020–2022,2020-04-13,2022-10-31,409,408,1,114

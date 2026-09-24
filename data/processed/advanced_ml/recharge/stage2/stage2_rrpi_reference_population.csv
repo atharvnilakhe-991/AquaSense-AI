@@ -1,0 +1,9 @@
+Feature_Name,Dimension,Reference_Min,Reference_Max,Reference_Mean,Reference_Std,Reference_Obs_Count
+Precip_30D_Sum,Moisture Delivery (+),5.34,201.27,57.0652,35.1341,3247
+Precip_180D_Sum,Moisture Delivery (+),56.56,727.84,217.3828,160.2572,3247
+Rain_Days_30D,Moisture Delivery (+),1.0,19.0,7.2917,2.8548,3247
+Humidity_Mean_30D,Moisture Delivery (+),45.9873,76.8143,61.1672,5.846,3247
+Temp_Mean_30D,Atmospheric Demand (+),1.834,26.235,9.5203,3.9307,3247
+Radiation_30D_Sum,Atmospheric Demand (+),281.39,800.67,513.4147,66.1299,3247
+WindSpeed_Mean_30D,Atmospheric Demand (+),2.4037,5.2097,4.0104,0.4432,3247
+Dry_Spell_Days,Atmospheric Demand (+),0.0,16.0,2.9898,3.1003,3247

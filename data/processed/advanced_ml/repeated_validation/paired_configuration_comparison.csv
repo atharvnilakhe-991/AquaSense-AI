@@ -1,0 +1,28 @@
+Comparison,Base_Configuration,New_Configuration,Regime,Model,Num_Splits,MAE_Base_Mean,MAE_New_Mean,Delta_MAE_Mean,Delta_MAE_Std,Delta_MAE_Min,Delta_MAE_Max,Relative_MAE_Change_Pct,Delta_R2_Mean,Delta_RMSE_Mean
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Overall_Test,Random Forest,10,14.227,2.877,-11.35,2.923,-17.621,-8.142,-79.46,0.1207,-16.726
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Overall_Test,Random Forest,10,2.877,2.928,0.051,0.05,-0.035,0.152,1.92,-0.0001,0.069
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Overall_Test,XGBoost,10,15.741,3.379,-12.362,4.214,-21.001,-6.703,-77.81,0.1263,-17.333
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Overall_Test,XGBoost,10,3.379,3.45,0.071,0.319,-0.46,0.785,1.25,-0.0029,0.231
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Overall_Test,LightGBM,10,17.189,3.598,-13.591,4.74,-22.324,-9.084,-78.05,0.1371,-18.087
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Overall_Test,LightGBM,10,3.598,3.536,-0.062,0.224,-0.444,0.331,-1.56,0.0002,-0.14
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Warm_Start,Random Forest,10,14.29,2.47,-11.819,3.005,-18.237,-8.497,-82.44,0.1243,-18.213
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Warm_Start,Random Forest,10,2.47,2.523,0.053,0.052,-0.031,0.157,2.35,-0.0001,0.094
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Warm_Start,XGBoost,10,15.808,3.023,-12.786,4.3,-21.488,-6.994,-80.23,0.1294,-18.439
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Warm_Start,XGBoost,10,3.023,3.106,0.083,0.322,-0.439,0.816,1.8,-0.003,0.283
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Warm_Start,LightGBM,10,17.305,3.242,-14.063,4.834,-22.886,-9.453,-80.29,0.1408,-19.236
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Warm_Start,LightGBM,10,3.242,3.18,-0.062,0.239,-0.474,0.34,-1.61,0.0003,-0.196
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Cold_Start,Random Forest,10,12.804,11.859,-0.945,1.91,-3.494,2.092,-7.26,0.0329,-2.693
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Cold_Start,Random Forest,10,11.859,11.867,0.007,0.103,-0.176,0.133,0.16,-0.0001,0.041
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Cold_Start,XGBoost,10,14.191,11.231,-2.96,3.35,-9.601,1.438,-19.51,0.0516,-4.868
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Cold_Start,XGBoost,10,11.231,11.038,-0.193,0.417,-0.987,0.479,-1.81,-0.0014,-0.07
+Model_A_vs_Model_B,Model A (Env),Model B (Env+Hist),Cold_Start,LightGBM,10,14.58,11.425,-3.155,2.472,-8.571,-0.109,-19.97,0.05,-4.63
+Model_B_vs_Model_C,Model B (Env+Hist),Model C (Env+Hist+Qual),Cold_Start,LightGBM,10,11.425,11.385,-0.04,0.425,-0.849,0.62,-0.67,-0.0019,0.133
+Warm_Start_vs_Cold_Start,Cold Start (Model_A),Warm Start (Model_A),Warm_vs_Cold,Random Forest,10,12.804,14.29,1.486,1.33,-0.194,4.35,11.26,0.008,1.571
+Warm_Start_vs_Cold_Start,Cold Start (Model_A),Warm Start (Model_A),Warm_vs_Cold,XGBoost,10,14.191,15.808,1.618,1.882,-0.353,4.998,10.31,0.0018,1.994
+Warm_Start_vs_Cold_Start,Cold Start (Model_A),Warm Start (Model_A),Warm_vs_Cold,LightGBM,10,14.58,17.305,2.725,1.74,-0.986,4.899,18.83,-0.0081,3.098
+Warm_Start_vs_Cold_Start,Cold Start (Model_B),Warm Start (Model_B),Warm_vs_Cold,Random Forest,10,11.859,2.47,-9.389,2.345,-12.636,-6.174,-78.95,0.0994,-13.95
+Warm_Start_vs_Cold_Start,Cold Start (Model_B),Warm Start (Model_B),Warm_vs_Cold,XGBoost,10,11.231,3.023,-8.208,2.504,-12.646,-5.648,-73.06,0.0796,-11.577
+Warm_Start_vs_Cold_Start,Cold Start (Model_B),Warm Start (Model_B),Warm_vs_Cold,LightGBM,10,11.425,3.242,-8.183,1.737,-11.464,-5.944,-71.96,0.0828,-11.508
+Warm_Start_vs_Cold_Start,Cold Start (Model_C),Warm Start (Model_C),Warm_vs_Cold,Random Forest,10,11.867,2.523,-9.343,2.281,-12.529,-6.121,-78.54,0.0994,-13.897
+Warm_Start_vs_Cold_Start,Cold Start (Model_C),Warm Start (Model_C),Warm_vs_Cold,XGBoost,10,11.038,3.106,-7.932,2.462,-12.099,-5.018,-71.94,0.0781,-11.224
+Warm_Start_vs_Cold_Start,Cold Start (Model_C),Warm Start (Model_C),Warm_vs_Cold,LightGBM,10,11.385,3.18,-8.205,1.976,-11.258,-5.068,-72.23,0.0849,-11.837

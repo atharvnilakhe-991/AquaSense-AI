@@ -1,0 +1,13 @@
+Model,Cohort,Test_Samples,Target_Coverage_90,Empirical_Coverage_90,Target_Coverage_95,Empirical_Coverage_95,Interval_Width_90,MAE
+Random Forest,Overall Temporal Test,180,0.9,0.9889,0.95,0.9944,9.836,1.2126
+Random Forest,Short Gap (<=200d),62,0.9,0.9839,0.95,1.0,9.836,0.9889
+Random Forest,Annual Gap (201-400d),86,0.9,0.9884,0.95,0.9884,9.836,1.1338
+Random Forest,Stale Gap (>400d),32,0.9,1.0,0.95,1.0,9.836,1.8578
+XGBoost,Overall Temporal Test,180,0.9,0.9722,0.95,0.9944,9.5656,1.2112
+XGBoost,Short Gap (<=200d),62,0.9,0.9677,0.95,1.0,9.5656,1.0863
+XGBoost,Annual Gap (201-400d),86,0.9,0.9884,0.95,0.9884,9.5656,1.0388
+XGBoost,Stale Gap (>400d),32,0.9,0.9375,0.95,1.0,9.5656,1.9164
+LightGBM,Overall Temporal Test,180,0.9,0.9889,0.95,0.9944,9.5677,1.1435
+LightGBM,Short Gap (<=200d),62,0.9,0.9839,0.95,1.0,9.5677,1.1318
+LightGBM,Annual Gap (201-400d),86,0.9,0.9884,0.95,0.9884,9.5677,1.0804
+LightGBM,Stale Gap (>400d),32,0.9,1.0,0.95,1.0,9.5677,1.3357

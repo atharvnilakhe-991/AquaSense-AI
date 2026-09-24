@@ -1,0 +1,25 @@
+Test_ID,Description,Status,Details
+TEST_01,Strict temporal precedence,PASS,latest_history_date < current_date strictly satisfied
+TEST_02,Previous_WatLevel date fidelity,PASS,Matches mean WatLevel of latest earlier date
+TEST_03,Previous2_WatLevel date fidelity,PASS,Matches mean WatLevel of second-latest earlier date
+TEST_04,Same-date leakage prevention,PASS,Duplicate date rows receive identical prior-only history
+TEST_05,Historical bounds consistency,PASS,Historical_Min <= Historical_Mean <= Historical_Max
+TEST_06,Days_Since_Previous non-negativity,PASS,"Min: 1.0, Max: 6189.0"
+TEST_07,Years_Since_Previous non-negativity,PASS,"Min: 0.00, Max: 16.94"
+TEST_08,Long_Gap_Flag binary validity,PASS,"Values: [np.int64(0), np.int64(1)]"
+TEST_09,Very_Long_Gap_Flag binary validity,PASS,"Values: [np.int64(0), np.int64(1)]"
+TEST_10,Observation_Density non-negativity,PASS,"Min: 0.00, Max: 4.67"
+TEST_11,Target-derived TIFF exclusion,PASS,TIFF_Value strictly absent from dataset and engineering
+TEST_12,Self-target leakage exclusion,PASS,Current WatLevel never accessible at time t
+TEST_13,Row count conservation,PASS,Input 3844 == Output 3844
+TEST_14,Well entity conservation,PASS,Unique wells: 170
+TEST_15,No spurious duplicate rows,PASS,Exactly 3844 rows preserved
+TEST_16,Same CSD_ID + DateMsr identical history,PASS,Verified across all duplicate-date groups
+TEST_17,Previous_WatLevel exact date-mean match,PASS,Matches mean WatLevel of latest earlier unique date
+TEST_18,Previous2_WatLevel exact date-mean match,PASS,Matches mean WatLevel of second-latest earlier unique date
+TEST_19,Rolling_Mean_3 unique date sequence,PASS,Uses up to 3 latest prior unique dates
+TEST_20,Rolling_Std_3 unique date sequence,PASS,Uses up to 3 latest prior unique dates (ddof=1)
+TEST_21,Historical statistics unique date sequence,PASS,"Mean, Std, Min, Max computed across unique prior dates"
+TEST_22,Duplicate-row count comparison,PASS,"Input duplicates: 36, Output duplicates: 36"
+TEST_23,Well-date occurrence conservation,PASS,Exact match of well-date frequencies
+TEST_24,Strict upper temporal bound,PASS,Zero features access DateMsr >= current DateMsr

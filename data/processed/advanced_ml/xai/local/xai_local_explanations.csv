@@ -1,0 +1,7 @@
+Prototype,Well_ID,Date,Regime,Observed_Level_ft,Predicted_Level_ft,Absolute_Error_ft,Base_Value_ft,Top_1_Positive,Top_2_Positive,Top_1_Negative,Top_2_Negative
+Median_Error_Warm_Start,402233099341700,2022-10-06,Warm_Start,112.31,110.99,1.32,61.92,Previous_WatLevel (+17.39 ft),LatDD (+17.12 ft),Surf_Elev (-1.05 ft),LongDD (-0.61 ft)
+P95_High_Error_Warm_Start,402320099231001,2022-04-27,Warm_Start,212.21,200.48,11.73,64.52,Previous_WatLevel (+43.95 ft),Historical_Max (+29.57 ft),Annual_Precipitation_Total (-0.42 ft),Annual_SolarRadiation_Mean (-0.42 ft)
+Median_Error_Cold_Start,403230099195901,2000-04-28,Cold_Start,6.72,13.85,7.13,66.16,Rolling_Mean_3 (+1.23 ft),LongDD (+0.73 ft),Previous_WatLevel (-16.14 ft),Historical_Max (-12.09 ft)
+P95_High_Error_Cold_Start,403946099383201,2007-04-20,Cold_Start,95.34,53.45,41.89,61.92,Surf_Elev (+16.44 ft),Historical_Min (+1.68 ft),LatDD (-15.95 ft),Historical_Mean (-4.18 ft)
+Shallowest_Groundwater_Case,403959099282801,2021-04-01,Warm_Start,-1.39,0.14,1.53,67.57,None,,Previous_WatLevel (-25.80 ft),Historical_Max (-9.51 ft)
+Deepest_Groundwater_Case,402320099231001,2006-10-20,Warm_Start,223.29,203.21,20.08,64.52,Previous_WatLevel (+43.78 ft),Historical_Max (+29.64 ft),Rolling_Std_3 (-0.12 ft),Recent_Trend (-0.02 ft)

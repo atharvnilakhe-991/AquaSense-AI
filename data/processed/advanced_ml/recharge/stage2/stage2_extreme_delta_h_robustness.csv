@@ -1,0 +1,7 @@
+Evaluation_Regime,Sample_Count,Train_Count,Test_Count,Model,MAE,RMSE,R2,Median_AE,Error_Std
+Full Warm-Start Dataset,3674,3086,180,Random Forest,1.2064,1.7072,0.2349,0.8315,1.6212
+Full Warm-Start Dataset,3674,3086,180,XGBoost,1.1989,1.6696,0.2682,0.8973,1.621
+Full Warm-Start Dataset,3674,3086,180,LightGBM,1.1564,1.6294,0.303,0.8495,1.6116
+Non-Extreme Robustness Subset,3650,3068,180,Random Forest,1.1178,1.5579,0.3628,0.829,1.509
+Non-Extreme Robustness Subset,3650,3068,180,XGBoost,1.152,1.5752,0.3486,0.8406,1.5264
+Non-Extreme Robustness Subset,3650,3068,180,LightGBM,1.0904,1.5375,0.3794,0.775,1.508

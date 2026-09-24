@@ -1,0 +1,15 @@
+Gate_ID,Gate_Name,Status,Details
+RCH3-LC-01,Prior-Day Weather Cutoff,PASS,"max(weather_date_used) < DateMsr verified for 100% of records (0 violations, latest date is D-1 day)."
+RCH3-LC-02,Groundwater Temporal Precedence,PASS,"Date_prior < Date_current verified across all 3,674 warm-start records (0 violations)."
+RCH3-LC-03,Target Segregation (WatLevel),PASS,Current WatLevel strictly absent from candidate predictors.
+RCH3-LC-04,Target Segregation (Delta_h),PASS,Delta_h strictly absent from candidate predictors.
+RCH3-LC-05,Static Raster Exclusion,PASS,TIFF_Value strictly absent from dataset and all feature configurations.
+RCH3-LC-06,Grouped Well Separation,PASS,Zero well overlap between train and test across all 10 repeated holdout seeds.
+RCH3-LC-07,Spatial Fold Isolation,PASS,Zero well overlap across all 5 spatial cluster folds.
+RCH3-LC-08,Transformation Leakage Isolation,PASS,"All model transformations, metrics, and scalers fit strictly on training partitions."
+RCH3-LC-09,Cold-Start Target Integrity,PASS,All 170 cold-start records have 100% NaN for Delta_h (zero fabricated targets).
+RCH3-LC-10,Conformal Calibration Independence,PASS,Calibration partition (max 2022-10-31) strictly precedes test partition (min 2023-04-06).
+RCH3-LC-11,RRPI Reference Population Fidelity,PASS,RRPI reference parameters inherit approved 8-feature baseline from 2000-2019 reference population.
+RCH3-LC-12,Cold-Start History Fabrication Check,PASS,Zero synthetic or imputed history assigned to cold-start wells.
+RCH3-LC-13,Duplicate-Date Sequencing Check,PASS,All 18 duplicate well-date groups share identical prior state; zero same-day sequential Delta_h computed.
+RCH3-LC-14,Baseline Phase Preservation,PASS,"All 129 locked files from Phases 08.4-08.9, Stage 1, Stage 2, and Methodology verified 100% identical."

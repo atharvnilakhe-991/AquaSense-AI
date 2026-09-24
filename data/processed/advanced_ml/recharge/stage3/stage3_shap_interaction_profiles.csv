@@ -1,0 +1,4 @@
+Interaction_Pair,Feature_1,Feature_2,Mean_Absolute_Interaction,Max_Absolute_Interaction,Interpretation
+Previous_WatLevel × Precip_90D_Sum,Previous_WatLevel,Precip_90D_Sum,0.004246,0.023779,Model-estimated interaction between pre-existing water table depth and multi-month precipitation exposure.
+Previous_WatLevel × Precip_Interval_Sum,Previous_WatLevel,Precip_Interval_Sum,0.040227,0.115081,Model-estimated interaction between antecedent water table depth and cumulative gap precipitation exposure.
+Days_Since_Previous × Precip_Interval_Sum,Days_Since_Previous,Precip_Interval_Sum,0.101283,0.508385,Model-estimated interaction reflecting joint conditioning on observation gap duration and cumulative interval rainfall.

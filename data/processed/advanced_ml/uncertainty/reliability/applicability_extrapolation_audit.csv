@@ -1,0 +1,11 @@
+Diagnostic,Bin,N,Mean_D_M,Mean_Absolute_Error,Median_Absolute_Error,Observed_Coverage_90,Observed_Coverage_95,Mean_Dist_KM
+Mahalanobis_Distance,Very_Low,2327,0.7198,4.2137,1.8004,0.8479,0.8861,
+Mahalanobis_Distance,Low,2327,1.2219,4.6383,1.8769,0.8341,0.8878,
+Mahalanobis_Distance,Moderate,2325,1.6477,4.8932,1.8843,0.8202,0.8787,
+Mahalanobis_Distance,High,2326,2.0021,4.3334,1.7744,0.8323,0.8848,
+Mahalanobis_Distance,Very_High,2327,2.4766,4.1427,1.8489,0.8423,0.9072,
+Spatial_Distance_To_Train_Well_KM,0-2km,4609,,2.0425,1.1302,0.9618,0.9829,1.0207
+Spatial_Distance_To_Train_Well_KM,2-5km,3845,,5.0479,2.3915,0.781,0.8671,3.4099
+Spatial_Distance_To_Train_Well_KM,5-10km,2351,,7.2434,2.9132,0.735,0.7886,6.8186
+Spatial_Distance_To_Train_Well_KM,10-20km,827,,7.0643,4.1973,0.6687,0.7521,12.1135
+Spatial_Distance_To_Train_Well_KM,>20km,0,,,,,,

@@ -1,0 +1,17 @@
+Column,Missing_Count,Missing_Percent
+CSD_ID,0,0.0
+County,0,0.0
+LatDD,0,0.0
+LongDD,0,0.0
+YearMsr,0,0.0
+DateMsr,0,0.0
+Season,632,16.02840476794319
+WatLevel,0,0.0
+Surf_Elev,0,0.0
+TIFF_Value,0,0.0
+Annual_Temperature_Mean,99,2.5107785949784427
+Annual_Precipitation_Total,99,2.5107785949784427
+Annual_Humidity_Mean,99,2.5107785949784427
+Annual_WindSpeed_Mean,99,2.5107785949784427
+Annual_SolarRadiation_Mean,99,2.5107785949784427
+DEM_Elevation,3943,100.0

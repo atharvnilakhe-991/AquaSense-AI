@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+.env
+
+# Model binaries & large weights (prevent committing binaries)
+*.joblib
+*.pkl
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# Large raw datasets and GIS GeoTIFFs (strictly prevent committing raw data and rasters)
+*.tif
+*.tiff
+*.geotiff
+data/raw/
+
+# IDE & OS files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Temporary / cache files
+checkpoints/
+.pytest_cache/
+*.log

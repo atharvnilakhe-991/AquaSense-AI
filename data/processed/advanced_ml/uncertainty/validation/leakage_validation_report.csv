@@ -1,0 +1,11 @@
+Gate_ID,Gate_Name,Status,Details
+UG-01,Target Segregation,PASS,Target 'WatLevel' and 'TIFF_Value' strictly excluded from all predictor matrices.
+UG-02,Temporal Precedence,PASS,"Date_prior < Date_pred strictly verified across all 3,844 observations (0 violations)."
+UG-06,Warm/Cold Semantic Integrity,PASS,Cold-start rows (170) retain genuine NaNs for historical features; zero synthetic filling.
+UG-03,Well-Level Separation,PASS,"Zero well overlap across train, cal, and test sets across all 10 seeds."
+UG-05,Calibration/Test Separation,PASS,D_cal and D_test row indices are strictly disjoint (0 overlapping rows).
+UG-07,Interval Construction Correctness,PASS,L <= y_hat <= U verified for 100% of prediction intervals (zero bound inversions).
+UG-04,Spatial Separation,PASS,Held-out spatial cluster wells strictly isolated from model training and calibration subsets across all 5 folds.
+UG-08,Coverage Evaluation Correctness,PASS,PICP and coverage deviation calculated against true held-out ground truth using exact indicator formulas.
+UG-09,Applicability Diagnostic Integrity,PASS,"Mu, Cov, and spatial nearest-neighbor coordinates fitted strictly on D_train; zero test data leakage."
+UG-10,Baseline Preservation,PASS,All 39 baseline files from Phases 08.4–08.8 verified 100% untouched.

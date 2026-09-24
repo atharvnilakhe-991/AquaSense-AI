@@ -1,0 +1,19 @@
+Family_Set,Description,Feature_Count,Model,Fit_Time_Sec,Val_MAE,Val_RMSE,Val_R2,Test_MAE,Test_RMSE,Test_R2,Test_MedAE
+SET_0,Group G + T (Static Geography & Topography),3,Random Forest,0.373,2.8961,3.6481,-0.0202,1.4465,1.9201,0.0322,1.1897
+SET_0,Group G + T (Static Geography & Topography),3,XGBoost,0.294,2.8963,3.647,-0.0196,1.4408,1.908,0.0443,1.176
+SET_0,Group G + T (Static Geography & Topography),3,LightGBM,0.592,2.8958,3.6478,-0.02,1.448,1.9227,0.0295,1.2038
+SET_1,"G + T + H (Geography, Topography, Antecedent Groundwater History)",16,Random Forest,1.185,2.3111,3.0204,0.3007,1.4169,1.9096,0.0427,1.0783
+SET_1,"G + T + H (Geography, Topography, Antecedent Groundwater History)",16,XGBoost,0.46,2.3224,3.1114,0.2579,1.3421,1.8287,0.1221,1.0424
+SET_1,"G + T + H (Geography, Topography, Antecedent Groundwater History)",16,LightGBM,0.31,2.3064,3.1169,0.2553,1.3624,1.866,0.0859,1.0457
+SET_2,G + T + H + A (History + Atmospheric Context),21,Random Forest,1.439,2.7152,3.4614,0.0816,1.6373,2.0255,-0.0771,1.3989
+SET_2,G + T + H + A (History + Atmospheric Context),21,XGBoost,0.445,2.4685,3.2881,0.1712,1.4902,1.9303,0.0219,1.1846
+SET_2,G + T + H + A (History + Atmospheric Context),21,LightGBM,0.296,2.5079,3.3059,0.1622,1.3359,1.7765,0.1715,1.0032
+SET_3,G + T + H + P_windows (History + Precipitation Windows),22,Random Forest,1.257,2.3732,3.1444,0.2421,1.1997,1.7623,0.1847,0.8596
+SET_3,G + T + H + P_windows (History + Precipitation Windows),22,XGBoost,0.474,2.5008,3.2705,0.1801,1.2097,1.7302,0.2141,0.7745
+SET_3,G + T + H + P_windows (History + Precipitation Windows),22,LightGBM,0.31,2.3148,3.1085,0.2593,1.3595,1.9057,0.0466,0.8903
+SET_4,G + T + H + P_windows + Interval_Precip,23,Random Forest,1.258,2.224,3.0139,0.3037,1.2064,1.7072,0.2349,0.8315
+SET_4,G + T + H + P_windows + Interval_Precip,23,XGBoost,0.496,2.2783,3.1097,0.2587,1.1989,1.6696,0.2682,0.8973
+SET_4,G + T + H + P_windows + Interval_Precip,23,LightGBM,0.307,2.0792,2.9319,0.341,1.1564,1.6294,0.303,0.8495
+SET_5,Full Multimodal: G + T + H + P_all + A,31,Random Forest,1.572,2.3755,3.2314,0.1996,1.3488,1.8215,0.129,1.0323
+SET_5,Full Multimodal: G + T + H + P_all + A,31,XGBoost,0.536,2.2036,3.0637,0.2805,1.3407,1.7722,0.1755,1.1118
+SET_5,Full Multimodal: G + T + H + P_all + A,31,LightGBM,0.329,2.1237,2.9682,0.3246,1.2863,1.7125,0.2301,0.9309

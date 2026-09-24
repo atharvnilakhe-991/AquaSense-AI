@@ -1,0 +1,9 @@
+Feature,Feature_Block,Spearman_Corr_with_SHAP,Strongest_Interacting_Feature,Interaction_Corr
+Previous_WatLevel,Observation_History,0.9699,Rolling_Mean_3,0.9689
+Rolling_Mean_3,Observation_History,0.9646,Previous2_WatLevel,0.9644
+Historical_Max,Observation_History,0.887,Previous2_WatLevel,0.8907
+Historical_Min,Observation_History,0.8376,Previous2_WatLevel,0.837
+Historical_Mean,Observation_History,0.9466,Historical_Max,0.945
+LatDD,Geography,-0.8995,Previous2_WatLevel,0.6383
+Surf_Elev,Topography,0.9234,LongDD,0.788
+Annual_Humidity_Mean,Climate,-0.8415,Annual_Precipitation_Total,0.6923

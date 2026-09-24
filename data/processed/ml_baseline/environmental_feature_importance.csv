@@ -1,0 +1,9 @@
+Experiment,Model,Feature,Importance
+Experiment B - Environmental Baseline,Random Forest,LatDD,0.7067959614460708
+Experiment B - Environmental Baseline,Random Forest,LongDD,0.02640135571554905
+Experiment B - Environmental Baseline,Random Forest,Surf_Elev,0.265246173125574
+Experiment B - Environmental Baseline,Random Forest,Annual_Temperature_Mean,0.00027446968120622647
+Experiment B - Environmental Baseline,Random Forest,Annual_Precipitation_Total,0.00034902682254722516
+Experiment B - Environmental Baseline,Random Forest,Annual_Humidity_Mean,0.0003798658848325743
+Experiment B - Environmental Baseline,Random Forest,Annual_WindSpeed_Mean,0.0003634278135248173
+Experiment B - Environmental Baseline,Random Forest,Annual_SolarRadiation_Mean,0.00018971951069534973

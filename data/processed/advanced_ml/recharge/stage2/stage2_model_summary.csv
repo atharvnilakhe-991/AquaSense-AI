@@ -1,0 +1,4 @@
+Validation_Regime,Configuration,Model,MAE,RMSE,R2,Sample_Count,Notes
+Temporal Test (2023-2024),SET_4_Precip,Random Forest,1.2582,1.9567,0.4074,180,Chronological holdout
+Repeated Grouped-Well (10 Seeds),SET_4_Precip,Random Forest,1.8315,2.5841,0.0542,735,Mean across 10 random 20% well holdouts
+Spatial Cluster (5 Folds),SET_4_Precip,Random Forest,1.8744,2.6189,0.0211,735,Mean across 5 coordinate KMeans folds
