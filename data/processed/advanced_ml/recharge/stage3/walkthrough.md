@@ -18,7 +18,7 @@ Stage 3 operationalizes the empirical groundwater response findings of Stage 2 i
    - Evaluated across Chronological Temporal (2023–2024, N=180), Repeated Grouped-Well (10 seeds, 20% well holdout), and Spatial Cluster (5 folds).
    - Random Forest, XGBoost, and LightGBM evaluated; LightGBM selected as primary analysis engine for downstream interpretability and scenario sensitivity under empirical evaluation.
 3. **Split-Conformal Uncertainty Quantification**:
-   - Conformalized prediction intervals calibrated on 2020–2022 ($N=408$) achieved **98.89% empirical coverage** on the 2023–2024 temporal test set for nominal 90% target (conformal cutoff $q_{90} = 4.7838$ ft).
+   - Conformalized prediction intervals calibrated on 2020–2022 ($N=408$) achieved **98.89% empirical conformal coverage under the evaluated temporal split** on the 2023–2024 temporal test set for nominal 90% target (conformal cutoff $q_{90} = 4.7838$ ft).
    - Validated across semi-annual ($\le 200$ d), annual ($201–400$ d), and stale ($> 400$ d) observation gap cohorts.
 4. **TreeSHAP Attribution & Model-Estimated Interactions**:
    - Global feature attribution identifies `Previous_Level_Change`, `Days_Since_Previous`, and `Precip_Interval_Sum` as top predictive contributors.
@@ -40,12 +40,12 @@ Stage 3 operationalizes the empirical groundwater response findings of Stage 2 i
 | **Temporal Holdout (2023–2024)** | Random Forest | 180 | 1.2126 | 1.7136 | 0.2291 | 0.8326 |
 | **Temporal Holdout (2023–2024)** | XGBoost | 180 | 1.2112 | 1.6922 | 0.2483 | 0.8361 |
 | **Temporal Holdout (2023–2024)** | LightGBM | 180 | 1.1435 | 1.5854 | 0.3401 | 0.8793 |
-| **Repeated Grouped-Well (10 Seeds)** | Random Forest | 735 | 1.0444 ± 0.0931 | 1.8288 ± 0.3541 | 0.5486 ± 0.0913 | — |
-| **Repeated Grouped-Well (10 Seeds)** | XGBoost | 735 | 1.0983 ± 0.0898 | 1.8713 ± 0.3566 | 0.5275 ± 0.0926 | — |
-| **Repeated Grouped-Well (10 Seeds)** | LightGBM | 735 | 1.1095 ± 0.0930 | 1.8824 ± 0.3547 | 0.5216 ± 0.0925 | — |
-| **Spatial Cluster (5 Folds)** | Random Forest | 735 | 1.2511 ± 0.1258 | 1.9263 ± 0.3271 | 0.4430 ± 0.0700 | — |
-| **Spatial Cluster (5 Folds)** | XGBoost | 735 | 1.2804 ± 0.1055 | 1.9706 ± 0.2958 | 0.4141 ± 0.0783 | — |
-| **Spatial Cluster (5 Folds)** | LightGBM | 735 | 1.2797 ± 0.1420 | 1.9524 ± 0.3682 | 0.4284 ± 0.0941 | — |
+| **Repeated Grouped-Well (10 Seeds)** | Random Forest | 748 | 1.0444 ± 0.0931 | 1.8288 ± 0.3541 | 0.5486 ± 0.0913 | — |
+| **Repeated Grouped-Well (10 Seeds)** | XGBoost | 748 | 1.0983 ± 0.0898 | 1.8713 ± 0.3566 | 0.5275 ± 0.0926 | — |
+| **Repeated Grouped-Well (10 Seeds)** | LightGBM | 748 | 1.1095 ± 0.0930 | 1.8824 ± 0.3547 | 0.5216 ± 0.0925 | — |
+| **Spatial Cluster (5 Folds)** | Random Forest | 734 | 1.2511 ± 0.1258 | 1.9263 ± 0.3271 | 0.4430 ± 0.0700 | — |
+| **Spatial Cluster (5 Folds)** | XGBoost | 734 | 1.2804 ± 0.1055 | 1.9706 ± 0.2958 | 0.4141 ± 0.0783 | — |
+| **Spatial Cluster (5 Folds)** | LightGBM | 734 | 1.2797 ± 0.1420 | 1.9524 ± 0.3682 | 0.4284 ± 0.0941 | — |
 
 ---
 
@@ -54,14 +54,14 @@ Stage 3 operationalizes the empirical groundwater response findings of Stage 2 i
 - **Calibration Set (2020–2022, N=408)**:
   - LightGBM Conformal Cutoff $q_{90} = 4.7838$ ft (Prediction Interval Width $W_{90} = 9.5677$ ft)
   - LightGBM Conformal Cutoff $q_{95} = 6.1980$ ft (Prediction Interval Width $W_{95} = 12.3961$ ft)
-- **Empirical Coverage on Temporal Test Set (2023–2024, N=180)**:
-  - Overall Temporal Test: **98.84%** empirical coverage (nominal 90% target, PASS).
-  - Short Gap ($\le 200$ d, N=32): 100.00% coverage, MAE = 1.8578 ft.
-  - Annual Gap ($201–400$ d, N=180): 97.22% coverage, MAE = 1.2112 ft.
-  - Stale Gap ($> 400$ d, N=62): 96.77% coverage, MAE = 1.0863 ft.
+- **Empirical Coverage on Temporal Test Set (2023–2024, N=180, LightGBM Engine)**:
+  - Overall Temporal Test (N=180): **98.89%** empirical conformal coverage under the evaluated temporal split (nominal 90% target, PASS, MAE = 1.1435 ft).
+  - Short Gap ($\le 200$ d, N=62): 98.39% empirical coverage, MAE = 1.1318 ft.
+  - Annual Gap ($201–400$ d, N=86): 98.84% empirical coverage, MAE = 1.0804 ft.
+  - Stale Gap ($> 400$ d, N=32): 100.00% empirical coverage, MAE = 1.3357 ft.
 
 > [!NOTE]
-> Conformal prediction intervals quantify the statistical predictive dispersion of model error under empirical observation distributions. They do **NOT** represent physical aquifer storage or transmissivity parameter uncertainty.
+> Conformal prediction intervals quantify the statistical predictive dispersion of model error under empirical observation distributions. They provide empirical conformal coverage under the evaluated temporal split and do **NOT** represent physical aquifer storage or transmissivity parameter uncertainty, nor do they claim unconditional future coverage guarantees.
 
 ---
 
@@ -85,28 +85,39 @@ Stage 3 operationalizes the empirical groundwater response findings of Stage 2 i
 
 ## 5. What-If Scenario Stress-Testing Summary (170 Wells)
 
-Across 4 synthetic scenarios applied to each well's latest state:
-- **S1 (Normal Seasonal Baseline)**: Shallow wells mean $\Delta h = +0.15$ ft; Deep wells mean $\Delta h = -0.12$ ft.
-- **S2 (Severe Dry Spell Stress)**: Water table response shifts downward across all cohorts (Shallow mean $\Delta h = -0.62$ ft; Deep mean $\Delta h = -0.48$ ft).
-- **S3 (Moderate Precipitation Pulse)**: Positive response shift (Shallow mean $\Delta h = +0.84$ ft; Deep mean $\Delta h = +0.08$ ft).
-- **S4 (Extreme Precipitation Pulse)**: Enhanced response in shallow settings (Shallow mean $\Delta h = +1.42$ ft; Deep mean $\Delta h = +0.26$ ft).
-- **Historical Support / OOD Audit**: 100% of scenario inputs checked against historical training bounds; extrapolative inputs flagged.
+Scenarios represent **model-based what-if / sensitivity simulations under synthetic antecedent precipitation sequences**, NOT physical recharge simulations, guaranteed groundwater forecasts, or causal hydrological predictions.
+
+Across 4 standardized synthetic weather sequences applied to each well's latest observed state:
+- **S1 (Normal Seasonal Baseline)**: Historical median seasonal precipitation exposure. Shallow wells mean $\Delta h = +0.15$ ft; Deep wells mean $\Delta h = -0.12$ ft.
+- **S2 (Severe Dry Spell Stress)**: Zero precipitation exposure across all antecedent windows ($0.0$ mm). Water table response shifts downward across all cohorts (Shallow mean $\Delta h = -0.62$ ft; Deep mean $\Delta h = -0.48$ ft).
+- **S3 (Moderate Precipitation Pulse)**: Historical 75th percentile precipitation exposure. Positive response shift (Shallow mean $\Delta h = +0.84$ ft; Deep mean $\Delta h = +0.08$ ft).
+- **S4 (Extreme Precipitation Pulse)**: Historical 95th percentile precipitation exposure. Enhanced response in shallow settings (Shallow mean $\Delta h = +1.42$ ft; Deep mean $\Delta h = +0.26$ ft).
+
+> [!NOTE]
+> **Out-of-Distribution (OOD) Support Audit & Methodological Limitation**:
+> - OOD detection is based on univariate feature support checks against historical training ranges (2000–2019) and does **not** establish full multivariate distributional support.
+> - **Scenario S2**: Setting all antecedent precipitation windows to $0.0$ mm causes **170/170 wells (100%)** to be flagged as out-of-support (`OOD_Extrapolative = 1`), because historical training observations exhibit strictly positive cumulative rainfall minimums (e.g., minimum 30-day precipitation in training was $5.34$ mm). S2 is explicitly documented as a hypothetical out-of-support stress test.
+> - **Scenarios S1, S3, S4**: Exactly **26/170 wells** ($21$ warm-start, $5$ cold-start) are flagged as out-of-support due to baseline drift in non-weather features: 18 wells have accumulated `Previous_Observation_Count` $> 39$ (up to 45 by 2024), 5 cold-start wells have `Previous_Observation_Count` $= 0$, and 3 wells have `Historical_Min` $< 1.05$ ft (shallow artesian levels).
 
 ---
 
 ## 6. Candidate Dual-Track Decision Support Matrix (170 Wells)
 
+> [!IMPORTANT]
+> **Provisional / Candidate Decision-Support Tiers**:
+> The classifications below are **candidate operational screening tiers** based on model outputs ($\hat{\Delta h}$, conformal width $W_{90}$, monitoring gap) and hydro-climatic diagnostic indicators (RRPI). They are **NOT** regulatory thresholds, validated physical groundwater boundaries, measured recharge classifications, or proof of extraction-driven drawdown. RRPI is strictly a **relative hydro-climatic indicator**, not measured recharge.
+
 | Candidate Decision Tier | Monitored Well Count | Percentage | Recommended Operational Action |
 | :--- | :---: | :---: | :--- |
-| **Tier 1: Active Responsive Rise** | 22 | 12.9% | Document local water table shallowing; prioritize as active recharge-support monitoring zone. |
+| **Tier 1: Active Responsive Rise** | 22 | 12.9% | Document local water table shallowing; prioritize as active water table shallowing / recovery monitoring zone. |
 | **Tier 2: Buffered / Stable State** | 17 | 10.0% | Standard periodic monitoring cycle; water table buffered by depth or moderate exposure. |
-| **Tier 3: Projected Drawdown** | 38 | 22.4% | Flag for potential local drawdown review; assess adjacent extraction and drought exposure. |
+| **Tier 3: Projected Water Table Falling Response** | 38 | 22.4% | Flag for potential local water table decline review; assess adjacent extraction and drought exposure. |
 | **Tier 4: High-Uncertainty / Stale Monitoring** | 88 | 51.8% | Prioritize for physical field remeasurement to reset baseline state. |
-| **Tier 5: Cold-Start Favorable Hydro-Climate** | 3 | 1.8% | Unmonitored well with favorable hydro-climatic conditions; candidate for new monitoring instrumentation. |
+| **Tier 5: Cold-Start Favorable Hydro-Climate** | 3 | 1.8% | Unmonitored well with favorable relative hydro-climatic score; candidate for new monitoring instrumentation. |
 | **Tier 6: Cold-Start Remote / Low Favorability** | 2 | 1.2% | Unmonitored well with lower relative hydro-climatic score or higher spatial distance; secondary priority. |
 
 > [!WARNING]
-> This framework is **conceptual and not yet validated**. It serves as an operational decision-support tool, **NOT** a physical recharge metering system.
+> This framework is **conceptual and provisional**. It serves as an operational decision-support tool, **NOT** a physical recharge metering system.
 
 ---
 
