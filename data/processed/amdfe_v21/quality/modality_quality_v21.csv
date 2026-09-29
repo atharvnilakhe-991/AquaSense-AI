@@ -1,0 +1,5 @@
+Modality,Completeness_C,Validity_V,Duplicate_D,Outlier_Quality_O,Temporal_Coverage_T,Spatial_Coverage_S,Measurement_Quality_M,Applicable_Dimensions_Count
+modality_a,0.9533363683662851,0.9986390854654328,1.0,1.0,0.6607058823529413,1.0,unavailable,6
+modality_b,0.964360041623309,1.0,1.0,1.0,0.964360041623309,1.0,unavailable,6
+modality_c,1.0,1.0,1.0,1.0,not_applicable,1.0,unavailable,5
+modality_d,0.0,not_applicable,not_applicable,not_applicable,not_applicable,not_applicable,unavailable,0

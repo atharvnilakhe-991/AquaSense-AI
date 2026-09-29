@@ -1,0 +1,5 @@
+Modality,Completeness_C,Temporal_Consistency_T,Spatial_Coverage_S,Observation_Density_O,Measurement_Quality_M,Global_Reliability_R,Theoretical_Global_Weight,Empirical_Dynamic_Weight_Mean,Empirical_Dynamic_Weight_Std
+Modality A (Groundwater State),0.9533363683662852,0.9435918349447386,1.0,0.3960862527459821,unavailable,0.7726005734053208,0.2976675042569978,0.2627783663611547,0.03413598698595738
+Modality B (Weather),0.964360041623309,0.964360041623309,1.0,1.0,unavailable,0.9820183509605658,0.3783519734868877,0.3829062104665873,0.07409600145237843
+Modality C (Spatial/Topography),1.0,1.0,0.5,1.0,unavailable,0.8408964152537145,0.3239805222561144,0.3543154231722579,0.08037509157519945
+Modality D (Earth Observation / SoilGrids),0.0,0.0,0.0,0.0,unavailable,0.0,0.0,0.0,0.0

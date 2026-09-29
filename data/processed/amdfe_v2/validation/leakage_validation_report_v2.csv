@@ -1,0 +1,16 @@
+Check_ID,Description,Status,Details
+AMDFE-V2-01,"Non-applicable quality dimensions are masked, not penalized as zero",PASSED,Spatial coordinates temporal dimension correctly masked without dragging score to zero.
+AMDFE-V2-02,Measurement quality metadata is not fabricated,PASSED,Explicitly recorded as unavailable and excluded from reliability formula.
+AMDFE-V2-03,"Source Reliability (R_m) and Context Observability (A_i,m) strictly separated",PASSED,"Both entities exist as distinct, traceable columns before dynamic weight combination."
+AMDFE-V2-04,Global reliability computed strictly from TRAIN partition,PASSED,Verified that test fold observations do not contaminate training reliability statistics.
+AMDFE-V2-05,Context observability uses strictly point-in-time prior monitoring state,PASSED,All observation state features depend solely on chronological prior measurements.
+AMDFE-V2-06,Target-derived TIFF_Value strictly excluded from all matrices,PASSED,Zero presence of TIFF_Value in feature schemas.
+AMDFE-V2-07,No target-derived raster columns present in predictor matrices,PASSED,"Purged all banned raster candidates: ['TIFF_Value', 'tiff_value', 'DEM_Elevation', 'dem_elevation', 'groundwater_depth_raster']."
+AMDFE-V2-08,Warm-start and cold-start rows explicitly distinguished,PASSED,Cold-start (zero prior records) and Warm-start categorized independently.
+AMDFE-V2-09,Weather derived strictly from completed prior annual period (Y - 1),PASSED,Zero calendar-year lookahead leakage.
+AMDFE-V2-10,Adaptive modality weights form strict partition of unity (sum to 1.0),PASSED,"Verified sum(w_{i,m}) == 1.0 for 100% of evaluation samples."
+AMDFE-V2-11,Unavailable modality D receives zero weight and zero contribution,PASSED,Modality D is masked and assigned 0.0 contribution.
+AMDFE-V2-12,Deterministic reproducibility across identical seeds,PASSED,Identical transformed values across consecutive executions.
+AMDFE-V2-13,Imputers and scalers invariant during test transformations,PASSED,Frozen pipeline state verified: transforming test set does not alter parameters.
+AMDFE-V2-14,Synthetic stress degradation is isolated and never alters clean test set,PASSED,Stress tests execute strictly on ephemeral copies.
+AMDFE-V2-15,Target WatLevel is excluded from all predictor feature sets,PASSED,Strict isolation of target column.

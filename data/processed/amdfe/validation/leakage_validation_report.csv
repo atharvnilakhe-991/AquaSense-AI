@@ -1,0 +1,11 @@
+Check_ID,Description,Status,Details
+AMDFE-LC-01,Target WatLevel is not present in predictor matrix,PASSED,Target column 'WatLevel' completely excluded from X_train and X_test.
+AMDFE-LC-02,TIFF_Value and target-derived rasters strictly excluded,PASSED,"Zero occurrences of banned raster columns: ['TIFF_Value', 'tiff_value', 'DEM_Elevation', 'dem_elevation', 'groundwater_depth_raster']."
+AMDFE-LC-03,No future groundwater observation used in lag features,PASSED,Previous_WatLevel matches chronological prior unique observation date target mean exactly.
+AMDFE-LC-04,Prior groundwater features satisfy date_prior < date_current,PASSED,All Days_Since_Previous are non-negative strictly backward differences.
+AMDFE-LC-05,Weather period is strictly completed before observation year (Y - 1),PASSED,All meteorological features mapped strictly to completed annual period Y-1.
+AMDFE-LC-06,Zero lookahead from uncompleted calendar-year weather,PASSED,100% of observation dates exceed the December 31 boundary of the weather year used.
+AMDFE-LC-07,Train/test wells are 100% spatially isolated (zero overlap),PASSED,Train wells (136) and Test wells (34) share 0 common IDs.
+AMDFE-LC-08,"Imputers, scalers, and reliability normalizations fit on TRAIN only",PASSED,Frozen pipeline state verified: transforming test set leaves fitted parameters invariant.
+AMDFE-LC-09,No target-derived raster columns present in AMDFE fused tables,PASSED,Verified zero presence of banned raster features in all output schemas.
+AMDFE-LC-10,Deterministic reproducibility: identical outputs across pipeline runs,PASSED,Maximum numerical divergence across consecutive runs: 0.00e+00.
