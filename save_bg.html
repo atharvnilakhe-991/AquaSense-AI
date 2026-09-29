@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Process Earth BG</title>
+</head>
+<body>
+  <h1>Processing Earth Background</h1>
+  <canvas id="c"></canvas>
+  <textarea id="output" style="width:100%;height:300px;"></textarea>
+  <script>
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = 'file:///C:/Users/Lenovo/.gemini/antigravity-ide/brain/c48b87b0-3916-4bbc-8191-47cc94091be9/earth_clean_bg_1790626515095.jpg';
+    img.onload = () => {
+      const c = document.getElementById('c');
+      // Scale to optimal web resolution 1600x900
+      c.width = 1600;
+      c.height = 900;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0, 1600, 900);
+      const dataUrl = c.toDataURL('image/jpeg', 0.85);
+      document.getElementById('output').value = dataUrl;
+      console.log('DONE: length =', dataUrl.length);
+    };
+    img.onerror = (e) => {
+      console.error('Failed to load image', e);
+      document.getElementById('output').value = 'ERROR: ' + e;
+    };
+  </script>
+</body>
+</html>

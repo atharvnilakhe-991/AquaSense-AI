@@ -1,0 +1,3597 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaSense AI — Hyperlocal Groundwater Intelligence Platform</title>
+  <meta name="description"
+    content="Adaptive Multimodal AI for Hyperlocal Groundwater Prediction, Recharge Assessment & Decision Support in Phelps County, Nebraska.">
+
+  <!-- Inter & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN with Premium Environmental Light Theme -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Three.js for Realistic Earth Observation Satellite -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Custom Clean Light Scrollbars */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+
+    /* Premium Light Card Tokens */
+    .aqua-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .aqua-card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 10px 25px -4px rgba(2, 132, 199, 0.08), 0 4px 10px -2px rgba(2, 132, 199, 0.04);
+    }
+
+    .aqua-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .glow-primary-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.35);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .glow-primary-btn:hover {
+      box-shadow: 0 6px 20px 0 rgba(2, 132, 199, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .glow-outline-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .glow-outline-btn:hover {
+      background: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0284c7;
+    }
+
+    /* Light Status Badges */
+    .badge-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      background: #f0f9ff;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-critical {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .badge-high {
+      background: #fff7ed;
+      color: #ea580c;
+      border: 1px solid #fed7aa;
+    }
+
+    .badge-moderate {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+
+    .badge-stable {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    /* Pulsing Well Marker */
+    .well-pulse {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8);
+      animation: pulse-red 2s infinite;
+    }
+
+    @keyframes pulse-red {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8);
+      }
+
+      70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+
+    /* ======================================================== */
+    /* HERO SECTION: DEEP SPACE & SATELLITE ORBIT THEME         */
+    /* ======================================================== */
+    .hero-space-section {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-height: 700px;
+      background-color: #030712;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      color: #ffffff;
+    }
+
+    /* Hero background: Image 2 — satellite/Earth photo, static, no modification */
+    .hero-bg-img {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      background-image: url('./hero_bg.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      /* NO animation, NO transform, NO transition, NO filter */
+    }
+
+    /* Thin left-side dark gradient so white text stays readable.
+       Does NOT alter the satellite or Earth on the right half. */
+    .hero-text-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
+      background: linear-gradient(
+        to right,
+        rgba(3,7,18,0.82) 0%,
+        rgba(3,7,18,0.60) 25%,
+        rgba(3,7,18,0.18) 48%,
+        transparent 62%
+      );
+    }
+
+
+
+    /* Primary Glowing Blue Button */
+    .hero-btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #0099ff 50%, #00d2ff 100%);
+      color: #ffffff;
+      box-shadow: 0 0 25px rgba(0, 180, 255, 0.55), 0 4px 14px rgba(0, 118, 223, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-btn-primary:hover {
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.75), 0 6px 20px rgba(0, 150, 255, 0.6);
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .hero-btn-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Secondary Transparent Button */
+    .hero-btn-secondary {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .hero-btn-secondary:active {
+      transform: translateY(0);
+    }
+
+    /* Active Nav Link with Cyan Underline */
+    .hero-nav-active {
+      color: #38bdf8 !important;
+      position: relative;
+    }
+
+    .hero-nav-active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      border-radius: 2px;
+    }
+
+    /* Mouse Scroll Wheel Animation */
+    .scroll-wheel-dot {
+      animation: mouse-scroll 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes mouse-scroll {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      50% {
+        opacity: 0.8;
+        transform: translateY(6px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+
+    /* Pulse Ring for Live Monitoring */
+    .live-status-ring {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: status-ring-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes status-ring-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+
+    /* Subsurface Strata Grid for Light Mode */
+    .subsurface-grid-light {
+      background-image: linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* Leaflet Light Popup */
+    .leaflet-popup-content-wrapper {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+      border-radius: 12px !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .leaflet-popup-tip {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+  </style>
+</head>
+
+<body class="selection:bg-sky-500/20 selection:text-sky-900 min-h-screen flex flex-col justify-between">
+
+  <!-- ======================================================== -->
+  <!-- GLOBAL HEADER & NAVBAR (UNIFIED PREMIUM LIGHT THEME)     -->
+  <!-- ======================================================== -->
+  <header id="global-header" class="sticky top-0 z-50 aqua-header transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-4">
+
+        <!-- Left: Brand / Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="navigate('/')"
+          title="AquaSense AI Homepage">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 via-cyan-600 to-teal-500 p-[1px] shadow-sm">
+            <div class="w-full h-full bg-white rounded-[11px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="text-base font-extrabold tracking-tight text-slate-900">AquaSense<span class="text-sky-600">
+                  AI</span></span>
+            </div>
+            <p class="text-[10px] text-slate-500 font-mono tracking-wider uppercase font-medium">Groundwater
+              Intelligence</p>
+          </div>
+        </div>
+
+        <!-- Center: Desktop Navigation Bar (9 Primary Routes) -->
+        <nav class="hidden xl:flex items-center space-x-1 py-1" id="main-nav-container">
+          <button onclick="navigate('/')" id="nav-item-home"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Home</button>
+          <button onclick="navigate('/dashboard')" id="nav-item-dashboard"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Dashboard</button>
+          <button onclick="navigate('/groundwater-map')" id="nav-item-map"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Groundwater
+            Map</button>
+          <button onclick="navigate('/prediction-analysis')" id="nav-item-prediction"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Prediction
+            Analysis</button>
+          <button onclick="navigate('/recharge-analysis')" id="nav-item-recharge"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Recharge
+            Analysis</button>
+          <button onclick="navigate('/risk-assessment')" id="nav-item-risk"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Risk
+            Assessment</button>
+          <button onclick="navigate('/data-explorer')" id="nav-item-explorer"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Data
+            Explorer</button>
+          <button onclick="navigate('/model-performance')" id="nav-item-models"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Model
+            Performance</button>
+          <button onclick="navigate('/about')" id="nav-item-about"
+            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">About</button>
+        </nav>
+
+        <!-- Right: Status Beacon, Notifications, Settings, Avatar -->
+        <div class="flex items-center space-x-2 shrink-0">
+
+          <!-- Live System Status Badge -->
+          <div
+            class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-emerald-700 text-[11px] font-mono font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>LIVE (170 WELLS)</span>
+          </div>
+
+          <!-- Notification Trigger -->
+          <button onclick="toggleNotifModal()"
+            class="p-2 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-lg relative transition-colors"
+            title="System Alerts & Notifications">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-sky-500 rounded-full"></span>
+          </button>
+
+          <!-- Settings Trigger -->
+          <button onclick="toggleSettingsModal()"
+            class="p-2 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-lg transition-colors"
+            title="System Architecture & Preferences">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+
+          <!-- User Avatar -->
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-600 to-teal-500 p-[1px] shrink-0"
+            title="Environmental Intelligence Scientist">
+            <div
+              class="w-full h-full bg-white rounded-full flex items-center justify-center font-mono font-bold text-xs text-sky-700">
+              EV
+            </div>
+          </div>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button onclick="toggleMobileMenu()"
+            class="xl:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+            aria-label="Toggle Navigation Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu"
+      class="hidden xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-5 space-y-1 text-xs font-medium">
+      <button onclick="navigate('/'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Home</button>
+      <button onclick="navigate('/dashboard'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Dashboard</button>
+      <button onclick="navigate('/groundwater-map'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Groundwater
+        Map</button>
+      <button onclick="navigate('/prediction-analysis'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Prediction
+        Analysis</button>
+      <button onclick="navigate('/recharge-analysis'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Recharge
+        Analysis</button>
+      <button onclick="navigate('/risk-assessment'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Risk
+        Assessment</button>
+      <button onclick="navigate('/data-explorer'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Data
+        Explorer</button>
+      <button onclick="navigate('/model-performance'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Model
+        Performance</button>
+      <button onclick="navigate('/about'); toggleMobileMenu();"
+        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">About</button>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- 1. HOMEPAGE VIEW (ALL 14 SECTIONS IN PREMIUM LIGHT THEME) -->
+  <!-- ======================================================== -->
+  <main id="page-home" class="page-view flex-1">
+
+    <!-- SECTION 1: HERO SECTION -->
+    <section class="hero-space-section relative w-full">
+
+      <!-- Background: Image 2 (satellite + Earth photo) — static, no animation -->
+      <div class="hero-bg-img" aria-hidden="true"></div>
+
+      <!-- Left readability gradient overlay (does not touch satellite/Earth) -->
+      <div class="hero-text-overlay" aria-hidden="true"></div>
+
+
+      <nav class="relative z-30 w-full px-6 sm:px-10 lg:px-16 pt-7 pb-4 flex items-center justify-between">
+
+        <!-- Left: AquaSense AI Brand Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="navigate('/')">
+          <!-- Circular Emblem with Glowing Cyan Water Droplet / Earth Motif -->
+          <div
+            class="w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0">
+            <svg class="w-6 h-6 text-[#00e5ff]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                d="M12 2.5C8.5 7.5 6 11 6 15a6 6 0 0012 0c0-4-2.5-7.5-6-12.5z" fill="#00e5ff" fill-opacity="0.2" />
+              <circle cx="12" cy="14" r="2.5" fill="#00e5ff" />
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-baseline space-x-0.5 leading-none">
+              <span class="text-xl sm:text-2xl font-black tracking-tight text-white">AquaSense</span>
+              <span class="text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff]">AI</span>
+            </div>
+            <p class="text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none">Groundwater
+              Intelligence</p>
+          </div>
+        </div>
+
+        <!-- Center: Horizontal Navigation Links -->
+        <div class="hidden lg:flex items-center space-x-8 text-sm font-medium">
+          <button onclick="navigate('/')" class="hero-nav-active px-2 py-1 font-semibold transition-all">Home</button>
+          <button onclick="navigate('/dashboard')"
+            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Dashboard</button>
+          <button onclick="navigate('/about')"
+            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">About</button>
+          <button onclick="document.getElementById('features-section').scrollIntoView({behavior: 'smooth'})"
+            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Features</button>
+          <button onclick="document.getElementById('team-section').scrollIntoView({behavior: 'smooth'})"
+            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Team</button>
+          <button onclick="document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})"
+            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Contact</button>
+        </div>
+
+        <!-- Right: LIVE MONITORING + Get Started button -->
+        <div class="flex items-center space-x-5">
+
+          <!-- LIVE MONITORING indicator — between Contact and Get Started -->
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 rounded-full border-2 border-[#10b981] flex items-center justify-center" style="box-shadow: 0 0 8px rgba(16,185,129,0.7); flex-shrink: 0;">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none" style="text-shadow: 0 0 8px rgba(16,185,129,0.5);">LIVE MONITORING</span>
+              <span class="text-[11px] text-slate-200 font-sans mt-0.5 leading-none">South-Central Nebraska</span>
+            </div>
+          </div>
+
+          <!-- Get Started button -->
+          <button onclick="navigate('/dashboard')"
+            class="hero-btn-primary px-6 py-2.5 rounded-full font-bold text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg">
+            <span>Get Started</span>
+            <span class="text-base leading-none">→</span>
+          </button>
+        </div>
+
+      </nav>
+
+      <!-- Live Monitoring is now inside the navbar above -->
+
+      <!-- ======================================================== -->
+      <!-- MAIN HERO CONTENT (LEFT SIDE)                            -->
+      <!-- ======================================================== -->
+      <div
+        class="relative z-20 w-full px-6 sm:px-8 lg:px-10 py-6 my-auto flex-1 flex flex-col justify-center">
+        <div class="max-w-[530px] space-y-5">
+
+          <!-- Small Top Category Heading -->
+          <div class="text-xs sm:text-sm font-mono tracking-[0.28em] text-slate-400 font-semibold uppercase">
+            MONITOR &nbsp; PREDICT &nbsp; RECHARGE &nbsp; SUSTAIN
+          </div>
+
+          <!-- Main Heading -->
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none">
+            <span class="text-white">AquaSense</span><span class="text-[#00e5ff]">AI</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <h2 class="text-2xl sm:text-3xl lg:text-[38px] font-bold text-white tracking-tight leading-[1.18] mt-3">
+            Hyperlocal Groundwater<br />
+            Intelligence Platform
+          </h2>
+
+          <!-- Description -->
+          <p class="text-sm sm:text-[15px] text-slate-300 leading-relaxed font-normal max-w-[540px] mt-4">
+            AI-powered groundwater monitoring, prediction, recharge<br class="hidden sm:inline" />
+            assessment and explainable decision support for a more<br class="hidden sm:inline" />
+            sustainable tomorrow.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="pt-2 flex flex-wrap items-center gap-4">
+            <!-- Primary Button -->
+            <button onclick="navigate('/dashboard')"
+              class="hero-btn-primary px-7 py-3 rounded-full font-bold text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg">
+              <span>Explore Dashboard</span>
+              <span class="text-base leading-none">→</span>
+            </button>
+
+            <!-- Secondary Button -->
+            <button onclick="openOverviewModal()"
+              class="hero-btn-secondary px-6 py-3 rounded-full font-semibold text-sm flex items-center space-x-2.5 cursor-pointer">
+              <span class="text-xs leading-none">▷</span>
+              <span>Watch Overview</span>
+            </button>
+          </div>
+
+          <!-- Statistics Row -->
+          <div class="pt-7 flex flex-nowrap items-center space-x-4 sm:space-x-6 lg:space-x-7">
+
+            <!-- Stat 1: 170 Monitoring Wells -->
+            <div class="flex items-center space-x-2.5 shrink-0">
+              <svg class="w-5 h-5 text-[#00e5ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <div>
+                <p class="text-xl sm:text-2xl font-bold font-mono text-white leading-none">170</p>
+                <p class="text-[11px] text-slate-400 mt-1 leading-none">Monitoring Wells</p>
+              </div>
+            </div>
+
+            <!-- Separator -->
+            <div class="w-px h-8 bg-white/20 shrink-0"></div>
+
+            <!-- Stat 2: 3,844 Observations -->
+            <div class="flex items-center space-x-2.5 shrink-0">
+              <svg class="w-5 h-5 text-[#00e5ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              </svg>
+              <div>
+                <p class="text-xl sm:text-2xl font-bold font-mono text-white leading-none">3,844</p>
+                <p class="text-[11px] text-slate-400 mt-1 leading-none">Observations</p>
+              </div>
+            </div>
+
+            <!-- Separator -->
+            <div class="w-px h-8 bg-white/20 shrink-0"></div>
+
+            <!-- Stat 3: 2000 - 2024 Dataset Period -->
+            <div class="flex items-center space-x-2.5 shrink-0">
+              <svg class="w-5 h-5 text-[#00e5ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <div>
+                <p class="text-xl sm:text-2xl font-bold font-mono text-white leading-none">2000 – 2024</p>
+                <p class="text-[11px] text-slate-400 mt-1 leading-none">Dataset Period</p>
+              </div>
+            </div>
+
+            <!-- Separator -->
+            <div class="w-px h-8 bg-white/20 shrink-0"></div>
+
+            <!-- Stat 4: AMDFE Enabled -->
+            <div class="flex items-center space-x-2.5 shrink-0">
+              <!-- Exact Branching Hierarchy Tree Node Icon from Reference -->
+              <svg class="w-5 h-5 text-[#00e5ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="9" y="3" width="6" height="5" rx="1" stroke-width="2" />
+                <rect x="3" y="16" width="6" height="5" rx="1" stroke-width="2" />
+                <rect x="15" y="16" width="6" height="5" rx="1" stroke-width="2" />
+                <path d="M12 8v4M6 16v-4h12v4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div>
+                <p class="text-xl sm:text-2xl font-bold font-mono text-white leading-none">AMDFE</p>
+                <p class="text-[11px] text-slate-400 mt-1 leading-none">Enabled</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- BOTTOM BAR: SCROLL DOWN & RIGHT TAGLINE                  -->
+      <!-- ======================================================== -->
+      <div class="relative z-20 w-full px-6 sm:px-8 lg:px-10 pb-7 pt-3 flex items-end justify-between">
+
+        <!-- Empty placeholder to balance flex row on wide screens -->
+        <div class="hidden md:block w-1/3"></div>
+
+        <!-- Center: Scroll Down Mouse Indicator -->
+        <div onclick="document.getElementById('overview-section').scrollIntoView({behavior: 'smooth'})"
+          class="cursor-pointer flex flex-col items-center group text-center select-none mx-auto">
+          <!-- Mouse Icon with Animated Wheel -->
+          <div
+            class="w-5 h-8 rounded-full border-2 border-slate-400 group-hover:border-cyan-400 flex justify-center pt-1.5 transition-colors">
+            <span class="w-1 h-2 rounded-full bg-[#00e5ff] scroll-wheel-dot"></span>
+          </div>
+          <span
+            class="text-[10px] font-mono tracking-widest uppercase text-slate-400 group-hover:text-white mt-1.5 transition-colors">SCROLL
+            DOWN</span>
+          <span
+            class="text-xs text-slate-400 group-hover:text-[#00e5ff] leading-none transition-colors -mt-0.5">⌄</span>
+        </div>
+
+        <!-- Right: Atmospheric Earth Quote -->
+        <div class="w-full md:w-1/3 flex justify-end">
+          <div class="flex items-center text-right max-w-xs">
+            <div class="w-[2px] h-9 bg-slate-500/60 mr-3.5 shrink-0"></div>
+            <p class="text-xs sm:text-sm text-slate-300 italic font-serif leading-snug select-none text-left">
+              “Data from Earth.<br />
+              Insights for a Sustainable Tomorrow.”
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: PROJECT OVERVIEW -->
+    <section id="overview-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">SYSTEM ARCHITECTURE</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">From Fragmented Data to
+          Groundwater Intelligence</h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+          Transforming disparate hydro-meteorological, remote sensing, and piezometric streams through adaptive
+          multimodal fusion into actionable spatial intelligence.
+        </p>
+      </div>
+
+      <!-- Flowchart Diagram -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+
+        <!-- Step 1: Input Modalities -->
+        <div class="aqua-card p-6 space-y-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Heterogeneous Modalities</h3>
+          <p class="text-xs text-slate-600">Disparate environmental observations with varying spatial and temporal
+            resolutions.</p>
+          <ul class="space-y-2 text-xs text-slate-700 font-mono pt-2">
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-sky-500"></span><span>Groundwater Observations (Piezometers)</span>
+            </li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-cyan-600"></span><span>Weather (NASA POWER / GPM IMERG)</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-teal-600"></span><span>Geospatial (SRTM 30m DEM Terrain)</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span><span>Environmental (SMAP Soil Moisture)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Step 2: AquaSense AI Engine -->
+        <div class="aqua-card p-6 space-y-4 border-sky-300 relative shadow-md">
+          <div
+            class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-sky-600 text-white font-bold text-[10px] rounded-full uppercase tracking-wider">
+            Core Engine
+          </div>
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-teal-500 flex items-center justify-center text-white font-bold shadow-md shadow-sky-500/20">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">AquaSense AI Core</h3>
+          <p class="text-xs text-slate-600">Dynamic reliability weighting, quality filtering, and gradient-boosted
+            ensemble modeling.</p>
+          <ul class="space-y-2 text-xs text-slate-700 font-mono pt-2">
+            <li class="flex items-center space-x-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span><span>AMDFE
+                Dynamic Fusion Engine</span></li>
+            <li class="flex items-center space-x-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span><span>SNR
+                Modality Reliability Weighting</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-sky-500"></span><span>Quantile Gradient Tree Ensembles</span></li>
+            <li class="flex items-center space-x-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span><span>Zero
+                Target-Derived TIFF Leakage Filter</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 3: Decision Intelligence Outputs -->
+        <div class="aqua-card p-6 space-y-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Actionable Intelligence</h3>
+          <p class="text-xs text-slate-600">Synthesizing predictions with uncertainty envelopes and interpretable local
+            attributions.</p>
+          <ul class="space-y-2 text-xs text-slate-700 font-mono pt-2">
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-teal-600"></span><span>Hyperlocal Predictions + 90% PI</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-sky-600"></span><span>Groundwater Response (Δh Dynamics)</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-purple-600"></span><span>TreeSHAP Feature Attributions</span></li>
+            <li class="flex items-center space-x-2"><span
+                class="w-1.5 h-1.5 rounded-full bg-rose-600"></span><span>Depletion Risk Prioritization & GIS</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE PROBLEM -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">CHALLENGES IN GROUNDWATER MANAGEMENT</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">The Core Groundwater Challenge
+        </h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Aquifers represent invisible, non-stationary reserves vulnerable to intensive irrigation and climatic shocks.
+          Conventional monitoring suffers from four systematic bottlenecks:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-rose-600 font-mono text-sm font-bold">01 / SPATIAL GAPS</div>
+          <h3 class="text-base font-bold text-slate-900">Limited Monitoring</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Monitoring wells provide observations only at specific sparse locations and irregular measurement
+            frequencies, leaving large geographic blindspots.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-amber-600 font-mono text-sm font-bold">02 / SILOED DATA</div>
+          <h3 class="text-base font-bold text-slate-900">Fragmented Data</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Groundwater-related information comes from disparate environmental and geospatial sources—piezometers,
+            weather radar, DEM grids, and optical satellites.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-orange-600 font-mono text-sm font-bold">03 / NOISE & MISSINGNESS</div>
+          <h3 class="text-base font-bold text-slate-900">Variable Data Quality</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Different sensing streams exhibit varying temporal latency, missingness, sensor drift, and intermittent
+            cloud contamination over satellite imagery.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-purple-600 font-mono text-sm font-bold">04 / BLACK-BOX DEFICIT</div>
+          <h3 class="text-base font-bold text-slate-900">Difficult Interpretation</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Hydrologists and water managers cannot rely on opaque black-box ML predictions without rigorous uncertainty
+            intervals, applicability bounds, and spatial context.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: HOW AQUASENSE AI WORKS (9-STEP PROCESS DIAGRAM) -->
+    <section id="features-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">WORKFLOW ARCHITECTURE</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">How AquaSense AI Works</h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          A continuous, scientifically verified 9-stage pipeline from raw multimodal ingestion to spatial decision
+          intelligence.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">01 DATA COLLECTION</span>
+            <span class="text-slate-400 text-xs">Stage 1</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Multimodal Ingestion</h4>
+          <p class="text-xs text-slate-600 mt-1">Aggregates in-situ piezometers, NASA POWER meteorological variables,
+            and Sentinel-2 satellite grids.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">02 DATA PREPROCESSING</span>
+            <span class="text-slate-400 text-xs">Stage 2</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Harmonization & QA</h4>
+          <p class="text-xs text-slate-600 mt-1">Spatial alignment, outlier isolation, cloud masking, and zero
+            target-leakage temporal partitioning.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">03 AMDFE ENGINE</span>
+            <span class="text-slate-400 text-xs">Stage 3</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Adaptive Multimodal Fusion</h4>
+          <p class="text-xs text-slate-600 mt-1">Computes SNR quality metrics and applies dynamic reliability weighting
+            across all modalities.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">04 FEATURE ENGINEERING</span>
+            <span class="text-slate-400 text-xs">Stage 4</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Hydro-Climatic Features</h4>
+          <p class="text-xs text-slate-600 mt-1">Generates antecedent causal lags, cumulative 90-day precipitation
+            surplus, and soil infiltration proxies.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">05 AI/ML MODELS</span>
+            <span class="text-slate-400 text-xs">Stage 5</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Gradient Ensemble Suite</h4>
+          <p class="text-xs text-slate-600 mt-1">LightGBM, XGBoost, and Random Forest trained with GroupKFold
+            unseen-well cross-validation.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">06 PREDICTION & RESPONSE</span>
+            <span class="text-slate-400 text-xs">Stage 6</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Forward Multi-Horizon Trajectory</h4>
+          <p class="text-xs text-slate-600 mt-1">Generates 30d, 90d, and 180d water table depth projections and
+            historical drawdown velocities (Δh).</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">07 UNCERTAINTY & RELIABILITY</span>
+            <span class="text-slate-400 text-xs">Stage 7</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Prediction Intervals (90% PI)</h4>
+          <p class="text-xs text-slate-600 mt-1">Pinball quantile loss and conformal calibration bounding upper and
+            lower forecast confidence limits.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">08 EXPLAINABLE AI</span>
+            <span class="text-slate-400 text-xs">Stage 8</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">TreeSHAP Feature Attribution</h4>
+          <p class="text-xs text-slate-600 mt-1">Game-theoretic decomposition explaining the exact physical drivers
+            behind each hyperlocal forecast.</p>
+        </div>
+
+        <div class="aqua-card p-5 hover:border-sky-400 transition-all">
+          <div class="flex items-center justify-between pb-3">
+            <span class="text-xs font-mono font-bold text-sky-600">09 GIS DECISION SUPPORT</span>
+            <span class="text-slate-400 text-xs">Stage 9</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Interactive Spatial Cartography</h4>
+          <p class="text-xs text-slate-600 mt-1">Well-level risk stratification, priority alerts, and spatial analytics
+            for water district planning.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: MULTIMODAL DATA -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">DATA INGESTION LAYERS</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Multimodal Environmental Sensing
+        </h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Five complementary data modalities integrated to capture atmospheric, surface, vadose, and deep aquifer
+          dynamics.
+        </p>
+        <p class="text-[11px] text-sky-700 font-mono mt-2">UI Prototype Specification — No Live API Claims</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+        <div class="aqua-card p-5 text-center space-y-3">
+          <div
+            class="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 mx-auto flex items-center justify-center text-sky-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Groundwater</h4>
+          <p class="text-xs text-slate-600">170 in-situ piezometers and historical sounding records across Phelps County
+            (2000–2024).</p>
+          <span class="text-[10px] font-mono text-sky-700 font-semibold block pt-1">3,844 Observations</span>
+        </div>
+
+        <div class="aqua-card p-5 text-center space-y-3">
+          <div
+            class="w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-200 mx-auto flex items-center justify-center text-cyan-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Weather</h4>
+          <p class="text-xs text-slate-600">NASA POWER & GPM IMERG radar precipitation, temperature, wind, and radiation
+            grids.</p>
+          <span class="text-[10px] font-mono text-cyan-700 font-semibold block pt-1">Daily Frequency</span>
+        </div>
+
+        <div class="aqua-card p-5 text-center space-y-3">
+          <div
+            class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 mx-auto flex items-center justify-center text-emerald-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Remote Sensing</h4>
+          <p class="text-xs text-slate-600">Sentinel-2 multispectral surface imagery, cloud-screened NDVI and moisture
+            indices.</p>
+          <span class="text-[10px] font-mono text-emerald-700 font-semibold block pt-1">10m Resolution</span>
+        </div>
+
+        <div class="aqua-card p-5 text-center space-y-3">
+          <div
+            class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 mx-auto flex items-center justify-center text-indigo-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Elevation / DEM</h4>
+          <p class="text-xs text-slate-600">SRTM 30m Digital Elevation Model capturing watershed slope, drainage basins,
+            and relief.</p>
+          <span class="text-[10px] font-mono text-indigo-700 font-semibold block pt-1">30m Topography</span>
+        </div>
+
+        <div class="aqua-card p-5 text-center space-y-3">
+          <div
+            class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 mx-auto flex items-center justify-center text-amber-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm">Environmental</h4>
+          <p class="text-xs text-slate-600">SMAP L4 radiometer vadose soil moisture grids and USDA NRCS soil
+            conductivity tables.</p>
+          <span class="text-[10px] font-mono text-amber-700 font-semibold block pt-1">0–100cm Profile</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 6: AMDFE (ADAPTIVE MULTIMODAL DATA FUSION ENGINE) -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <div class="lg:col-span-6 space-y-6">
+          <span class="badge-demo">CORE RESEARCH INNOVATION</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Adaptive Multimodal Data Fusion Engine (AMDFE)
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            Conventional groundwater ML models feed raw, unweighted features directly to regressors, leaving them
+            vulnerable to missing readings and sensor noise. AMDFE evaluates data quality and signal-to-noise ratio
+            (SNR) in real-time, assigning dynamic weights to each modality before fusion.
+          </p>
+
+          <div class="space-y-3 pt-2">
+            <div class="flex items-center space-x-3 text-xs text-slate-700">
+              <span
+                class="w-6 h-6 rounded-lg bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-700 font-bold shrink-0">1</span>
+              <span><strong>Data Quality:</strong> Automated isolation of temporal gaps and sensor drift.</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-slate-700">
+              <span
+                class="w-6 h-6 rounded-lg bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-700 font-bold shrink-0">2</span>
+              <span><strong>Reliability Assessment:</strong> SNR calculation per spatial cell and temporal
+                timestep.</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-slate-700">
+              <span
+                class="w-6 h-6 rounded-lg bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-700 font-bold shrink-0">3</span>
+              <span><strong>Dynamic Weighting:</strong> Downweights noisy or interpolated sources automatically.</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-slate-700">
+              <span
+                class="w-6 h-6 rounded-lg bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-700 font-bold shrink-0">4</span>
+              <span><strong>Unified Feature Fusion:</strong> Supplies a robust latent representation to gradient tree
+                models.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="aqua-card p-6 space-y-5 bg-white">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm">AMDFE Sensor Reliability Weights</h3>
+                <p class="text-xs text-slate-500">Illustrative fusion values across Phelps County grid cells</p>
+              </div>
+              <span class="badge-demo">DEMO VALUES</span>
+            </div>
+
+            <div class="space-y-4 text-xs font-mono">
+              <div>
+                <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">In-Situ
+                    Piezometers</span><span class="text-sky-700 font-bold">w = 0.94 (SNR: 28.4 dB)</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div class="bg-sky-600 h-2 rounded-full" style="width: 94%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Weather Radar (GPM
+                    Precipitation)</span><span class="text-cyan-700 font-bold">w = 0.98 (SNR: 31.2 dB)</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div class="bg-cyan-600 h-2 rounded-full" style="width: 98%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Sentinel-2 Optical NDVI
+                    (Cloud-Filtered)</span><span class="text-emerald-700 font-bold">w = 0.87 (SNR: 22.1 dB)</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div class="bg-emerald-600 h-2 rounded-full" style="width: 87%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">SMAP Soil Moisture
+                    Radiometer (1km)</span><span class="text-amber-700 font-bold">w = 0.91 (SNR: 25.8 dB)</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div class="bg-amber-600 h-2 rounded-full" style="width: 91%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">SRTM 30m Digital
+                    Elevation Model</span><span class="text-indigo-700 font-bold">w = 0.99 (Static Topo)</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div class="bg-indigo-600 h-2 rounded-full" style="width: 99%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-emerald-700 font-bold">Benchmark Variance Reduction: -38.2% vs unweighted
+                baseline</span>
+              <span class="text-slate-400 text-[10px]">Illustrative metric</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 7: AI ENGINE -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">AI / ML MODELING SUITE</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Machine Learning Prediction
+          Architecture</h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Multiple model paradigms evaluated rigorously using GroupKFold unseen-well cross-validation. No single model
+          is claimed as universally superior.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Random Forest -->
+        <div class="aqua-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">Random
+              Forest</span>
+            <span class="badge-demo">DEMO METRICS</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Quantile Bagging Trees</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Constructs decorrelated decision trees over random feature subsets; highly stable against noise and
+            non-linear interactions.
+          </p>
+          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
+            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
+                class="text-slate-900 font-bold">0.7848</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
+                class="text-slate-900 font-bold">14.53 ft (4.43 m)</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
+                class="text-slate-900 font-bold">22.97 ft (7.00 m)</span></div>
+          </div>
+          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
+          </p>
+        </div>
+
+        <!-- XGBoost -->
+        <div class="aqua-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-50 text-cyan-700 border border-cyan-200">XGBoost</span>
+            <span class="badge-demo">DEMO METRICS</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Extreme Gradient Boosting</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Sequential gradient boosting with second-order Taylor expansion loss and pinball quantile loss for
+            uncertainty bounds.
+          </p>
+          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
+            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
+                class="text-slate-900 font-bold">0.8046</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
+                class="text-slate-900 font-bold">12.75 ft (3.89 m)</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
+                class="text-slate-900 font-bold">21.89 ft (6.67 m)</span></div>
+          </div>
+          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
+          </p>
+        </div>
+
+        <!-- LightGBM -->
+        <div class="aqua-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-50 text-teal-700 border border-teal-200">LightGBM</span>
+            <span class="badge-demo">DEMO METRICS</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Histogram Leaf-Wise</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Gradient-based one-side sampling (GOSS) and exclusive feature bundling (EFB) offering exceptional inference
+            throughput.
+          </p>
+          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
+            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
+                class="text-slate-900 font-bold">0.8107</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
+                class="text-slate-900 font-bold">12.75 ft (3.89 m)</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
+                class="text-slate-900 font-bold">21.55 ft (6.57 m)</span></div>
+          </div>
+          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 8: WHAT AQUASENSE PROVIDES -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">PRODUCT CAPABILITIES</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">What AquaSense AI Delivers</h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Eight integrated capabilities designed to support sustainable aquifer stewardship.
+        </p>
+        <p class="text-[11px] text-amber-700 font-mono mt-2 font-medium">Notice: Groundwater response (Δh) and RRPI are
+          relative indicators, not physical measured recharge.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-sky-600 text-xl">🔮</div>
+          <h4 class="font-bold text-slate-900 text-sm">Groundwater Prediction</h4>
+          <p class="text-xs text-slate-600">Multi-horizon ML predictions of water table depth at 30d, 90d, and 180d
+            forecast intervals.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-teal-600 text-xl">📉</div>
+          <h4 class="font-bold text-slate-900 text-sm">Groundwater Response (Δh)</h4>
+          <p class="text-xs text-slate-600">Historical decadal drawdown velocity and recovery dynamics across monitoring
+            wells.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-cyan-600 text-xl">💧</div>
+          <h4 class="font-bold text-slate-900 text-sm">Recharge-Related Assessment</h4>
+          <p class="text-xs text-slate-600">Relative Hydro-Climatic Potential Index (RRPI) reflecting infiltration
+            favorability after rain events.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-rose-600 text-xl">⚠️</div>
+          <h4 class="font-bold text-slate-900 text-sm">Risk Assessment</h4>
+          <p class="text-xs text-slate-600">Automated classification into Stable, Moderate, High, and Critical depletion
+            risk categories.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-purple-600 text-xl">🎯</div>
+          <h4 class="font-bold text-slate-900 text-sm">Prediction Uncertainty</h4>
+          <p class="text-xs text-slate-600">90% conformal prediction intervals bounding upper and lower forecast
+            confidence limits.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-amber-600 text-xl">🔍</div>
+          <h4 class="font-bold text-slate-900 text-sm">Explainable AI (XAI)</h4>
+          <p class="text-xs text-slate-600">TreeSHAP game-theoretic feature attribution disclosing the exact
+            hydro-climatic drivers.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-emerald-600 text-xl">🗺️</div>
+          <h4 class="font-bold text-slate-900 text-sm">Spatial / GIS Analysis</h4>
+          <p class="text-xs text-slate-600">Interactive GIS cartography over Phelps County displaying spatial clustering
+            and well status.</p>
+        </div>
+
+        <div class="aqua-card p-5 space-y-2">
+          <div class="text-indigo-600 text-xl">📊</div>
+          <h4 class="font-bold text-slate-900 text-sm">Decision Support</h4>
+          <p class="text-xs text-slate-600">Prioritization matrices to assist natural resource districts in curtailment
+            and conservation.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 9: EXPLAINABLE AI -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <div class="lg:col-span-5 space-y-6">
+          <span class="badge-demo">TRANSPARENT MACHINE LEARNING</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Understand Why the Model Predicts
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            AquaSense AI leverages TreeSHAP (SHapley Additive exPlanations) to decompose every individual well
+            prediction into additive physical contributions. Stakeholders can inspect why water table drawdown was
+            predicted.
+          </p>
+
+          <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-xs text-slate-700">
+            <span class="text-sky-800 font-bold block mb-1">Scientific Integrity Rule:</span>
+            SHAP values are computed exclusively from non-leaking predictors (historical lags, NASA POWER precipitation,
+            SMAP moisture, and DEM slope).
+          </div>
+        </div>
+
+        <!-- SHAP Waterfall Visual Panel -->
+        <div class="lg:col-span-7">
+          <div class="aqua-card p-6 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm">SHAP Feature Attribution Waterfall</h3>
+                <p class="text-xs text-slate-500">Well NE-PH-004 • Predicted Water Depth: 69.1 m</p>
+              </div>
+              <span class="badge-demo">ILLUSTRATIVE / DEMO</span>
+            </div>
+
+            <!-- Waterfall Bars -->
+            <div class="space-y-3 text-xs font-mono">
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Baseline Mean Level
+                    E[f(x)]</span><span class="text-slate-600 font-bold">50.70 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-slate-400 h-2 rounded-full" style="width: 50%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-rose-700 font-sans font-semibold">+ Prior
+                    Decadal Drawdown (Lag t-1)</span><span class="text-rose-700 font-bold">+15.20 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-rose-500 h-2 rounded-full" style="width: 78%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-emerald-700 font-sans font-semibold">- 90d
+                    Cumulative Rainfall Surplus</span><span class="text-emerald-700 font-bold">-0.85 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-emerald-500 h-2 rounded-full" style="width: 25%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-emerald-700 font-sans font-semibold">- Vadose
+                    Soil Moisture Permeability</span><span class="text-emerald-700 font-bold">-0.42 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-emerald-500 h-2 rounded-full" style="width: 18%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-rose-700 font-sans font-semibold">+ Summer
+                    Surface Evapotranspiration</span><span class="text-rose-700 font-bold">+0.38 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-rose-400 h-2 rounded-full" style="width: 16%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans font-semibold">+
+                    Topographic Drainage Gradient (DEM)</span><span class="text-sky-700 font-bold">+0.09 m</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                  <div class="bg-sky-500 h-2 rounded-full" style="width: 10%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-600">Final Predicted Level f(x):</span>
+              <span class="text-sky-700 font-bold text-sm">69.10 m depth to water</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 10: UNCERTAINTY & RELIABILITY -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">CONFIDENCE & ROBUSTNESS</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Uncertainty & Spatial
+          Applicability</h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+          A machine learning prediction should never be interpreted as an absolute point estimate. AquaSense AI couples
+          each forecast with 4 dimensions of reliability.
+        </p>
+        <p class="text-[11px] text-sky-700 font-mono mt-2 font-medium">All Confidence Metrics Below Are Illustrative
+          (DEMO)</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono font-bold text-purple-700">01 INTERVAL</span>
+            <span class="badge-demo">DEMO</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base">Prediction Interval</h4>
+          <p class="text-xs text-slate-600">90% conformal prediction interval bounds representing quantile risk
+            envelopes (e.g. 50.1 – 54.5 m).</p>
+          <div class="pt-2 text-xs font-mono text-purple-700 font-bold">Confidence: ±0.9 m</div>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono font-bold text-sky-700">02 FRESHNESS</span>
+            <span class="badge-demo">DEMO</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base">Observation Freshness</h4>
+          <p class="text-xs text-slate-600">Dynamic penalty based on sounding age and elapsed days since the last
+            verified calibration inspection.</p>
+          <div class="pt-2 text-xs font-mono text-sky-700 font-bold">Sounding Age: 14 Days</div>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono font-bold text-teal-700">03 CONSENSUS</span>
+            <span class="badge-demo">DEMO</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base">Model Agreement</h4>
+          <p class="text-xs text-slate-600">Variance metric between Random Forest, XGBoost, and LightGBM predictions for
+            the target station.</p>
+          <div class="pt-2 text-xs font-mono text-teal-700 font-bold">Variance: σ = 0.28 m</div>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono font-bold text-indigo-700">04 DOMAIN</span>
+            <span class="badge-demo">DEMO</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base">Spatial Applicability</h4>
+          <p class="text-xs text-slate-600">Mahalanobis environmental distance ensuring the prediction well lies inside
+            the training distribution.</p>
+          <div class="pt-2 text-xs font-mono text-indigo-700 font-bold">Applicability: 96.4%</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 11: GIS INTELLIGENCE (PREVIEW OF GROUNDWATER MAP) -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="aqua-card p-8 relative overflow-hidden bg-white">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+          <div class="lg:col-span-5 space-y-5">
+            <span class="badge-demo">INTERACTIVE CARTOGRAPHY</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Spatial Decision Support with GIS Cartography
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Explore 170 geolocated monitoring stations across Phelps County with continuous telemetry layers, well
+              risk tiering, and historical hydrograph trends.
+            </p>
+
+            <div class="space-y-2 text-xs font-mono text-slate-700 pt-1">
+              <div class="flex items-center space-x-2"><span
+                  class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span>Critical Risk: Depth &gt; 55m (24
+                  Wells)</span></div>
+              <div class="flex items-center space-x-2"><span
+                  class="w-2.5 h-2.5 rounded-full bg-orange-500"></span><span>High Risk: Depth 38–55m (19 Wells)</span>
+              </div>
+              <div class="flex items-center space-x-2"><span
+                  class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>Moderate Risk: Depth 20–38m (42
+                  Wells)</span></div>
+              <div class="flex items-center space-x-2"><span
+                  class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span>Stable / Low: Depth &lt; 20m (85
+                  Wells)</span></div>
+            </div>
+
+            <div class="pt-3">
+              <button onclick="navigate('/groundwater-map')"
+                class="px-6 py-3 rounded-xl glow-primary-btn font-bold text-xs tracking-wide flex items-center space-x-2">
+                <span>Explore Full GIS Map</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview Mockup Panel (Light Theme) -->
+          <div class="lg:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 text-xs">
+              <span class="font-mono text-sky-700 font-bold">PHELPS COUNTY GIS EXTENT (40.35°N to 40.68°N)</span>
+              <span class="text-slate-500">CartoDB Voyager Spatial Preview</span>
+            </div>
+
+            <div
+              class="h-64 rounded-lg bg-slate-100 relative overflow-hidden flex items-center justify-center border border-slate-200 subsurface-grid-light mt-3">
+
+              <!-- Mock Markers -->
+              <div class="absolute top-1/4 left-1/3 flex items-center space-x-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-rose-500 well-pulse border-2 border-white shadow-sm"></span>
+                <span
+                  class="text-[10px] font-mono bg-white/90 px-1.5 py-0.5 rounded text-rose-700 border border-rose-200 font-bold shadow-xs">NE-PH-004
+                  (Critical)</span>
+              </div>
+              <div class="absolute top-1/2 left-1/2 flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-500 border border-white shadow-sm"></span>
+                <span
+                  class="text-[10px] font-mono bg-white/90 px-1.5 py-0.5 rounded text-emerald-700 border border-emerald-200 font-bold shadow-xs">NE-PH-062
+                  (Stable)</span>
+              </div>
+              <div class="absolute bottom-1/3 right-1/4 flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-orange-500 border border-white shadow-sm"></span>
+                <span
+                  class="text-[10px] font-mono bg-white/90 px-1.5 py-0.5 rounded text-orange-700 border border-orange-200 font-bold shadow-xs">NE-PH-018
+                  (High)</span>
+              </div>
+              <div class="absolute top-2/3 left-1/4 flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-amber-500 border border-white shadow-sm"></span>
+                <span
+                  class="text-[10px] font-mono bg-white/90 px-1.5 py-0.5 rounded text-amber-700 border border-amber-200 font-bold shadow-xs">NE-PH-042
+                  (Mod)</span>
+              </div>
+
+              <!-- County Boundary Label -->
+              <div class="absolute bottom-3 left-3 text-[10px] font-mono text-slate-500 font-medium">
+                Phelps County Study Perimeter • 170 Well Nodes
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 12: USE CASES -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">APPLICATIONS</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Real-World Operational Use Cases
+        </h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Supporting regional hydrologists, irrigation districts, and environmental policy planners.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-sky-700 font-mono text-xs font-bold">USE CASE 01</div>
+          <h3 class="text-base font-bold text-slate-900">Groundwater Monitoring</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Continuous synthesis of scattered manual and continuous piezometer soundings into a unified, gap-filled
+            spatial telemetry surface.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-teal-700 font-mono text-xs font-bold">USE CASE 02</div>
+          <h3 class="text-base font-bold text-slate-900">Water Resource Planning</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Predictive forecasting of water table drawdown under varying seasonal precipitation scenarios to inform
+            agricultural irrigation limits.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-cyan-700 font-mono text-xs font-bold">USE CASE 03</div>
+          <h3 class="text-base font-bold text-slate-900">Well-Level Analysis</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Individual borehole inspection with 25-year hydrograph curves, antecedent lag correlation, and localized
+            drawdown velocities.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-purple-700 font-mono text-xs font-bold">USE CASE 04</div>
+          <h3 class="text-base font-bold text-slate-900">Recharge-Related Assessment</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Mapping relative hydro-climatic potential (RRPI) to determine where surface rainfall surplus effectively
+            infiltrates through vadose soils.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-rose-700 font-mono text-xs font-bold">USE CASE 05</div>
+          <h3 class="text-base font-bold text-slate-900">Risk Identification</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Early detection of critical overdraft clusters and declining alluvial zones before irreversible aquifer
+            compaction occurs.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-emerald-700 font-mono text-xs font-bold">USE CASE 06</div>
+          <h3 class="text-base font-bold text-slate-900">Decision Support</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Objective, interpretable AI evidence for water district managers setting regional curtailment and managed
+            aquifer recharge (MAR) priorities.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 13: RESEARCH / INNOVATION -->
+    <section id="team-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="badge-demo mb-3">SCIENTIFIC RIGOR</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Research Innovation & Methodology
+        </h2>
+        <p class="mt-3 text-slate-600 text-sm sm:text-base">
+          Built upon strict scientific validation standards to prevent ML target leakage and overoptimistic performance
+          metrics.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Adaptive Multimodal Fusion</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Dynamically models data quality and missingness per observation timestep, weighting sensing modalities by
+            real-time signal-to-noise ratio.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Hyperlocal Well Intelligence</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Well-specific physical attribution rather than broad regional generalizations, accounting for local
+            lithology and elevation gradients.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Explainable AI (TreeSHAP)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Rigorous game-theoretic decomposition of feature influence to satisfy scientific scrutiny and regulatory
+            review.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Prediction Uncertainty Bounds</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Conformal prediction bounds establishing 90% confidence envelopes, preventing deceptive overconfidence in
+            point forecasts.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Response Assessment (Δh)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Decadal drawdown velocity and recovery dynamics evaluated without making unsubstantiated claims of physical
+            infiltration volume.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <h3 class="font-bold text-slate-900 text-base">Spatial Decision Support</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Translation of machine learning probabilities into concrete priority rankings for natural resource district
+            stewardship.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 14: FINAL CALL TO ACTION -->
+    <section id="contact-section" class="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+      <div class="aqua-card p-12 relative overflow-hidden bg-gradient-to-b from-sky-50/50 to-white">
+        <span class="badge-demo mb-4">EXPLORE THE PLATFORM</span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mt-2">
+          Explore Groundwater Intelligence
+        </h2>
+        <p class="mt-4 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          Navigate through our interactive dashboard, spatial GIS map, predictive horizon workspaces, and model
+          performance benchmarks.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <button onclick="navigate('/dashboard')"
+            class="px-7 py-3.5 rounded-xl glow-primary-btn font-bold text-xs tracking-wide">
+            Open Dashboard
+          </button>
+          <button onclick="navigate('/groundwater-map')"
+            class="px-7 py-3.5 rounded-xl glow-outline-btn font-semibold text-xs tracking-wide shadow-xs">
+            Explore Groundwater Map
+          </button>
+          <button onclick="navigate('/model-performance')"
+            class="px-7 py-3.5 rounded-xl glow-outline-btn font-semibold text-xs tracking-wide shadow-xs">
+            View Model Performance
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-400 font-mono mt-8">
+          Frontend Prototype Specification • Phelps County, Nebraska • 2000–2024 Dataset
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 2. DASHBOARD PAGE (PREMIUM LIGHT THEME)                   -->
+  <!-- ======================================================== -->
+  <main id="page-dashboard"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">EXECUTIVE OVERVIEW</span>
+          <span class="text-xs text-slate-500 font-mono">Phelps County, NE</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-2">Groundwater Intelligence
+          Overview</h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Hyperlocal groundwater monitoring, prediction and decision
+          support across Phelps County, Nebraska</p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="px-3 py-1 bg-sky-50 border border-sky-200 text-sky-700 text-xs font-mono rounded-lg">DEMO
+          DATASET</span>
+        <button onclick="navigate('/groundwater-map')"
+          class="px-4 py-2 rounded-lg glow-primary-btn text-xs font-bold">Open GIS Map →</button>
+      </div>
+    </div>
+
+    <!-- 6 KPI Metric Cards (Clean Light Cards) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">Monitoring Wells</span>
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded-md badge-stable">100% Active</span>
+        </div>
+        <p class="text-3xl font-bold text-slate-900 mt-3 font-mono">170</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium">South-Central Nebraska</p>
+      </div>
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">Observations</span>
+          <span
+            class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-sky-50 text-sky-700 border border-sky-200 font-mono">Verified
+            QA</span>
+        </div>
+        <p class="text-3xl font-bold text-slate-900 mt-3 font-mono">3,844</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium">2000–2024 Dataset</p>
+      </div>
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">Latest Water Level</span>
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded-md badge-demo">DEMO</span>
+        </div>
+        <p class="text-3xl font-bold text-slate-900 mt-3 font-mono">50.7 <span
+            class="text-sm font-normal text-slate-500">m</span></p>
+        <p class="text-xs text-amber-600 mt-1 font-medium">+0.38 m/yr Drawdown</p>
+      </div>
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">30d Prediction</span>
+          <span
+            class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-purple-50 text-purple-700 border border-purple-200 font-mono">ML
+            FORECAST</span>
+        </div>
+        <p class="text-3xl font-bold text-purple-700 mt-3 font-mono">52.3 <span
+            class="text-sm font-normal text-slate-500">m</span></p>
+        <p class="text-xs text-purple-600 mt-1 font-medium">90% PI: 50.1–54.5 m</p>
+      </div>
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">Recharge Indicator</span>
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded-md badge-demo">RRPI INDEX</span>
+        </div>
+        <p class="text-3xl font-bold text-teal-700 mt-3 font-mono">76 <span
+            class="text-sm font-normal text-slate-500">/100</span></p>
+        <p class="text-xs text-teal-600 mt-1 font-medium">Optimal Infiltration Zone</p>
+      </div>
+
+      <div class="aqua-card p-5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-500">Risk Indicator</span>
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded-md badge-critical">CRITICAL</span>
+        </div>
+        <p class="text-3xl font-bold text-rose-600 mt-3 font-mono">24</p>
+        <p class="text-xs text-rose-600 mt-1 font-medium">14.1% Critical Ratio</p>
+      </div>
+
+    </div>
+
+    <!-- Charts Row (Groundwater Trend & AMDFE Quality) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Groundwater Trend Chart Card -->
+      <div class="aqua-card p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Groundwater Level Trend & Decadal Variance</h2>
+            <p class="text-xs text-slate-500">25-year historical drawdown with ML forward forecast envelope</p>
+          </div>
+          <button onclick="navigate('/prediction-analysis')"
+            class="text-xs font-semibold text-sky-600 hover:text-sky-700">Detailed View →</button>
+        </div>
+        <div class="h-64 w-full relative">
+          <canvas id="dashTrendChart"></canvas>
+        </div>
+        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>Observed Baseline: 2000–2024</span>
+          <span class="text-purple-700 font-semibold font-mono">Projected Drawdown: +0.38 m/yr</span>
+        </div>
+      </div>
+
+      <!-- AMDFE Quality & SNR Reliability Card -->
+      <div class="aqua-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between">
+            <h2 class="text-base font-bold text-slate-900">AMDFE Multimodal Data Quality & SNR Reliability</h2>
+            <span
+              class="px-2.5 py-0.5 bg-teal-50 text-teal-700 text-xs font-mono font-bold rounded-full border border-teal-200">93.8%
+              Mean Quality</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Dynamic reliability weighting across 5 heterogeneous sensor modalities
+          </p>
+
+          <div class="mt-5 space-y-3.5 text-xs font-mono">
+            <div>
+              <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">In-Situ Piezometers
+                  (Continuous)</span><span class="font-bold text-teal-700">94%</span></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-teal-600 h-2 rounded-full" style="width: 94%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Weather Radar (NASA POWER /
+                  GPM)</span><span class="font-bold text-sky-700">98%</span></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-sky-600 h-2 rounded-full" style="width: 98%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Sentinel-2 Optical NDVI
+                  (Cloud-Filtered)</span><span class="font-bold text-emerald-700">87%</span></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-emerald-600 h-2 rounded-full" style="width: 87%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">SMAP Soil Moisture
+                  Radiometer (1km)</span><span class="font-bold text-amber-700">91%</span></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-amber-500 h-2 rounded-full" style="width: 91%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">SRTM Digital Elevation Model
+                  (DEM)</span><span class="font-bold text-indigo-700">99%</span></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-indigo-600 h-2 rounded-full" style="width: 99%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+          <span class="text-emerald-700 font-semibold font-mono">Error reduction: -38.2% RMSE vs unweighted</span>
+          <button onclick="navigate('/model-performance')"
+            class="text-xs font-semibold text-sky-600 hover:text-sky-700">Model Metrics →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions Navigation Modules -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div onclick="navigate('/groundwater-map')" class="aqua-card p-5 cursor-pointer hover:border-sky-300">
+        <span class="text-2xl">🗺️</span>
+        <h3 class="font-bold text-slate-900 mt-2 text-sm">Groundwater Map</h3>
+        <p class="text-xs text-slate-500 mt-1">Full interactive GIS map with 170 geolocated stations.</p>
+        <span class="text-xs text-sky-600 font-semibold mt-3 block">Open Map →</span>
+      </div>
+      <div onclick="navigate('/prediction-analysis')" class="aqua-card p-5 cursor-pointer hover:border-purple-300">
+        <span class="text-2xl">📈</span>
+        <h3 class="font-bold text-slate-900 mt-2 text-sm">Prediction Analysis</h3>
+        <p class="text-xs text-slate-500 mt-1">Multi-horizon ML predictions & 90% uncertainty intervals.</p>
+        <span class="text-xs text-purple-600 font-semibold mt-3 block">View Predictions →</span>
+      </div>
+      <div onclick="navigate('/recharge-analysis')" class="aqua-card p-5 cursor-pointer hover:border-teal-300">
+        <span class="text-2xl">💧</span>
+        <h3 class="font-bold text-slate-900 mt-2 text-sm">Recharge Analysis</h3>
+        <p class="text-xs text-slate-500 mt-1">Vadose infiltration scoring and canal corridor capacity.</p>
+        <span class="text-xs text-teal-600 font-semibold mt-3 block">Assess Recharge →</span>
+      </div>
+      <div onclick="navigate('/risk-assessment')" class="aqua-card p-5 cursor-pointer hover:border-rose-300">
+        <span class="text-2xl">⚠️</span>
+        <h3 class="font-bold text-slate-900 mt-2 text-sm">Risk Assessment</h3>
+        <p class="text-xs text-slate-500 mt-1">Identify over-drafted wells & priority intervention zones.</p>
+        <span class="text-xs text-rose-600 font-semibold mt-3 block">Review Risk →</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 3. GROUNDWATER MAP PAGE (PREMIUM LIGHT GIS APPLICATION)  -->
+  <!-- ======================================================== -->
+  <main id="page-groundwater-map"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">GIS SPATIAL SUITE</span>
+          <span class="text-xs text-slate-500 font-mono">South-Central Nebraska Extent</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Groundwater Map</h1>
+        <p class="text-xs sm:text-sm text-slate-500">Interactive spatial monitoring of 170 wells across Phelps County,
+          Nebraska</p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="badge-demo">DEMO DATA</span>
+        <span class="text-xs text-slate-500 font-mono">EPSG:4326 WGS84</span>
+      </div>
+    </div>
+
+    <!-- Map Layout: Main Map + Right Well Information Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Main Map (2 cols) -->
+      <div class="lg:col-span-2 aqua-card p-4 space-y-4">
+
+        <!-- Filter Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-100">
+          <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+            <span class="text-xs font-bold text-slate-600 font-mono">RISK FILTER:</span>
+            <button onclick="filterMapMarkers('all')" id="map-btn-all"
+              class="px-3 py-1 bg-sky-600 text-white rounded-lg text-xs font-bold shadow-xs">All (170)</button>
+            <button onclick="filterMapMarkers('critical')" id="map-btn-critical"
+              class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium">Critical
+              (24)</button>
+            <button onclick="filterMapMarkers('high')" id="map-btn-high"
+              class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium">High
+              (19)</button>
+            <button onclick="filterMapMarkers('moderate')" id="map-btn-moderate"
+              class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium">Moderate
+              (42)</button>
+            <button onclick="filterMapMarkers('stable')" id="map-btn-stable"
+              class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium">Stable
+              (85)</button>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">CartoDB Voyager Spatial</span>
+        </div>
+
+        <!-- Leaflet Map Container -->
+        <div class="rounded-xl overflow-hidden border border-slate-200 relative">
+          <div id="full-leaflet-gis-map" class="w-full h-[540px] bg-slate-100"></div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 pt-1 font-mono">
+          <span>Click on any well marker to inspect station telemetry in the panel.</span>
+          <span class="text-sky-600 font-semibold">170 Stations Active</span>
+        </div>
+      </div>
+
+      <!-- Right Groundwater Information Panel -->
+      <div class="aqua-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">Well Information Panel</h2>
+              <p class="text-[11px] text-slate-400 font-mono">Real-Time Station Inspector</p>
+            </div>
+            <span id="panel-risk-badge"
+              class="badge-critical px-2.5 py-0.5 text-xs font-bold rounded-md">Critical</span>
+          </div>
+
+          <div class="mt-4 space-y-3.5 text-xs font-mono">
+            <div>
+              <span class="text-slate-400 text-[11px] block">Station ID:</span>
+              <p id="panel-well-id" class="text-xl font-bold text-slate-900">NE-PH-004</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Location:</span>
+              <p id="panel-location" class="font-medium text-slate-700">Holdrege Township, Phelps Co., NE</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Coordinates:</span>
+              <p id="panel-coords" class="text-sky-700 font-semibold">40.4412° N, 99.3721° W</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Observed Groundwater Level:</span>
+              <p id="panel-depth" class="text-2xl font-bold text-slate-900 font-mono mt-0.5">68.2 <span
+                  class="text-xs font-normal text-slate-500">m depth</span></p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">30d ML Prediction:</span>
+              <p id="panel-pred" class="text-base font-bold text-purple-700 font-mono">69.1 m <span
+                  class="text-[10px] font-normal text-purple-600">(90% PI)</span></p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Groundwater Response (Δh):</span>
+              <p id="panel-trend" class="text-rose-600 font-semibold">+0.52 m/yr Drawdown Rate</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Recharge Capacity:</span>
+              <p id="panel-recharge" class="font-semibold text-teal-700">Moderate Infiltration (RRPI: 64/100)</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Observation Date:</span>
+              <p id="panel-date" class="text-slate-700">2024-11-28</p>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Uncertainty Envelope:</span>
+              <p class="text-slate-700">±0.9 m (High Statistical Confidence)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 space-y-2">
+          <div class="flex items-center justify-between text-[11px] text-slate-500 pb-1">
+            <span>Status:</span>
+            <span class="text-rose-600 font-bold font-mono">Priority 1 (Curtailment Watch)</span>
+          </div>
+          <button onclick="navigate('/prediction-analysis')"
+            class="w-full py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold rounded-xl text-xs transition-colors font-mono">
+            Analyze Time-Series Hydrograph →
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 4. PREDICTION ANALYSIS PAGE (PREMIUM LIGHT THEME)         -->
+  <!-- ======================================================== -->
+  <main id="page-prediction-analysis"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">PREDICTIVE INTELLIGENCE WORKSPACE</span>
+          <span class="text-xs text-slate-500 font-mono">Multi-Horizon Forecasting</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Prediction Analysis</h1>
+        <p class="text-xs sm:text-sm text-slate-500">AI-based groundwater level prediction and trend analysis across
+          multiple forecast horizons</p>
+      </div>
+
+      <!-- Station Selector -->
+      <div class="flex items-center space-x-3">
+        <label class="text-xs text-slate-600 font-mono">SELECT WELL:</label>
+        <select id="pred-well-select" onchange="handlePredWellChange()"
+          class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
+          <option value="NE-PH-004">NE-PH-004 (Holdrege East - Critical)</option>
+          <option value="NE-PH-001">NE-PH-001 (Holdrege Core - Critical)</option>
+          <option value="NE-PH-018">NE-PH-018 (Funk District - High Risk)</option>
+          <option value="NE-PH-042">NE-PH-042 (Bertrand West - Moderate)</option>
+          <option value="NE-PH-062">NE-PH-062 (Platte Margin - Stable)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Mandatory Estimate Notice -->
+    <div
+      class="p-4 bg-purple-50 border border-purple-200 rounded-xl flex items-center justify-between text-xs text-purple-900">
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-purple-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span><strong>Scientific Disclaimer:</strong> Model predictions are estimates and should be interpreted together
+          with uncertainty and applicability information.</span>
+      </div>
+      <span class="badge-demo">DEMO FORECAST</span>
+    </div>
+
+    <!-- 3 Summary Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="aqua-card p-6">
+        <span class="text-xs font-semibold text-slate-500">Observed Water Depth</span>
+        <p class="text-3xl font-bold text-slate-900 mt-2 font-mono">50.7 m</p>
+        <p class="text-xs text-slate-500 mt-1 font-mono">Baseline 2024 Observed Depth</p>
+      </div>
+      <div class="aqua-card p-6">
+        <span class="text-xs font-semibold text-slate-500">30-Day ML Prediction</span>
+        <p class="text-3xl font-bold text-purple-700 mt-2 font-mono">52.3 m</p>
+        <p class="text-xs text-purple-600 mt-1 font-mono">Projected water table drawdown</p>
+      </div>
+      <div class="aqua-card p-6">
+        <span class="text-xs font-semibold text-slate-500">90% Prediction Interval</span>
+        <p class="text-3xl font-bold text-sky-700 mt-2 font-mono">±0.9 m</p>
+        <p class="text-xs text-sky-600 mt-1 font-mono">Uncertainty Envelope: 50.1 – 54.5 m</p>
+      </div>
+    </div>
+
+    <!-- Observed vs Predicted Chart Card -->
+    <div class="aqua-card p-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Observed vs. Predicted Groundwater Level (Hydrograph)</h2>
+          <p class="text-xs text-slate-500">Historical decadal observations (2000–2024) vs. Forward ML trajectory
+            (2025–2026)</p>
+        </div>
+        <div class="flex space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-mono border border-slate-200">
+          <button onclick="setPredTimeframe('all')" id="pred-tf-all"
+            class="px-3 py-1 bg-white text-sky-700 font-bold rounded-lg shadow-xs">All (2000–2024)</button>
+          <button onclick="setPredTimeframe('fiveYears')" id="pred-tf-5y"
+            class="px-3 py-1 text-slate-600 hover:text-slate-900 rounded-lg">5 Years</button>
+          <button onclick="setPredTimeframe('oneYear')" id="pred-tf-1y"
+            class="px-3 py-1 text-slate-600 hover:text-slate-900 rounded-lg">1 Year</button>
+        </div>
+      </div>
+
+      <div class="h-80 w-full relative">
+        <canvas id="predictionChartCanvas"></canvas>
+      </div>
+
+      <div
+        class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+        <div class="flex items-center space-x-6">
+          <span class="flex items-center space-x-2"><span class="w-3.5 h-1 bg-sky-600 rounded"></span><span>Observed
+              Historical Series</span></span>
+          <span class="flex items-center space-x-2"><span class="w-3.5 h-1 bg-purple-600 rounded"></span><span>ML
+              Forecast (30d–180d)</span></span>
+          <span class="flex items-center space-x-2"><span
+              class="w-3.5 h-3 bg-purple-100 border border-purple-300 rounded"></span><span>90% Uncertainty
+              Interval</span></span>
+        </div>
+        <span class="italic text-slate-400 font-mono">Demonstration/frontend estimates</span>
+      </div>
+    </div>
+
+    <!-- Model Comparison for Selected Well & SHAP Influence -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Model Ensemble Comparison -->
+      <div class="aqua-card p-6 space-y-4">
+        <h3 class="text-sm font-bold text-slate-900">Multi-Model Ensemble Estimates</h3>
+        <p class="text-xs text-slate-500">Comparing quantile tree architectures for the active well</p>
+
+        <div class="space-y-3 font-mono text-xs">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-900">LightGBM (AMDFE Fusion)</span>
+              <p class="text-[10px] text-slate-500 font-sans">Fast histogram leaf-wise splitting</p>
+            </div>
+            <div class="text-right">
+              <span class="text-teal-700 font-bold">52.30 m</span>
+              <p class="text-[10px] text-slate-500">90% PI: 50.1 – 54.5 m</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-900">XGBoost Regressor</span>
+              <p class="text-[10px] text-slate-500 font-sans">Pinball quantile loss objective</p>
+            </div>
+            <div class="text-right">
+              <span class="text-sky-700 font-bold">52.45 m</span>
+              <p class="text-[10px] text-slate-500">90% PI: 49.8 – 54.8 m</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-900">Random Forest Baseline</span>
+              <p class="text-[10px] text-slate-500 font-sans">Quantile decision tree forest</p>
+            </div>
+            <div class="text-right">
+              <span class="text-indigo-700 font-bold">52.15 m</span>
+              <p class="text-[10px] text-slate-500">90% PI: 49.5 – 55.1 m</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Influence (SHAP) -->
+      <div class="aqua-card p-6 space-y-4">
+        <h3 class="text-sm font-bold text-slate-900">Feature Influence Decomposition</h3>
+        <p class="text-xs text-slate-500">Primary hydro-meteorological drivers for this prediction</p>
+
+        <div class="space-y-3 font-mono text-xs">
+          <div>
+            <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Antecedent Depth (Lag
+                t-1)</span><span class="text-rose-600 font-bold">+0.82 m</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-rose-500 h-2 rounded-full" style="width: 82%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">90-Day Cumulative
+                Precipitation</span><span class="text-emerald-700 font-bold">-0.41 m</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-emerald-500 h-2 rounded-full" style="width: 41%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Vadose Soil Moisture
+                Profile</span><span class="text-emerald-700 font-bold">-0.28 m</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-emerald-500 h-2 rounded-full" style="width: 28%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span class="text-slate-700 font-sans">Surface Topography
+                Elevation</span><span class="text-sky-700 font-bold">+0.19 m</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-sky-500 h-2 rounded-full" style="width: 19%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 5. RECHARGE ANALYSIS PAGE (PREMIUM LIGHT THEME)          -->
+  <!-- ======================================================== -->
+  <main id="page-recharge-analysis"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">HYDRO-CLIMATIC WORKSPACE</span>
+          <span class="text-xs text-teal-700 font-mono font-medium">Vadose Infiltration Dynamics</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Recharge Analysis</h1>
+        <p class="text-xs sm:text-sm text-slate-500">Assessment of groundwater recharge potential after rainfall events
+          across the vadose zone</p>
+      </div>
+      <span class="badge-demo">DEMO VISUAL VALUES</span>
+    </div>
+
+    <!-- Mandatory Labeling for RRPI Notice -->
+    <div
+      class="p-4 bg-teal-50 border border-teal-200 rounded-xl flex items-center justify-between text-xs text-teal-900">
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-teal-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span><strong>Scientific Clarification:</strong> RRPI is a <em>RELATIVE HYDRO-CLIMATIC INDICATOR</em>. It does
+          not measure physical volumetric recharge.</span>
+      </div>
+      <span class="badge-demo font-mono">RELATIVE INDEX</span>
+    </div>
+
+    <!-- 4 Factor Metric Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="aqua-card p-5 border-l-4 border-l-teal-600">
+        <span class="text-xs font-semibold text-slate-500">Relative Recharge Potential (RRPI)</span>
+        <p class="text-3xl font-bold text-teal-700 mt-2 font-mono">76 / 100</p>
+        <p class="text-xs text-teal-600 font-medium mt-1">Optimal Infiltration Corridor</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-sky-500">
+        <span class="text-xs font-semibold text-slate-500">Annual Rainfall</span>
+        <p class="text-3xl font-bold text-slate-900 mt-2 font-mono">540 <span
+            class="text-sm font-normal text-slate-500">mm</span></p>
+        <p class="text-xs text-slate-500 mt-1">GPM IMERG Radar Precipitation</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-amber-500">
+        <span class="text-xs font-semibold text-slate-500">Vadose Soil Moisture</span>
+        <p class="text-3xl font-bold text-slate-900 mt-2 font-mono">0.28 <span
+            class="text-sm font-normal text-slate-500">m³/m³</span></p>
+        <p class="text-xs text-slate-500 mt-1">SMAP L4 Radiometer Grid</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-emerald-500">
+        <span class="text-xs font-semibold text-slate-500">Conductivity Score</span>
+        <p class="text-3xl font-bold text-emerald-700 mt-2 font-mono">84%</p>
+        <p class="text-xs text-emerald-600 mt-1">Platte Canal Alluvial Margins</p>
+      </div>
+    </div>
+
+    <!-- Recharge Classification Breakdown & Environmental Factors -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <div class="aqua-card p-6 space-y-4">
+        <h2 class="text-base font-bold text-slate-900">Recharge Classification</h2>
+        <div class="space-y-3 text-xs">
+          <div class="p-3 bg-teal-50 rounded-xl border border-teal-200">
+            <div class="flex justify-between font-bold text-teal-900 font-mono"><span>High Recharge
+                Potential</span><span>34%</span></div>
+            <p class="text-[11px] text-teal-700 mt-1 font-sans">Platte River alluvial plain & sandy loam depressions.
+            </p>
+          </div>
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+            <div class="flex justify-between font-bold text-sky-900 font-mono"><span>Moderate
+                Recharge</span><span>46%</span></div>
+            <p class="text-[11px] text-sky-700 mt-1 font-sans">Central agricultural loess plain with seasonal
+              infiltration.</p>
+          </div>
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+            <div class="flex justify-between font-bold text-amber-900 font-mono"><span>Low Recharge
+                Potential</span><span>20%</span></div>
+            <p class="text-[11px] text-amber-700 mt-1 font-sans">Dense clay subsoils with low vadose conductivity.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 aqua-card p-6 space-y-4">
+        <h2 class="text-base font-bold text-slate-900">Environmental Factors Governing Recharge</h2>
+        <div class="space-y-4 text-xs font-mono">
+          <div>
+            <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Rainfall Surplus (NASA POWER
+                / GPM)</span><span class="text-sky-700 font-bold">78% Favorable</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-sky-600 h-2 rounded-full" style="width: 78%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Topographic Elevation
+                Gradient (SRTM DEM)</span><span class="text-teal-700 font-bold">84% Optimal</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-teal-600 h-2 rounded-full" style="width: 84%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Surface Land Cover
+                Permeability (Sentinel-2 NDVI)</span><span class="text-emerald-700 font-bold">80% Conductive</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-emerald-600 h-2 rounded-full" style="width: 80%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1.5"><span class="text-slate-700 font-sans">Vadose Moisture Retention
+                (SMAP Radiometer)</span><span class="text-amber-700 font-bold">72% Favorable</span></div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-amber-500 h-2 rounded-full" style="width: 72%"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 pt-2 italic">Recharge assessment module — relative hydro-climatic proxy
+          visualization.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 6. RISK ASSESSMENT PAGE (PREMIUM LIGHT THEME)            -->
+  <!-- ======================================================== -->
+  <main id="page-risk-assessment"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">DECISION SUPPORT</span>
+          <span class="text-xs text-rose-600 font-mono font-medium">Priority Monitoring Registry</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Risk Assessment</h1>
+        <p class="text-xs sm:text-sm text-slate-500">Identify groundwater depletion risk, over-extracted wells, and
+          monitoring priorities</p>
+      </div>
+      <span class="badge-demo">DEMO TIERS</span>
+    </div>
+
+    <!-- 4 Risk Category Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="aqua-card p-5 border-l-4 border-l-emerald-500">
+        <span class="text-xs font-semibold text-slate-500">Low Risk (Stable)</span>
+        <p class="text-3xl font-bold text-emerald-700 mt-2 font-mono">85 Wells</p>
+        <p class="text-xs text-slate-500 mt-1 font-mono">&lt;20m depth • 50.0% of network</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-amber-500">
+        <span class="text-xs font-semibold text-slate-500">Moderate Risk</span>
+        <p class="text-3xl font-bold text-amber-700 mt-2 font-mono">42 Wells</p>
+        <p class="text-xs text-slate-500 mt-1 font-mono">20–38m depth • 24.7% of network</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-orange-500">
+        <span class="text-xs font-semibold text-slate-500">High Risk</span>
+        <p class="text-3xl font-bold text-orange-700 mt-2 font-mono">19 Wells</p>
+        <p class="text-xs text-slate-500 mt-1 font-mono">38–55m depth • 11.2% of network</p>
+      </div>
+      <div class="aqua-card p-5 border-l-4 border-l-rose-500">
+        <span class="text-xs font-semibold text-slate-500">Critical Wells</span>
+        <p class="text-3xl font-bold text-rose-600 mt-2 font-mono">24 Wells</p>
+        <p class="text-xs text-rose-600 mt-1 font-mono">&gt;55m depth • 14.1% of network</p>
+      </div>
+    </div>
+
+    <!-- Priority Wells Table -->
+    <div class="aqua-card p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-slate-900">Priority Monitoring & Depletion Risk Registry</h2>
+        <span class="text-xs text-slate-500 font-mono">170 Total Wells Classified</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
+              <th class="py-2.5 px-3">Well ID</th>
+              <th class="py-2.5 px-3">Location</th>
+              <th class="py-2.5 px-3">Groundwater Level</th>
+              <th class="py-2.5 px-3">Depletion Rate (Δh)</th>
+              <th class="py-2.5 px-3">Risk Tier</th>
+              <th class="py-2.5 px-3">Monitoring Priority</th>
+              <th class="py-2.5 px-3 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100" id="risk-table-body">
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">NE-PH-001</td>
+              <td class="px-3 text-slate-600 font-sans">Holdrege Core</td>
+              <td class="px-3 font-bold text-rose-600">66.8 m</td>
+              <td class="px-3 text-rose-600 font-semibold">+0.48 m/yr</td>
+              <td class="px-3"><span class="px-2 py-0.5 rounded badge-critical font-bold">Critical</span></td>
+              <td class="px-3"><span class="text-rose-600 font-bold">Priority 1 (Urgent Inspection)</span></td>
+              <td class="px-3 text-right"><button onclick="navigate('/prediction-analysis')"
+                  class="text-sky-600 hover:text-sky-700 font-bold">Analyze →</button></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">NE-PH-004</td>
+              <td class="px-3 text-slate-600 font-sans">Holdrege East</td>
+              <td class="px-3 font-bold text-rose-600">69.1 m</td>
+              <td class="px-3 text-rose-600 font-semibold">+0.52 m/yr</td>
+              <td class="px-3"><span class="px-2 py-0.5 rounded badge-critical font-bold">Critical</span></td>
+              <td class="px-3"><span class="text-rose-600 font-bold">Priority 1 (Curtailment Review)</span></td>
+              <td class="px-3 text-right"><button onclick="navigate('/prediction-analysis')"
+                  class="text-sky-600 hover:text-sky-700 font-bold">Analyze →</button></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">NE-PH-018</td>
+              <td class="px-3 text-slate-600 font-sans">Funk District</td>
+              <td class="px-3 font-bold text-orange-600">43.8 m</td>
+              <td class="px-3 text-orange-600 font-semibold">+0.32 m/yr</td>
+              <td class="px-3"><span class="px-2 py-0.5 rounded badge-high font-bold">High Risk</span></td>
+              <td class="px-3"><span class="text-orange-600 font-semibold">Priority 2 (Seasonal Watch)</span></td>
+              <td class="px-3 text-right"><button onclick="navigate('/prediction-analysis')"
+                  class="text-sky-600 hover:text-sky-700 font-bold">Analyze →</button></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">NE-PH-042</td>
+              <td class="px-3 text-slate-600 font-sans">Bertrand West</td>
+              <td class="px-3 font-bold text-amber-700">26.4 m</td>
+              <td class="px-3 text-amber-600 font-semibold">+0.18 m/yr</td>
+              <td class="px-3"><span class="px-2 py-0.5 rounded badge-moderate font-bold">Moderate</span></td>
+              <td class="px-3"><span class="text-amber-700">Priority 3 (Periodic Sounding)</span></td>
+              <td class="px-3 text-right"><button onclick="navigate('/prediction-analysis')"
+                  class="text-sky-600 hover:text-sky-700 font-bold">Analyze →</button></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">NE-PH-062</td>
+              <td class="px-3 text-slate-600 font-sans">Platte Margin</td>
+              <td class="px-3 font-bold text-emerald-700">16.2 m</td>
+              <td class="px-3 text-emerald-600 font-semibold">-0.05 m/yr</td>
+              <td class="px-3"><span class="px-2 py-0.5 rounded badge-stable font-bold">Stable</span></td>
+              <td class="px-3"><span class="text-emerald-700">Priority 4 (Routine Baseline)</span></td>
+              <td class="px-3 text-right"><button onclick="navigate('/prediction-analysis')"
+                  class="text-sky-600 hover:text-sky-700 font-bold">Analyze →</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 7. DATA EXPLORER PAGE (PREMIUM LIGHT THEME)              -->
+  <!-- ======================================================== -->
+  <main id="page-data-explorer"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">CURATED DATASET</span>
+          <span class="text-xs text-slate-500 font-mono">Phelps County 2000–2024</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Data Explorer</h1>
+        <p class="text-xs sm:text-sm text-slate-500">Search, filter and inspect 3,844 curated groundwater and
+          hydro-meteorological observations</p>
+      </div>
+      <button onclick="handleExplorerExport()"
+        class="px-4 py-2 glow-primary-btn font-bold text-xs rounded-xl transition-colors self-start sm:self-auto font-mono">
+        Export Filtered Records (CSV)
+      </button>
+    </div>
+
+    <!-- Filters Row -->
+    <div class="aqua-card p-4 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
+      <div>
+        <label class="block text-slate-500 font-medium mb-1">Search Station ID</label>
+        <input id="explorer-search" oninput="filterExplorerTable()" type="text" placeholder="e.g. NE-PH-004"
+          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
+      </div>
+      <div>
+        <label class="block text-slate-500 font-medium mb-1">Township Sector</label>
+        <select id="explorer-township" onchange="filterExplorerTable()"
+          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
+          <option value="all">All Townships</option>
+          <option value="Holdrege">Holdrege</option>
+          <option value="Funk">Funk</option>
+          <option value="Bertrand">Bertrand</option>
+          <option value="Platte">Platte Margin</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-slate-500 font-medium mb-1">Telemetry Source</label>
+        <select id="explorer-source" onchange="filterExplorerTable()"
+          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
+          <option value="all">All Telemetry Sources</option>
+          <option value="Continuous">Continuous Telemetry</option>
+          <option value="Manual">Manual Sounding</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-slate-500 font-medium mb-1">Dataset Horizon</label>
+        <input type="text" value="2000–2024 (Verified QA)" disabled
+          class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 font-medium">
+      </div>
+    </div>
+
+    <!-- Observations Table -->
+    <div class="aqua-card p-6 space-y-4">
+      <div class="flex items-center justify-between text-xs font-mono">
+        <span class="text-slate-500" id="explorer-row-count">Showing 20 of 3,844 Records (Page 1)</span>
+        <span class="badge-demo">DEMO RECORDS</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
+              <th class="py-2.5 px-3">Observation ID</th>
+              <th class="py-2.5 px-3">Well ID</th>
+              <th class="py-2.5 px-3">Date</th>
+              <th class="py-2.5 px-3">Coordinates</th>
+              <th class="py-2.5 px-3">Water Depth</th>
+              <th class="py-2.5 px-3">Temperature</th>
+              <th class="py-2.5 px-3">Rainfall</th>
+              <th class="py-2.5 px-3">Soil Moisture</th>
+              <th class="py-2.5 px-3">Data Quality</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100" id="explorer-table-body">
+            <!-- Populated via Javascript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+        <span>Page 1 of 192</span>
+        <div class="flex space-x-2">
+          <button class="px-3 py-1 bg-slate-100 rounded-lg text-slate-400 cursor-not-allowed" disabled>Previous</button>
+          <button class="px-3 py-1 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-500 shadow-2xs">Next
+            →</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 8. MODEL PERFORMANCE PAGE (PREMIUM LIGHT THEME)          -->
+  <!-- ======================================================== -->
+  <main id="page-model-performance"
+    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="badge-demo">RESEARCH BENCHMARK</span>
+          <span class="text-xs text-slate-500 font-mono">Unseen-Well Evaluation Protocol</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Model Performance</h1>
+        <p class="text-xs sm:text-sm text-slate-500">Evaluation of machine learning groundwater level prediction models
+          against held-out benchmark splits</p>
+      </div>
+      <span class="badge-demo">DEMO METRICS</span>
+    </div>
+
+    <!-- Validation Protocol Explanation Banner -->
+    <div class="p-4 bg-sky-50 border border-sky-200 rounded-xl space-y-2 text-xs text-slate-700">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+        <span class="font-bold text-slate-900 font-mono">Strict Cross-Validation Protocol:</span>
+      </div>
+      <p class="text-slate-600 leading-relaxed">
+        Cross-validation is partitioned strictly by <code
+          class="text-sky-800 bg-sky-100 px-1 py-0.5 rounded font-mono">well_id</code> (GroupKFold) so test wells have
+        0% exposure during training. Causal temporal lags strictly enforce <span
+          class="font-mono text-sky-800 font-bold">t_prev &lt; t_target</span> to eliminate data leakage. No model is
+        declared universally superior.
+      </p>
+    </div>
+
+    <!-- 3 Benchmark Model Metric Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="aqua-card p-6 space-y-3">
+        <div class="flex justify-between items-center">
+          <span
+            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">Random
+            Forest</span>
+          <span class="badge-demo">DEMO</span>
+        </div>
+        <h2 class="text-lg font-bold text-slate-900">RF Quantile Regressor</h2>
+        <p class="text-xs text-slate-500">Bagging ensemble with quantile leaf trees</p>
+        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
+          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
+              class="text-slate-900 font-mono">0.7848</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
+              class="text-slate-900 font-mono">22.97 ft (7.00 m)</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
+              class="text-slate-900 font-mono">14.53 ft (4.43 m)</strong></div>
+        </div>
+      </div>
+
+      <div class="aqua-card p-6 space-y-3">
+        <div class="flex justify-between items-center">
+          <span
+            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-50 text-cyan-700 border border-cyan-200">XGBoost</span>
+          <span class="badge-demo">DEMO</span>
+        </div>
+        <h2 class="text-lg font-bold text-slate-900">Gradient Boosted Trees</h2>
+        <p class="text-xs text-slate-500">Second-order gradient optimization</p>
+        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
+          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
+              class="text-slate-900 font-mono">0.8046</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
+              class="text-slate-900 font-mono">21.89 ft (6.67 m)</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
+              class="text-slate-900 font-mono">12.75 ft (3.89 m)</strong></div>
+        </div>
+      </div>
+
+      <div class="aqua-card p-6 space-y-3 border-teal-300">
+        <div class="flex justify-between items-center">
+          <span
+            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-50 text-teal-700 border border-teal-200">LightGBM</span>
+          <span class="badge-demo">DEMO</span>
+        </div>
+        <h2 class="text-lg font-bold text-teal-900">Fast Histogram GOSS</h2>
+        <p class="text-xs text-slate-500">Leaf-wise gradient-based sampling</p>
+        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
+          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
+              class="text-teal-700 font-mono font-bold">0.8107</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
+              class="text-slate-900 font-mono">21.55 ft (6.57 m)</strong></div>
+          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
+              class="text-slate-900 font-mono">12.75 ft (3.89 m)</strong></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Comparative Table -->
+    <div class="aqua-card p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-slate-900">Benchmark Model Comparison Matrix</h2>
+        <span class="badge-demo font-mono">ILLUSTRATIVE</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
+              <th class="py-2.5 px-3">Model Architecture</th>
+              <th class="py-2.5 px-3">Features</th>
+              <th class="py-2.5 px-3">R²</th>
+              <th class="py-2.5 px-3">RMSE (ft)</th>
+              <th class="py-2.5 px-3">MAE (ft)</th>
+              <th class="py-2.5 px-3">Uncertainty Bounds</th>
+              <th class="py-2.5 px-3">Validation Protocol</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">Random Forest Regressor</td>
+              <td class="px-3 text-slate-600 font-sans">Lagged GW + NASA Precipitation</td>
+              <td class="px-3 font-semibold text-slate-900">0.7848</td>
+              <td class="px-3">22.97</td>
+              <td class="px-3">14.53</td>
+              <td class="px-3">Quantile Trees (90% PI)</td>
+              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">XGBoost Gradient Boosting</td>
+              <td class="px-3 text-slate-600 font-sans">Lags + Soil Moisture + Radar + DEM</td>
+              <td class="px-3 font-semibold text-slate-900">0.8046</td>
+              <td class="px-3">21.89</td>
+              <td class="px-3">12.75</td>
+              <td class="px-3">Pinball Loss (90% PI)</td>
+              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-3 font-bold text-slate-900">LightGBM (AMDFE Fusion)</td>
+              <td class="px-3 text-slate-600 font-sans">AMDFE Weighted Latents + Lags + Topo</td>
+              <td class="px-3 font-semibold text-teal-700">0.8107</td>
+              <td class="px-3">21.55</td>
+              <td class="px-3">12.75</td>
+              <td class="px-3">Conformal Quantiles (90% PI)</td>
+              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 9. ABOUT PAGE (PREMIUM LIGHT THEME)                      -->
+  <!-- ======================================================== -->
+  <main id="page-about" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
+
+    <div class="border-b border-slate-200 pb-6">
+      <div class="flex items-center space-x-2">
+        <span class="badge-demo">RESEARCH PLATFORM</span>
+        <span class="text-xs text-slate-500 font-mono">Academic Documentation</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">About AquaSense AI</h1>
+      <p class="text-sm sm:text-base text-slate-600 max-w-3xl mt-1">Adaptive Multimodal AI for Hyperlocal Groundwater
+        Prediction, Recharge Assessment & Decision Support</p>
+    </div>
+
+    <!-- Vision & Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="aqua-card p-6 space-y-4">
+        <h2 class="text-lg font-bold text-slate-900">Project Vision & Context</h2>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          The High Plains (Ogallala) Aquifer in South-Central Nebraska underpins vital agricultural economies but faces
+          decadal drawdown pressure from intensive irrigation and fluctuating climate patterns. AquaSense AI was created
+          to provide hyperlocal, well-level predictive intelligence that water managers can trust.
+        </p>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          By combining in-situ telemetry with satellite earth observations through an Adaptive Multimodal Data Fusion
+          Engine (AMDFE), the platform bridges the gap between raw data collection and actionable decision support.
+        </p>
+      </div>
+
+      <div class="aqua-card p-6 space-y-4">
+        <h2 class="text-lg font-bold text-slate-900">Study Area: Phelps County, Nebraska</h2>
+        <div class="space-y-2 text-xs font-mono text-slate-700">
+          <div class="flex justify-between"><span class="text-slate-500">Geographic Extent:</span><span>40.3508°N –
+              40.6841°N, 99.6432°W – 99.1795°W</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Total Monitored Wells:</span><span>170
+              Stations</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Verified Observations:</span><span>3,844
+              Measurements</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Temporal Coverage:</span><span>2000–2024
+              (25-Year Decadal Alignment)</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Aquifer System:</span><span>High Plains
+              (Ogallala) Aquifer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scientific Approach & Pillars -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-900">Core Architectural Pillars</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-sky-700 font-mono text-xs font-bold">PILLAR 01</div>
+          <h3 class="font-bold text-slate-900 text-base">Adaptive Fusion (AMDFE)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Dynamic reliability and quality weighting per observation timestep, minimizing errors caused by sensor noise
+            and temporal gaps.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-teal-700 font-mono text-xs font-bold">PILLAR 02</div>
+          <h3 class="font-bold text-slate-900 text-base">Unseen-Well Validation</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Strict GroupKFold partitioning ensuring zero target spatial leakage and genuine generalization to
+            unmonitored geographic coordinates.
+          </p>
+        </div>
+
+        <div class="aqua-card p-6 space-y-3">
+          <div class="text-purple-700 font-mono text-xs font-bold">PILLAR 03</div>
+          <h3 class="font-bold text-slate-900 text-base">Explainable AI (XAI)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            TreeSHAP feature attributions that explain the exact physical hydro-climatic mechanisms behind every
+            hyperlocal prediction.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Technology Stack & Disclaimer -->
+    <div class="aqua-card p-6 space-y-4 bg-sky-50/50 border-sky-200">
+      <h3 class="text-sm font-bold text-slate-900">UI Prototype Disclaimer</h3>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        This platform interface is a high-fidelity frontend prototype designed for demonstration, stakeholder review,
+        and academic presentation. Real model APIs and scientific inference backends will be connected in a later
+        deployment phase. All metrics and numerical predictions displayed are illustrative demonstration values.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- NOTIFICATIONS / ALERTS MODAL                             -->
+  <!-- ======================================================== -->
+  <div id="notif-modal"
+    class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="aqua-card max-w-lg w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
+          <h3 class="font-bold text-slate-900 text-sm">System Telemetry & Alerts</h3>
+        </div>
+        <button onclick="toggleNotifModal()" class="text-slate-400 hover:text-slate-600 text-xs font-mono">✕
+          Close</button>
+      </div>
+
+      <div class="space-y-3 text-xs font-mono max-h-80 overflow-y-auto pr-1">
+        <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
+          <div class="flex justify-between text-rose-700 font-bold"><span>CRITICAL DRAWDOWN ALERT</span><span>10m
+              ago</span></div>
+          <p class="text-[11px] text-slate-700 font-sans">Well NE-PH-004 in Holdrege East reached 69.1m depth. Depletion
+            velocity: +0.52 m/yr.</p>
+        </div>
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+          <div class="flex justify-between text-amber-700 font-bold"><span>AMDFE QUALITY WARNING</span><span>2h
+              ago</span></div>
+          <p class="text-[11px] text-slate-700 font-sans">Cloud cover obscuring Sentinel-2 NDVI pass over Bertrand
+            Township; dynamic weighting adjusted to w = 0.62.</p>
+        </div>
+        <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl space-y-1">
+          <div class="flex justify-between text-teal-700 font-bold"><span>INFILTRATION EVENT
+              DETECTED</span><span>Yesterday</span></div>
+          <p class="text-[11px] text-slate-700 font-sans">Platte River alluvial margin recorded +18mm GPM precipitation
+            with positive vadose moisture response.</p>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button onclick="toggleNotifModal()"
+          class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-mono font-medium">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SETTINGS / DOCUMENTATION MODAL                           -->
+  <!-- ======================================================== -->
+  <div id="settings-modal"
+    class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="aqua-card max-w-lg w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-bold text-slate-900 text-sm">System Documentation & Settings</h3>
+        <button onclick="toggleSettingsModal()" class="text-slate-400 hover:text-slate-600 text-xs font-mono">✕
+          Close</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+        <p><strong>Platform:</strong> AquaSense AI v1.0.0 (Environmental AI & GIS)</p>
+        <p><strong>Primary Model Candidate:</strong> LightGBM with AMDFE Fusion (R² = 0.8107 Unseen Wells)</p>
+        <p><strong>Validation Standard:</strong> GroupKFold unseen-well spatial partition with causal lags.</p>
+        <p><strong>Theme Configuration:</strong> Unified Premium Environmental Light Mode.</p>
+        <p><strong>Data Contract:</strong> Section 13 REST API compliant (Ready for backend connection).</p>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex justify-end">
+        <button onclick="toggleSettingsModal()"
+          class="px-4 py-1.5 glow-primary-btn text-xs font-bold rounded-lg">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- HERO OVERVIEW WALKTHROUGH MODAL                          -->
+  <!-- ======================================================== -->
+  <div id="overview-modal"
+    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div
+      class="relative bg-slate-900 border border-slate-700/80 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl text-white">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-[#00e5ff] text-sm">
+            ▷
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-base">AquaSense AI Platform Overview</h3>
+            <p class="text-xs text-slate-400">Groundwater Intelligence & Orbital Earth Observation</p>
+          </div>
+        </div>
+        <button onclick="closeOverviewModal()" class="text-slate-400 hover:text-white text-sm font-mono p-1">✕</button>
+      </div>
+
+      <!-- Architecture Highlights -->
+      <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+        <p class="leading-relaxed">
+          AquaSense AI harmonizes satellite observations, environmental variables, and 24 years of piezometric soundings
+          to forecast groundwater depletion and recharge dynamics with rigorous scientific certainty.
+        </p>
+
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+            <span class="text-[10px] font-mono text-cyan-400 font-bold block mb-1">01 / SENSING INGESTION</span>
+            <p class="text-xs text-white font-medium">NASA POWER, Sentinel-2 Multispectral & SRTM 30m DEM</p>
+          </div>
+          <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+            <span class="text-[10px] font-mono text-cyan-400 font-bold block mb-1">02 / AMDFE FUSION</span>
+            <p class="text-xs text-white font-medium">Dynamic Signal-to-Noise Ratio (SNR) Reliability Weighting</p>
+          </div>
+          <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+            <span class="text-[10px] font-mono text-cyan-400 font-bold block mb-1">03 / QUANTILE ENSEMBLE</span>
+            <p class="text-xs text-white font-medium">LightGBM & XGBoost with 90% Prediction Uncertainty Bands</p>
+          </div>
+          <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+            <span class="text-[10px] font-mono text-cyan-400 font-bold block mb-1">04 / DECISION SUPPORT</span>
+            <p class="text-xs text-white font-medium">TreeSHAP Game-Theoretic Feature Attributions & GIS Maps</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+        <span class="text-xs font-mono text-slate-400">Phelps County, Nebraska Study Area</span>
+        <div class="flex items-center space-x-3">
+          <button onclick="closeOverviewModal()"
+            class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors">Close</button>
+          <button onclick="closeOverviewModal(); navigate('/dashboard');"
+            class="hero-btn-primary px-5 py-2 rounded-xl text-white text-xs font-bold transition-all shadow-md">Explore
+            Dashboard →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- GLOBAL FOOTER (CONSISTENT ON EVERY PAGE)                 -->
+  <!-- ======================================================== -->
+  <footer class="border-t border-slate-200 bg-white text-xs text-slate-500 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+        <div class="space-y-3 md:col-span-2">
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-6 h-6 rounded-lg bg-gradient-to-tr from-sky-600 to-teal-500 flex items-center justify-center text-white font-bold text-xs">
+              A
+            </div>
+            <span class="text-sm font-bold text-slate-900">AquaSense<span class="text-sky-600"> AI</span></span>
+            <span class="text-[10px] text-slate-400 font-mono">Groundwater Intelligence</span>
+          </div>
+          <p class="text-slate-500 text-xs max-w-md leading-relaxed">
+            Adaptive Multimodal AI for Hyperlocal Groundwater Prediction, Recharge Assessment & Decision Support in
+            Phelps County, Nebraska.
+          </p>
+          <p class="text-[11px] text-sky-700 font-mono font-medium">
+            UI Prototype — Model and data integration will be connected in a later phase.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-3">Navigation</h4>
+          <ul class="space-y-2 text-xs">
+            <li><button onclick="navigate('/')" class="hover:text-sky-600 transition-colors">Home</button></li>
+            <li><button onclick="navigate('/dashboard')" class="hover:text-sky-600 transition-colors">Dashboard</button>
+            </li>
+            <li><button onclick="navigate('/groundwater-map')" class="hover:text-sky-600 transition-colors">Groundwater
+                Map</button></li>
+            <li><button onclick="navigate('/prediction-analysis')"
+                class="hover:text-sky-600 transition-colors">Prediction Analysis</button></li>
+            <li><button onclick="navigate('/recharge-analysis')" class="hover:text-sky-600 transition-colors">Recharge
+                Analysis</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-3">Intelligence</h4>
+          <ul class="space-y-2 text-xs">
+            <li><button onclick="navigate('/risk-assessment')" class="hover:text-sky-600 transition-colors">Risk
+                Assessment</button></li>
+            <li><button onclick="navigate('/data-explorer')" class="hover:text-sky-600 transition-colors">Data
+                Explorer</button></li>
+            <li><button onclick="navigate('/model-performance')" class="hover:text-sky-600 transition-colors">Model
+                Performance</button></li>
+            <li><button onclick="navigate('/about')" class="hover:text-sky-600 transition-colors">About AquaSense
+                AI</button></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div
+        class="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-slate-400">
+        <span>Phelps County, Nebraska • 170 Monitored Stations • 2000–2024 Dataset</span>
+        <span class="italic font-serif">"Data from Earth. Insights for a Sustainable Tomorrow."</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- FRONTEND LOGIC & DATA GENERATOR                          -->
+  <!-- ======================================================== -->
+  <script>
+    // Global State
+    let currentPage = '/';
+    let allWells = [];
+    let explorerObservations = [];
+    let fullMap = null;
+    let markersLayer = null;
+    let dashChart = null;
+    let predChart = null;
+    let currentMapFilter = 'all';
+
+    // Generate 170 Realistic Demonstration Wells in Phelps County, NE
+    function generateWells() {
+      const wells = [];
+      const minLat = 40.3508, maxLat = 40.6841;
+      const minLon = -99.6432, maxLon = -99.1795;
+      const townships = ['Holdrege', 'Funk', 'Bertrand', 'Atlanta', 'Loomis', 'Westmark', 'Prairie'];
+
+      for (let i = 1; i <= 170; i++) {
+        const id = `NE-PH-${String(i).padStart(3, '0')}`;
+        const lat = minLat + (Math.sin(i * 1.618) * 0.5 + 0.5) * (maxLat - minLat);
+        const lon = minLon + (Math.cos(i * 2.718) * 0.5 + 0.5) * (maxLon - minLon);
+        const township = townships[i % townships.length];
+
+        let riskCategory = 'Stable';
+        let depth = 16.4 + (i % 12) * 0.8;
+        let predDepth = depth + 0.35;
+        let color = '#10B981'; // Green
+        let trend = '+0.05 m/yr';
+
+        if (i <= 24) {
+          riskCategory = 'Critical';
+          depth = 66.8 + (i % 14) * 1.1;
+          predDepth = depth + 0.85;
+          color = '#EF4444'; // Red
+          trend = '+0.52 m/yr';
+        } else if (i <= 43) {
+          riskCategory = 'High';
+          depth = 42.5 + (i % 15) * 1.2;
+          predDepth = depth + 0.65;
+          color = '#F97316'; // Orange
+          trend = '+0.32 m/yr';
+        } else if (i <= 85) {
+          riskCategory = 'Moderate';
+          depth = 26.2 + (i % 12) * 0.9;
+          predDepth = depth + 0.45;
+          color = '#F59E0B'; // Amber
+          trend = '+0.18 m/yr';
+        }
+
+        wells.push({
+          id,
+          lat: parseFloat(lat.toFixed(4)),
+          lon: parseFloat(lon.toFixed(4)),
+          township: `${township} Township`,
+          waterDepthM: parseFloat(depth.toFixed(1)),
+          predDepthM: parseFloat(predDepth.toFixed(1)),
+          trend,
+          riskCategory,
+          color,
+          date: '2024-11-28',
+          recharge: i % 3 === 0 ? 'High Infiltration (RRPI: 82)' : (i % 2 === 0 ? 'Moderate (RRPI: 64)' : 'Low (RRPI: 38)')
+        });
+      }
+      return wells;
+    }
+
+    // Sample Observations for Data Explorer
+    function generateObservations() {
+      const obs = [];
+      const sources = ['Continuous Telemetry', 'Manual Sounding', 'Alluvial Gauge', 'Piezometer QA'];
+      for (let i = 1; i <= 20; i++) {
+        const well = allWells[i - 1];
+        obs.push({
+          obsId: `OBS-${String(i).padStart(3, '0')}`,
+          wellId: well.id,
+          date: `2024-11-${String(29 - (i % 8)).padStart(2, '0')}`,
+          lat: well.lat,
+          lon: well.lon,
+          level: well.waterDepthM,
+          temp: `${(10.5 + (i % 5) * 0.2).toFixed(1)} °C`,
+          rain: `${510 + (i % 12) * 5} mm`,
+          soil: `${(0.24 + (i % 8) * 0.015).toFixed(3)} m³/m³`,
+          quality: sources[i % sources.length]
+        });
+      }
+      return obs;
+    }
+
+    // Navigation Router
+    function navigate(route) {
+      currentPage = route;
+      window.location.hash = route === '/' ? '#/' : `#${route}`;
+
+      // Hide all page views
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+
+      // Reset all nav button classes to default inactive light style
+      const routeMap = {
+        '/': 'home',
+        '/dashboard': 'dashboard',
+        '/groundwater-map': 'map',
+        '/prediction-analysis': 'prediction',
+        '/recharge-analysis': 'recharge',
+        '/risk-assessment': 'risk',
+        '/data-explorer': 'explorer',
+        '/model-performance': 'models',
+        '/about': 'about'
+      };
+
+      Object.values(routeMap).forEach(key => {
+        const btn = document.getElementById(`nav-item-${key}`);
+        if (btn) {
+          btn.className = 'px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all';
+        }
+      });
+
+      // Highlight active nav item with clean sky blue active pill
+      const activeKey = routeMap[route] || 'home';
+      const activeBtn = document.getElementById(`nav-item-${activeKey}`);
+      if (activeBtn) {
+        activeBtn.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-50 text-sky-700 border border-sky-200 transition-all shadow-xs';
+      }
+
+      // Toggle global header visibility based on route
+      const globalHeader = document.getElementById('global-header');
+      if (globalHeader) {
+        if (route === '/') {
+          globalHeader.classList.add('hidden');
+        } else {
+          globalHeader.classList.remove('hidden');
+        }
+      }
+
+      // Show the requested page view
+      const pageId = route === '/' ? 'page-home' : `page-${route.replace('/', '')}`;
+      const pageEl = document.getElementById(pageId);
+      if (pageEl) {
+        pageEl.classList.remove('hidden');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Trigger page-specific initializations
+      if (route === '/') {
+        if (window._satelliteResize) setTimeout(window._satelliteResize, 50);
+      } else if (route === '/dashboard') {
+        setTimeout(initDashboardChart, 50);
+      } else if (route === '/groundwater-map') {
+        setTimeout(initFullMap, 50);
+      } else if (route === '/prediction-analysis') {
+        setTimeout(initPredictionChart, 50);
+      } else if (route === '/data-explorer') {
+        renderExplorerTable(explorerObservations);
+      }
+    }
+
+    // Initialize Dashboard Chart (Light Theme)
+    function initDashboardChart() {
+      const ctx = document.getElementById('dashTrendChart');
+      if (!ctx) return;
+
+      if (dashChart) {
+        dashChart.destroy();
+      }
+
+      Chart.defaults.color = '#64748b';
+      Chart.defaults.borderColor = 'rgba(226, 232, 240, 0.8)';
+
+      dashChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2000', '2004', '2008', '2012', '2016', '2020', '2024', '2026 (ML)'],
+          datasets: [
+            {
+              label: 'Observed Depth (m)',
+              data: [42.1, 43.5, 45.2, 47.0, 48.8, 49.6, 50.7, null],
+              borderColor: '#0284c7',
+              backgroundColor: 'rgba(2, 132, 199, 0.08)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 2.5,
+              pointBackgroundColor: '#0284c7',
+              pointRadius: 4
+            },
+            {
+              label: 'ML Forecast Horizon (m)',
+              data: [null, null, null, null, null, null, 50.7, 52.3],
+              borderColor: '#7c3aed',
+              borderDash: [5, 5],
+              borderWidth: 2.5,
+              tension: 0.35,
+              pointBackgroundColor: '#7c3aed',
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                boxWidth: 12,
+                color: '#334155',
+                font: { family: 'Inter', size: 11, weight: '500' }
+              }
+            }
+          },
+          scales: {
+            y: {
+              title: { display: true, text: 'Depth to Groundwater (m)', color: '#64748b' },
+              grid: { color: 'rgba(226, 232, 240, 0.7)' }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize Prediction Chart (Light Theme)
+    function initPredictionChart() {
+      const ctx = document.getElementById('predictionChartCanvas');
+      if (!ctx) return;
+
+      if (predChart) {
+        predChart.destroy();
+      }
+
+      predChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2015', '2017', '2019', '2021', '2023', '2024', '2025 (Forecast)', '2026 (Forecast)'],
+          datasets: [
+            {
+              label: 'Upper 90% Bound (m)',
+              data: [null, null, null, null, null, 50.7, 53.6, 55.4],
+              borderColor: 'transparent',
+              backgroundColor: 'rgba(124, 58, 237, 0.1)',
+              fill: '+1',
+              pointRadius: 0
+            },
+            {
+              label: 'Lower 90% Bound (m)',
+              data: [null, null, null, null, null, 50.7, 50.8, 51.2],
+              borderColor: 'transparent',
+              fill: false,
+              pointRadius: 0
+            },
+            {
+              label: 'Historical Observed (m)',
+              data: [47.5, 48.2, 49.1, 49.8, 50.3, 50.7, null, null],
+              borderColor: '#0284c7',
+              backgroundColor: 'rgba(2, 132, 199, 0.05)',
+              borderWidth: 3,
+              pointRadius: 4,
+              pointBackgroundColor: '#0284c7'
+            },
+            {
+              label: 'ML Expected Trajectory (m)',
+              data: [null, null, null, null, null, 50.7, 52.2, 53.3],
+              borderColor: '#7c3aed',
+              borderDash: [6, 4],
+              borderWidth: 2.5,
+              pointRadius: 4,
+              pointBackgroundColor: '#7c3aed'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                boxWidth: 12,
+                color: '#334155',
+                filter: function (item) {
+                  return !item.text.includes('Bound');
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              title: { display: true, text: 'Depth to Groundwater (m)', color: '#64748b' },
+              grid: { color: 'rgba(226, 232, 240, 0.7)' }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function setPredTimeframe(tf) {
+      document.querySelectorAll('#page-prediction-analysis button[id^="pred-tf-"]').forEach(btn => {
+        btn.className = 'px-3 py-1 text-slate-600 hover:text-slate-900 rounded-lg';
+      });
+      const active = document.getElementById(tf === 'all' ? 'pred-tf-all' : (tf === 'fiveYears' ? 'pred-tf-5y' : 'pred-tf-1y'));
+      if (active) {
+        active.className = 'px-3 py-1 bg-white text-sky-700 font-bold rounded-lg shadow-xs';
+      }
+    }
+
+    function handlePredWellChange() {
+      const select = document.getElementById('pred-well-select');
+      const wellId = select.value;
+      const well = allWells.find(w => w.id === wellId);
+      if (well) {
+        updateWellPanel(well);
+      }
+    }
+
+    // Initialize Full GIS Map (Leaflet with CartoDB Voyager Light Tiles)
+    function initFullMap() {
+      if (fullMap) {
+        fullMap.invalidateSize();
+        return;
+      }
+
+      fullMap = L.map('full-leaflet-gis-map', {
+        zoomControl: true,
+        attributionControl: false
+      }).setView([40.5175, -99.4114], 11);
+
+      // CartoDB Voyager Tiles for beautiful scientific light map cartography
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 18,
+        subdomains: 'abcd',
+      }).addTo(fullMap);
+
+      // Phelps County Study Area Perimeter Boundary Polygon
+      L.rectangle([[40.3508, -99.6432], [40.6841, -99.1795]], {
+        color: '#0284c7',
+        weight: 1.5,
+        dashArray: '5, 5',
+        fillColor: '#0284c7',
+        fillOpacity: 0.04
+      }).addTo(fullMap);
+
+      markersLayer = L.layerGroup().addTo(fullMap);
+      renderMapMarkers(allWells);
+    }
+
+    function renderMapMarkers(wells) {
+      if (!markersLayer) return;
+      markersLayer.clearLayers();
+
+      wells.forEach(well => {
+        const isCritical = well.riskCategory === 'Critical';
+        const marker = L.circleMarker([well.lat, well.lon], {
+          radius: isCritical ? 7 : 5,
+          fillColor: well.color,
+          color: '#ffffff',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.95,
+          className: isCritical ? 'well-pulse' : ''
+        });
+
+        marker.bindPopup(`
+          <div style="font-family: 'Inter', sans-serif; font-size: 11px; padding: 4px; min-width: 140px;">
+            <div style="font-weight: 700; color: #0f172a; font-family: 'JetBrains Mono', monospace; font-size: 12px;">${well.id}</div>
+            <div style="color: #64748b; margin-top: 2px;">${well.township}</div>
+            <div style="margin-top: 6px; font-weight: 600; color: #0284c7;">Depth: ${well.waterDepthM} m</div>
+            <div style="margin-top: 2px; color: ${well.color}; font-weight: 600;">Status: ${well.riskCategory}</div>
+          </div>
+        `);
+
+        marker.on('click', () => {
+          updateWellPanel(well);
+        });
+
+        markersLayer.addLayer(marker);
+      });
+    }
+
+    function filterMapMarkers(category) {
+      currentMapFilter = category;
+
+      // Update button styling
+      const buttons = ['all', 'critical', 'high', 'moderate', 'stable'];
+      buttons.forEach(b => {
+        const btn = document.getElementById(`map-btn-${b}`);
+        if (btn) {
+          if (b === category) {
+            btn.className = 'px-3 py-1 bg-sky-600 text-white rounded-lg text-xs font-bold shadow-xs';
+          } else {
+            btn.className = 'px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium';
+          }
+        }
+      });
+
+      if (category === 'all') {
+        renderMapMarkers(allWells);
+      } else {
+        const filtered = allWells.filter(w => w.riskCategory.toLowerCase() === category.toLowerCase());
+        renderMapMarkers(filtered);
+      }
+    }
+
+    function updateWellPanel(well) {
+      document.getElementById('panel-well-id').innerText = well.id;
+      document.getElementById('panel-location').innerText = `${well.township}, Phelps Co., NE`;
+      document.getElementById('panel-coords').innerText = `${well.lat}° N, ${Math.abs(well.lon)}° W`;
+      document.getElementById('panel-depth').innerHTML = `${well.waterDepthM} <span class="text-xs font-normal text-slate-500">m depth</span>`;
+      document.getElementById('panel-pred').innerHTML = `${well.predDepthM} m <span class="text-[10px] font-normal text-purple-600">(90% PI)</span>`;
+      document.getElementById('panel-recharge').innerText = well.recharge;
+      document.getElementById('panel-date').innerText = well.date;
+      document.getElementById('panel-trend').innerText = `${well.trend} Drawdown Rate`;
+
+      const badge = document.getElementById('panel-risk-badge');
+      badge.innerText = well.riskCategory;
+      badge.className = `px-2.5 py-0.5 text-xs font-bold rounded-md badge-${well.riskCategory.toLowerCase()}`;
+    }
+
+    // Data Explorer Rendering & CSV Export
+    function renderExplorerTable(records) {
+      const tbody = document.getElementById('explorer-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = records.map(r => `
+        <tr class="hover:bg-slate-50/80 transition-colors">
+          <td class="py-2.5 px-3 font-bold text-slate-900">${r.obsId}</td>
+          <td class="px-3 text-sky-700 font-bold">${r.wellId}</td>
+          <td class="px-3 text-slate-600">${r.date}</td>
+          <td class="px-3 text-slate-500">${r.lat}, ${r.lon}</td>
+          <td class="px-3 font-bold text-slate-900">${r.level} m</td>
+          <td class="px-3 text-slate-600">${r.temp}</td>
+          <td class="px-3 text-slate-600">${r.rain}</td>
+          <td class="px-3 text-slate-600">${r.soil}</td>
+          <td class="px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">${r.quality}</span></td>
+        </tr>
+      `).join('');
+
+      const countEl = document.getElementById('explorer-row-count');
+      if (countEl) {
+        countEl.innerText = `Showing ${records.length} of 3,844 Records (Page 1)`;
+      }
+    }
+
+    function filterExplorerTable() {
+      const search = document.getElementById('explorer-search').value.toLowerCase();
+      const township = document.getElementById('explorer-township').value;
+      const source = document.getElementById('explorer-source').value;
+
+      const filtered = explorerObservations.filter(o => {
+        const matchesSearch = !search || o.wellId.toLowerCase().includes(search) || o.obsId.toLowerCase().includes(search);
+        const matchesSource = source === 'all' || o.quality.includes(source);
+        return matchesSearch && matchesSource;
+      });
+
+      renderExplorerTable(filtered);
+    }
+
+    function handleExplorerExport() {
+      const csv = "data:text/csv;charset=utf-8,Observation_ID,Well_ID,Date,Latitude,Longitude,Water_Depth_m,Temperature,Rainfall,Soil_Moisture,Quality\n" +
+        explorerObservations.map(o => `${o.obsId},${o.wellId},${o.date},${o.lat},${o.lon},${o.level},${o.temp},${o.rain},${o.soil},${o.quality}`).join("\n");
+      const encodedUri = encodeURI(csv);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "aquasense_phelps_groundwater_observations.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Modal Helpers
+    function openOverviewModal() {
+      const modal = document.getElementById('overview-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+    function closeOverviewModal() {
+      const modal = document.getElementById('overview-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+    function toggleNotifModal() {
+      document.getElementById('notif-modal').classList.toggle('hidden');
+    }
+    function toggleSettingsModal() {
+      document.getElementById('settings-modal').classList.toggle('hidden');
+    }
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    // ========================================================
+    // HERO SATELLITE ROTATION HOVER CONTROLLER
+    // ========================================================
+    function initHeroSatellite() {
+      const container = document.getElementById('hero-satellite-container');
+      const satImg = document.getElementById('hero-satellite-img');
+      if (!container || !satImg) return;
+
+      container.addEventListener('mouseenter', () => {
+        satImg.style.transform = 'rotate(6.5deg)';
+      });
+      container.addEventListener('mouseleave', () => {
+        satImg.style.transform = 'rotate(0deg)';
+      });
+    }
+
+    // Initialization on Page Load
+    window.addEventListener('DOMContentLoaded', () => {
+      allWells = generateWells();
+      explorerObservations = generateObservations();
+
+      // Initialize Satellite Parallax
+      initHeroSatellite();
+
+
+      // Read initial hash or default to /
+      const hash = window.location.hash.replace('#', '') || '/';
+      navigate(hash);
+    });
+
+    // Listen to hash changes for browser forward/back buttons
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '') || '/';
+      if (hash !== currentPage) {
+        navigate(hash);
+      }
+    });
+  </script>
+</body>
+
+</html>
