@@ -8,13 +8,15 @@ import { ML_MODELS_DATA, AI_DECISION_SUPPORT_ITEMS, QUICK_ACCESS_MODULES, FAQ_DO
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState("/");
+  const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem("aquasense_auth") === "true");
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [selectedWell, setSelectedWell] = useState(MOCK_WELLS[3]);
   const [activeRiskFilter, setActiveRiskFilter] = useState("all");
   const [predTimeframe, setPredTimeframe] = useState("all");
-  const [explorerSearch, setExplorerSearch] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notifModalOpen, setNotifModalOpen] = useState(false);
-  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
+  const protectedRoutes = ["/dashboard", "/groundwater-map", "/prediction-analysis", "/recharge-analysis", "/risk-assessment"];
 
   const mapContainerRef = useRef(null);
   const leafletMapRef = useRef(null);
@@ -27,21 +29,209 @@ export default function App() {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace("#", "") || "/";
-      setCurrentRoute(hash);
+      if (protectedRoutes.includes(hash) && !isAuthenticated) {
+        setLoginModalOpen(true);
+        setCurrentRoute("/");
+        window.location.hash = "#/";
+      } else {
+        setCurrentRoute(hash);
+      }
     };
     handleHash();
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
-  }, []);
+  }, [isAuthenticated]);
 
   const navigate = (route) => {
+    if (protectedRoutes.includes(route) && !isAuthenticated) {
+      setLoginModalOpen(true);
+      setCurrentRoute("/");
+      window.location.hash = "#/";
+      return;
+    }
     setCurrentRoute(route);
     window.location.hash = route === "/" ? "#/" : `#${route}`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem("aquasense_auth", "true");
+    setLoginModalOpen(false);
+    navigate("/dashboard");
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("aquasense_auth");
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-800 antialiased font-sans flex flex-col justify-between selection:bg-sky-500/20 selection:text-sky-900">
+
+      {currentRoute !== "/" && (
+        <header
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 50,
+            width: "100%",
+            backgroundColor: "#ffffff",
+            borderBottom: "1px solid #e2e8f0",
+            boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.04)"
+          }}
+        >
+          <div style={{ maxWidth: "1536px", margin: "0 auto", padding: "0 24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "80px", gap: "24px" }}>
+
+              {/* Left: Branding */}
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "12px", cursor: "pointer", flexShrink: 0 }}
+                onClick={() => navigate("/")}
+              >
+                <div
+                  style={{
+                    width: "40px", height: "40px", borderRadius: "50%",
+                    background: "#f0f9ff", border: "1px solid #7dd3fc",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: "8px", flexShrink: 0
+                  }}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
+                      d="M12 2.5C8.5 7.5 6 11 6 15a6 6 0 0012 0c0-4-2.5-7.5-6-12.5z"
+                      fill="#0284c7" fillOpacity="0.15" />
+                    <circle cx="12" cy="14" r="2.5" fill="#0284c7" />
+                  </svg>
+                </div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "baseline", lineHeight: 1 }}>
+                    <span style={{ fontSize: "22px", fontWeight: 900, letterSpacing: "-0.02em", color: "#0f172a", fontFamily: "'Inter', sans-serif" }}>AquaSense</span>
+                    <span style={{ fontSize: "22px", fontWeight: 900, letterSpacing: "-0.02em", color: "#0284c7", fontFamily: "'Inter', sans-serif" }}>AI</span>
+                  </div>
+                  <p style={{ fontSize: "11px", fontWeight: 500, color: "#64748b", letterSpacing: "0.10em", margin: "3px 0 0 0", lineHeight: 1, fontFamily: "'Inter', sans-serif" }}>
+                    Groundwater Intelligence
+                  </p>
+                </div>
+              </div>
+
+              {/* Center: Single-Line Nav Links */}
+              <div style={{ display: "flex", alignItems: "center", gap: "24px", whiteSpace: "nowrap", flex: 1, justifyContent: "center" }}>
+                <button
+                  onClick={() => navigate("/")}
+                  style={{
+                    fontSize: "14px", fontWeight: currentRoute === "/" ? 700 : 500,
+                    color: currentRoute === "/" ? "#0284c7" : "#475569",
+                    background: "none", border: "none",
+                    borderBottom: currentRoute === "/" ? "2.5px solid #0284c7" : "none",
+                    cursor: "pointer", paddingBottom: "4px", lineHeight: 1,
+                    whiteSpace: "nowrap", fontFamily: "'Inter', sans-serif"
+                  }}
+                >
+                  Home
+                </button>
+                {[
+                  { label: "Dashboard",           route: "/dashboard" },
+                  { label: "Groundwater Map",     route: "/groundwater-map" },
+                  { label: "Prediction Analysis", route: "/prediction-analysis" },
+                  { label: "Recharge Analysis",   route: "/recharge-analysis" },
+                  { label: "Risk Assessment",     route: "/risk-assessment" }
+                ].map(({ label, route }) => (
+                  <button
+                    key={label}
+                    onClick={() => navigate(route)}
+                    style={{
+                      fontSize: "14px", fontWeight: currentRoute === route ? 700 : 500,
+                      color: currentRoute === route ? "#0284c7" : "#475569",
+                      background: "none", border: "none",
+                      borderBottom: currentRoute === route ? "2.5px solid #0284c7" : "none",
+                      cursor: "pointer", paddingBottom: "4px", lineHeight: 1,
+                      whiteSpace: "nowrap", fontFamily: "'Inter', sans-serif", transition: "color 0.2s"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#0284c7"}
+                    onMouseLeave={e => e.currentTarget.style.color = currentRoute === route ? "#0284c7" : "#475569"}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Right: Live Monitoring + Analyst + Logout */}
+              <div style={{ display: "flex", alignItems: "center", gap: "18px", flexShrink: 0 }}>
+                {/* Live Monitoring */}
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div
+                    style={{
+                      width: "12px", height: "12px", borderRadius: "50%",
+                      border: "2px solid #10b981",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      boxShadow: "0 0 5px rgba(16,185,129,0.4)", flexShrink: 0
+                    }}
+                  >
+                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#10b981", display: "block" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span style={{
+                      fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                      fontWeight: 700, letterSpacing: "0.16em", color: "#059669",
+                      lineHeight: 1, textTransform: "uppercase"
+                    }}>LIVE MONITORING</span>
+                    <span style={{ fontSize: "11px", color: "#64748b", marginTop: "3px", lineHeight: 1, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
+                      South-Central Nebraska
+                    </span>
+                  </div>
+                </div>
+
+                {/* Analyst Badge */}
+                {isAuthenticated && (
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: "6px",
+                    padding: "6px 12px", borderRadius: "9999px",
+                    background: "#f1f5f9", border: "1px solid #e2e8f0",
+                    fontSize: "12px", color: "#334155"
+                  }}>
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981" }} />
+                    <span style={{ fontFamily: "monospace", fontSize: "11px", fontWeight: 600 }}>Analyst</span>
+                  </div>
+                )}
+
+                {/* Logout Button */}
+                {isAuthenticated ? (
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      padding: "8px 16px", borderRadius: "10px",
+                      fontWeight: 700, fontSize: "12px", letterSpacing: "0.02em",
+                      color: "#334155", background: "#f1f5f9",
+                      display: "flex", alignItems: "center", gap: "6px",
+                      cursor: "pointer", border: "1px solid #e2e8f0",
+                      fontFamily: "'Inter', sans-serif", flexShrink: 0
+                    }}
+                  >
+                    <span>Logout</span>
+                    <span style={{ fontSize: "13px" }}>⎋</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setLoginModalOpen(true)}
+                    className="hero-btn-primary"
+                    style={{
+                      padding: "9px 20px", borderRadius: "10px",
+                      fontWeight: 700, fontSize: "13px", color: "#ffffff",
+                      cursor: "pointer", border: "none"
+                    }}
+                  >
+                    Login →
+                  </button>
+                )}
+              </div>
+
+            </div>
+          </div>
+        </header>
+      )}
 
       {currentRoute === "/" && (
         <section
@@ -101,43 +291,46 @@ export default function App() {
               </div>
             </div>
 
-            {/* Center nav links */}
-            <div style={{ display: "flex", alignItems: "center", gap: "28px" }}>
+            {/* Homepage Nav Links: Positioned closer to AquaSenseAI branding with a balanced professional gap */}
+            <div style={{ display: "flex", alignItems: "center", gap: "24px", flex: 1, justifyContent: "flex-start", marginLeft: "40px" }}>
               <button
                 onClick={() => navigate("/")}
                 style={{
                   fontSize: "14px", fontWeight: 600, color: "#00e5ff",
-                  background: "none", border: "none", borderBottom: "2px solid #00e5ff",
+                  background: "none", border: "none", borderBottom: currentRoute === "/" ? "2px solid #00e5ff" : "none",
                   cursor: "pointer", paddingBottom: "4px", lineHeight: 1,
                   fontFamily: "'Inter', sans-serif"
                 }}
               >
                 Home
               </button>
-              {[
-                { label: "Dashboard", action: () => navigate("/dashboard") },
-                { label: "About",     action: () => navigate("/about") },
-                { label: "Features",  action: () => navigate("/prediction-analysis") },
-                { label: "Team",      action: () => setSettingsModalOpen(true) },
-                { label: "Contact",   action: () => setNotifModalOpen(true) }
-              ].map(({ label, action }) => (
+              {isAuthenticated && [
+                { label: "Dashboard",           route: "/dashboard" },
+                { label: "Groundwater Map",     route: "/groundwater-map" },
+                { label: "Prediction Analysis", route: "/prediction-analysis" },
+                { label: "Recharge Analysis",   route: "/recharge-analysis" },
+                { label: "Risk Assessment",     route: "/risk-assessment" }
+              ].map(({ label, route }) => (
                 <button
                   key={label}
-                  onClick={action}
+                  onClick={() => navigate(route)}
                   style={{
-                    fontSize: "14px", fontWeight: 400, color: "#cbd5e1",
-                    background: "none", border: "none", cursor: "pointer",
-                    lineHeight: 1, fontFamily: "'Inter', sans-serif", transition: "color 0.2s"
+                    fontSize: "14px", fontWeight: currentRoute === route ? 600 : 400,
+                    color: currentRoute === route ? "#00e5ff" : "#cbd5e1",
+                    background: "none", border: "none",
+                    borderBottom: currentRoute === route ? "2px solid #00e5ff" : "none",
+                    cursor: "pointer", paddingBottom: "4px", lineHeight: 1,
+                    fontFamily: "'Inter', sans-serif", transition: "color 0.2s"
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = "#ffffff"}
-                  onMouseLeave={e => e.currentTarget.style.color = "#cbd5e1"}
+                  onMouseLeave={e => e.currentTarget.style.color = currentRoute === route ? "#00e5ff" : "#cbd5e1"}
                 >
                   {label}
                 </button>
               ))}
             </div>
 
-            {/* Right: Live Monitoring + Get Started */}
+            {/* Right: Live Monitoring + Login/Logout CTA */}
             <div style={{ display: "flex", alignItems: "center", gap: "22px", flexShrink: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <div
@@ -161,20 +354,38 @@ export default function App() {
                   </span>
                 </div>
               </div>
-              <button
-                onClick={() => navigate("/dashboard")}
-                className="hero-btn-primary"
-                style={{
-                  padding: "10px 24px", borderRadius: "9999px",
-                  fontWeight: 700, fontSize: "14px", letterSpacing: "0.02em",
-                  color: "#ffffff", display: "flex", alignItems: "center",
-                  gap: "8px", cursor: "pointer", border: "none",
-                  fontFamily: "'Inter', sans-serif", flexShrink: 0
-                }}
-              >
-                <span>Get Started</span>
-                <span style={{ fontSize: "15px" }}>→</span>
-              </button>
+
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="hero-btn-secondary"
+                  style={{
+                    padding: "8px 20px", borderRadius: "9999px",
+                    fontWeight: 600, fontSize: "13px", letterSpacing: "0.02em",
+                    color: "#ffffff", display: "flex", alignItems: "center",
+                    gap: "6px", cursor: "pointer", border: "1px solid rgba(255,255,255,0.25)",
+                    fontFamily: "'Inter', sans-serif", flexShrink: 0
+                  }}
+                >
+                  <span>Logout</span>
+                  <span style={{ fontSize: "14px" }}>⎋</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => setLoginModalOpen(true)}
+                  className="hero-btn-primary"
+                  style={{
+                    padding: "10px 24px", borderRadius: "9999px",
+                    fontWeight: 700, fontSize: "14px", letterSpacing: "0.02em",
+                    color: "#ffffff", display: "flex", alignItems: "center",
+                    gap: "8px", cursor: "pointer", border: "none",
+                    fontFamily: "'Inter', sans-serif", flexShrink: 0
+                  }}
+                >
+                  <span>Login</span>
+                  <span style={{ fontSize: "15px" }}>→</span>
+                </button>
+              )}
             </div>
           </nav>
 
@@ -360,7 +571,124 @@ export default function App() {
             </div>
           </div>
 
+          {/* LAYER 8 — HERO BOTTOM FADE (PREMIUM BLUE + AQUA + WHITE) */}
+          <div
+            aria-hidden="true"
+            className="hero-bottom-fade"
+            style={{
+              position: "absolute",
+              bottom: "-1px",
+              left: 0,
+              right: 0,
+              height: "140px",
+              pointerEvents: "none",
+              zIndex: 15,
+              userSelect: "none",
+              background: "radial-gradient(ellipse 85% 65% at 50% 68%, rgba(56, 189, 248, 0.16) 0%, rgba(14, 116, 180, 0.08) 50%, transparent 80%), linear-gradient(to bottom, rgba(3, 7, 18, 0) 0%, rgba(4, 18, 42, 0.35) 18%, rgba(8, 36, 76, 0.65) 34%, rgba(12, 56, 112, 0.75) 48%, rgba(16, 88, 154, 0.72) 60%, rgba(34, 138, 202, 0.65) 72%, rgba(110, 198, 242, 0.68) 82%, rgba(195, 230, 250, 0.85) 90%, rgba(235, 245, 252, 0.96) 96%, #f8fafc 100%)"
+            }}
+          />
+
         </section>
+      )}
+
+      {/* LOGIN MODAL */}
+      {loginModalOpen && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          background: "rgba(3, 7, 18, 0.85)", backdropFilter: "blur(12px)",
+          display: "flex", alignItems: "center", justifyContent: "center", padding: "16px"
+        }}>
+          <div style={{
+            background: "#0f172a", border: "1px solid rgba(0, 229, 255, 0.3)",
+            borderRadius: "20px", maxWidth: "420px", width: "100%", padding: "28px",
+            color: "#ffffff", boxShadow: "0 0 50px rgba(0, 229, 255, 0.15)", position: "relative"
+          }}>
+            <button
+              onClick={() => setLoginModalOpen(false)}
+              style={{
+                position: "absolute", top: "16px", right: "16px",
+                background: "transparent", border: "none", color: "#94a3b8",
+                fontSize: "18px", cursor: "pointer"
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{ marginBottom: "20px" }}>
+              <span style={{
+                display: "inline-block", padding: "3px 10px", borderRadius: "9999px",
+                background: "rgba(0, 229, 255, 0.1)", border: "1px solid rgba(0, 229, 255, 0.3)",
+                color: "#00e5ff", fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "8px"
+              }}>
+                SECURE ACCESS PORTAL
+              </span>
+              <h2 style={{ fontSize: "22px", fontWeight: 800, margin: "4px 0", color: "#ffffff" }}>
+                Sign In to AquaSense<span style={{ color: "#00e5ff" }}>AI</span>
+              </h2>
+              <p style={{ fontSize: "12px", color: "#94a3b8", margin: 0, lineHeight: 1.5 }}>
+                Enter your credentials or click instant demo login to access models and telemetry.
+              </p>
+            </div>
+
+            <div style={{
+              background: "rgba(30, 41, 59, 0.7)", border: "1px solid rgba(51, 65, 85, 0.6)",
+              borderRadius: "12px", padding: "12px", marginBottom: "18px"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#94a3b8", marginBottom: "8px" }}>
+                <span>Demo Account:</span>
+                <span style={{ color: "#00e5ff", fontFamily: "monospace" }}>analyst@aquasense.ai</span>
+              </div>
+              <button
+                onClick={handleLogin}
+                type="button"
+                style={{
+                  width: "100%", padding: "8px", borderRadius: "8px",
+                  background: "rgba(0, 229, 255, 0.15)", border: "1px solid rgba(0, 229, 255, 0.4)",
+                  color: "#38bdf8", fontWeight: 700, fontSize: "12px", cursor: "pointer"
+                }}
+              >
+                ⚡ Instant 1-Click Demo Login
+              </button>
+            </div>
+
+            <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div>
+                <label style={{ display: "block", fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" }}>Email</label>
+                <input
+                  type="email" defaultValue="analyst@aquasense.ai" required
+                  style={{
+                    width: "100%", padding: "10px 12px", borderRadius: "10px",
+                    background: "#030712", border: "1px solid #334155", color: "#ffffff",
+                    fontSize: "13px", outline: "none", boxSizing: "border-box"
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" }}>Password</label>
+                <input
+                  type="password" defaultValue="aquasense2026" required
+                  style={{
+                    width: "100%", padding: "10px 12px", borderRadius: "10px",
+                    background: "#030712", border: "1px solid #334155", color: "#ffffff",
+                    fontSize: "13px", outline: "none", boxSizing: "border-box"
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="hero-btn-primary"
+                style={{
+                  width: "100%", padding: "12px", borderRadius: "12px",
+                  fontWeight: 700, fontSize: "14px", color: "#ffffff",
+                  cursor: "pointer", border: "none", marginTop: "6px"
+                }}
+              >
+                Sign In & Unlock Platform →
+              </button>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

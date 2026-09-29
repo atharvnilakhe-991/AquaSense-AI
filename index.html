@@ -202,8 +202,8 @@
     .hero-space-section {
       position: relative;
       width: 100vw;
-      height: 100vh;
-      min-height: 700px;
+      height: calc(100vh - 80px);
+      min-height: 640px;
       background-color: #030712;
       overflow: hidden;
       display: flex;
@@ -242,7 +242,47 @@
       );
     }
 
+    /* ======================================================== */
+    /* HERO BOTTOM FADE: PREMIUM BLUE + AQUA + WHITE TRANSITION  */
+    /* ======================================================== */
+    .hero-bottom-fade {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 115px;
+      pointer-events: none;
+      z-index: 15;
+      user-select: none;
+      background:
+        /* Layer 1: Ambient soft aqua atmospheric diffusion */
+        radial-gradient(
+          ellipse 85% 65% at 50% 68%,
+          rgba(56, 189, 248, 0.16) 0%,
+          rgba(14, 116, 180, 0.08) 50%,
+          transparent 80%
+        ),
+        /* Layer 2: Main vertical multi-phase atmospheric dissolve */
+        linear-gradient(
+          to bottom,
+          rgba(3, 7, 18, 0) 0%,
+          rgba(4, 18, 42, 0.35) 18%,
+          rgba(8, 36, 76, 0.65) 34%,
+          rgba(12, 56, 112, 0.75) 48%,
+          rgba(16, 88, 154, 0.72) 60%,
+          rgba(34, 138, 202, 0.65) 72%,
+          rgba(110, 198, 242, 0.68) 82%,
+          rgba(195, 230, 250, 0.85) 90%,
+          rgba(235, 245, 252, 0.96) 96%,
+          #f8fafc 100%
+        );
+    }
 
+    @media (min-width: 640px) {
+      .hero-bottom-fade {
+        height: 140px;
+      }
+    }
 
     /* Primary Glowing Blue Button */
     .hero-btn-primary {
@@ -281,7 +321,7 @@
       transform: translateY(0);
     }
 
-    /* Active Nav Link with Cyan Underline */
+    /* Active Nav Link with Cyan Underline for Dark Theme */
     .hero-nav-active {
       color: #38bdf8 !important;
       position: relative;
@@ -291,12 +331,47 @@
       content: '';
       position: absolute;
       bottom: -6px;
-      left: 12px;
-      right: 12px;
+      left: 10px;
+      right: 10px;
       height: 2px;
       background: #38bdf8;
       box-shadow: 0 0 8px #38bdf8;
       border-radius: 2px;
+    }
+
+    /* Master Navbar Adaptive Themes */
+    .navbar-theme-dark {
+      background: rgba(3, 7, 18, 0.95) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
+    }
+
+    .navbar-theme-white {
+      background: #ffffff !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid #e2e8f0 !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    /* Active Nav Link for Dashboard White Theme */
+    .dashboard-nav-active {
+      color: #0284c7 !important;
+      font-weight: 700 !important;
+      position: relative;
+    }
+
+    .dashboard-nav-active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 8px;
+      right: 8px;
+      height: 2.5px;
+      background: #0284c7;
+      border-radius: 9999px;
     }
 
     /* Mouse Scroll Wheel Animation */
@@ -368,106 +443,62 @@
 <body class="selection:bg-sky-500/20 selection:text-sky-900 min-h-screen flex flex-col justify-between">
 
   <!-- ======================================================== -->
-  <!-- GLOBAL HEADER & NAVBAR (UNIFIED PREMIUM LIGHT THEME)     -->
+  <!-- SINGLE MASTER NAVBAR (ADAPTIVE THEME: DARK ON HOME, WHITE ON DASHBOARD) -->
   <!-- ======================================================== -->
-  <header id="global-header" class="sticky top-0 z-50 aqua-header transition-all duration-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 gap-4">
+  <header id="master-navbar" class="sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-dark">
+    <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-3 xl:gap-6">
 
-        <!-- Left: Brand / Logo -->
-        <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="navigate('/')"
+        <!-- Left: Brand / Logo Group -->
+        <div id="master-nav-brand" class="flex items-center space-x-3 cursor-pointer select-none shrink-0" onclick="navigate('/')"
           title="AquaSense AI Homepage">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 via-cyan-600 to-teal-500 p-[1px] shadow-sm">
-            <div class="w-full h-full bg-white rounded-[11px] flex items-center justify-center">
-              <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-            </div>
+          <!-- Circular Emblem with Water Droplet Motif -->
+          <div id="master-brand-emblem"
+            class="w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0 transition-all">
+            <svg id="master-brand-icon" class="w-6 h-6 text-[#00e5ff] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                d="M12 2.5C8.5 7.5 6 11 6 15a6 6 0 0012 0c0-4-2.5-7.5-6-12.5z" fill="currentColor" fill-opacity="0.15" />
+              <circle cx="12" cy="14" r="2.5" fill="currentColor" />
+            </svg>
           </div>
           <div>
-            <div class="flex items-center space-x-1.5">
-              <span class="text-base font-extrabold tracking-tight text-slate-900">AquaSense<span class="text-sky-600">
-                  AI</span></span>
+            <div class="flex items-baseline space-x-0.5 leading-none">
+              <span id="master-brand-title" class="text-xl sm:text-2xl font-black tracking-tight text-white transition-colors">AquaSense</span>
+              <span id="master-brand-ai" class="text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff] transition-colors">AI</span>
             </div>
-            <p class="text-[10px] text-slate-500 font-mono tracking-wider uppercase font-medium">Groundwater
-              Intelligence</p>
+            <p id="master-brand-sub" class="text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none transition-colors">Groundwater Intelligence</p>
           </div>
         </div>
 
-        <!-- Center: Desktop Navigation Bar (9 Primary Routes) -->
-        <nav class="hidden xl:flex items-center space-x-1 py-1" id="main-nav-container">
-          <button onclick="navigate('/')" id="nav-item-home"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Home</button>
-          <button onclick="navigate('/dashboard')" id="nav-item-dashboard"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Dashboard</button>
-          <button onclick="navigate('/groundwater-map')" id="nav-item-map"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Groundwater
-            Map</button>
-          <button onclick="navigate('/prediction-analysis')" id="nav-item-prediction"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Prediction
-            Analysis</button>
-          <button onclick="navigate('/recharge-analysis')" id="nav-item-recharge"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Recharge
-            Analysis</button>
-          <button onclick="navigate('/risk-assessment')" id="nav-item-risk"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Risk
-            Assessment</button>
-          <button onclick="navigate('/data-explorer')" id="nav-item-explorer"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Data
-            Explorer</button>
-          <button onclick="navigate('/model-performance')" id="nav-item-models"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">Model
-            Performance</button>
-          <button onclick="navigate('/about')" id="nav-item-about"
-            class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all">About</button>
+        <!-- Center: Dynamic Desktop Navigation Links (Single-Line) -->
+        <nav id="master-nav-links" class="hidden xl:flex items-center justify-start flex-1 ml-4 2xl:ml-6 space-x-3 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap">
+          <!-- Populated by updateNavbarUI() -->
         </nav>
 
-        <!-- Right: Status Beacon, Notifications, Settings, Avatar -->
-        <div class="flex items-center space-x-2 shrink-0">
+        <!-- Right: Status Beacon, Auth Actions, Mobile Menu Toggle -->
+        <div class="flex items-center space-x-3 sm:space-x-4 shrink-0">
 
-          <!-- Live System Status Badge -->
-          <div
-            class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-emerald-700 text-[11px] font-mono font-medium">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>LIVE (170 WELLS)</span>
-          </div>
-
-          <!-- Notification Trigger -->
-          <button onclick="toggleNotifModal()"
-            class="p-2 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-lg relative transition-colors"
-            title="System Alerts & Notifications">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-sky-500 rounded-full"></span>
-          </button>
-
-          <!-- Settings Trigger -->
-          <button onclick="toggleSettingsModal()"
-            class="p-2 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-lg transition-colors"
-            title="System Architecture & Preferences">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </button>
-
-          <!-- User Avatar -->
-          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-600 to-teal-500 p-[1px] shrink-0"
-            title="Environmental Intelligence Scientist">
-            <div
-              class="w-full h-full bg-white rounded-full flex items-center justify-center font-mono font-bold text-xs text-sky-700">
-              EV
+          <!-- LIVE MONITORING Indicator -->
+          <div id="master-live-monitoring" class="hidden sm:flex items-center space-x-2">
+            <div id="master-live-beacon" class="w-3 h-3 rounded-full border-2 border-[#10b981] flex items-center justify-center"
+              style="box-shadow: 0 0 8px rgba(16,185,129,0.7); flex-shrink: 0;">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+            </div>
+            <div class="flex flex-col">
+              <span id="master-live-badge" class="text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none"
+                style="text-shadow: 0 0 8px rgba(16,185,129,0.5);">LIVE MONITORING</span>
+              <span id="master-live-loc" class="text-[11px] text-slate-200 font-sans mt-0.5 leading-none">South-Central Nebraska</span>
             </div>
           </div>
 
+          <!-- Auth CTA Container (Analyst badge + Logout or Login) -->
+          <div id="master-nav-auth" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <!-- Populated by updateNavbarUI() -->
+          </div>
+
           <!-- Mobile Menu Toggle Button -->
-          <button onclick="toggleMobileMenu()"
-            class="xl:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+          <button id="master-mobile-toggle" onclick="toggleMobileMenu()"
+            class="xl:hidden p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors"
             aria-label="Toggle Navigation Menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -479,32 +510,10 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu"
-      class="hidden xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-5 space-y-1 text-xs font-medium">
-      <button onclick="navigate('/'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Home</button>
-      <button onclick="navigate('/dashboard'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Dashboard</button>
-      <button onclick="navigate('/groundwater-map'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Groundwater
-        Map</button>
-      <button onclick="navigate('/prediction-analysis'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Prediction
-        Analysis</button>
-      <button onclick="navigate('/recharge-analysis'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Recharge
-        Analysis</button>
-      <button onclick="navigate('/risk-assessment'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Risk
-        Assessment</button>
-      <button onclick="navigate('/data-explorer'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Data
-        Explorer</button>
-      <button onclick="navigate('/model-performance'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">Model
-        Performance</button>
-      <button onclick="navigate('/about'); toggleMobileMenu();"
-        class="block w-full text-left py-2 px-3 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-sky-600">About</button>
+    <div id="master-mobile-menu"
+      class="hidden xl:hidden border-b px-6 py-4 space-y-2 text-sm font-medium transition-all"
+      style="background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px);">
+      <!-- Populated by updateNavbarUI() -->
     </div>
   </header>
 
@@ -523,69 +532,7 @@
       <div class="hero-text-overlay" aria-hidden="true"></div>
 
 
-      <nav class="relative z-30 w-full px-6 sm:px-10 lg:px-16 pt-7 pb-4 flex items-center justify-between">
 
-        <!-- Left: AquaSense AI Brand Logo -->
-        <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="navigate('/')">
-          <!-- Circular Emblem with Glowing Cyan Water Droplet / Earth Motif -->
-          <div
-            class="w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0">
-            <svg class="w-6 h-6 text-[#00e5ff]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                d="M12 2.5C8.5 7.5 6 11 6 15a6 6 0 0012 0c0-4-2.5-7.5-6-12.5z" fill="#00e5ff" fill-opacity="0.2" />
-              <circle cx="12" cy="14" r="2.5" fill="#00e5ff" />
-            </svg>
-          </div>
-          <div>
-            <div class="flex items-baseline space-x-0.5 leading-none">
-              <span class="text-xl sm:text-2xl font-black tracking-tight text-white">AquaSense</span>
-              <span class="text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff]">AI</span>
-            </div>
-            <p class="text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none">Groundwater
-              Intelligence</p>
-          </div>
-        </div>
-
-        <!-- Center: Horizontal Navigation Links -->
-        <div class="hidden lg:flex items-center space-x-8 text-sm font-medium">
-          <button onclick="navigate('/')" class="hero-nav-active px-2 py-1 font-semibold transition-all">Home</button>
-          <button onclick="navigate('/dashboard')"
-            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Dashboard</button>
-          <button onclick="navigate('/about')"
-            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">About</button>
-          <button onclick="document.getElementById('features-section').scrollIntoView({behavior: 'smooth'})"
-            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Features</button>
-          <button onclick="document.getElementById('team-section').scrollIntoView({behavior: 'smooth'})"
-            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Team</button>
-          <button onclick="document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})"
-            class="text-slate-300 hover:text-white px-2 py-1 transition-colors">Contact</button>
-        </div>
-
-        <!-- Right: LIVE MONITORING + Get Started button -->
-        <div class="flex items-center space-x-5">
-
-          <!-- LIVE MONITORING indicator — between Contact and Get Started -->
-          <div class="flex items-center space-x-2">
-            <div class="w-3 h-3 rounded-full border-2 border-[#10b981] flex items-center justify-center" style="box-shadow: 0 0 8px rgba(16,185,129,0.7); flex-shrink: 0;">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
-            </div>
-            <div class="flex flex-col">
-              <span class="text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none" style="text-shadow: 0 0 8px rgba(16,185,129,0.5);">LIVE MONITORING</span>
-              <span class="text-[11px] text-slate-200 font-sans mt-0.5 leading-none">South-Central Nebraska</span>
-            </div>
-          </div>
-
-          <!-- Get Started button -->
-          <button onclick="navigate('/dashboard')"
-            class="hero-btn-primary px-6 py-2.5 rounded-full font-bold text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg">
-            <span>Get Started</span>
-            <span class="text-base leading-none">→</span>
-          </button>
-        </div>
-
-      </nav>
-
-      <!-- Live Monitoring is now inside the navbar above -->
 
       <!-- ======================================================== -->
       <!-- MAIN HERO CONTENT (LEFT SIDE)                            -->
@@ -740,11 +687,14 @@
 
       </div>
 
+      <!-- Hero Bottom Smooth Fade Transition into Next Section -->
+      <div class="hero-bottom-fade" aria-hidden="true"></div>
+
     </section>
 
     <!-- SECTION 2: PROJECT OVERVIEW -->
-    <section id="overview-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
-      <div class="text-center max-w-3xl mx-auto mb-16">
+    <section id="overview-section" class="pt-10 pb-16 sm:pt-14 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+      <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
         <span class="badge-demo mb-3">SYSTEM ARCHITECTURE</span>
         <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">From Fragmented Data to
           Groundwater Intelligence</h2>
@@ -997,93 +947,7 @@
       </div>
     </section>
 
-    <!-- SECTION 5: MULTIMODAL DATA -->
-    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="badge-demo mb-3">DATA INGESTION LAYERS</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Multimodal Environmental Sensing
-        </h2>
-        <p class="mt-3 text-slate-600 text-sm sm:text-base">
-          Five complementary data modalities integrated to capture atmospheric, surface, vadose, and deep aquifer
-          dynamics.
-        </p>
-        <p class="text-[11px] text-sky-700 font-mono mt-2">UI Prototype Specification — No Live API Claims</p>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-
-        <div class="aqua-card p-5 text-center space-y-3">
-          <div
-            class="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 mx-auto flex items-center justify-center text-sky-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-          </div>
-          <h4 class="font-bold text-slate-900 text-sm">Groundwater</h4>
-          <p class="text-xs text-slate-600">170 in-situ piezometers and historical sounding records across Phelps County
-            (2000–2024).</p>
-          <span class="text-[10px] font-mono text-sky-700 font-semibold block pt-1">3,844 Observations</span>
-        </div>
-
-        <div class="aqua-card p-5 text-center space-y-3">
-          <div
-            class="w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-200 mx-auto flex items-center justify-center text-cyan-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" />
-            </svg>
-          </div>
-          <h4 class="font-bold text-slate-900 text-sm">Weather</h4>
-          <p class="text-xs text-slate-600">NASA POWER & GPM IMERG radar precipitation, temperature, wind, and radiation
-            grids.</p>
-          <span class="text-[10px] font-mono text-cyan-700 font-semibold block pt-1">Daily Frequency</span>
-        </div>
-
-        <div class="aqua-card p-5 text-center space-y-3">
-          <div
-            class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 mx-auto flex items-center justify-center text-emerald-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h4 class="font-bold text-slate-900 text-sm">Remote Sensing</h4>
-          <p class="text-xs text-slate-600">Sentinel-2 multispectral surface imagery, cloud-screened NDVI and moisture
-            indices.</p>
-          <span class="text-[10px] font-mono text-emerald-700 font-semibold block pt-1">10m Resolution</span>
-        </div>
-
-        <div class="aqua-card p-5 text-center space-y-3">
-          <div
-            class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 mx-auto flex items-center justify-center text-indigo-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-            </svg>
-          </div>
-          <h4 class="font-bold text-slate-900 text-sm">Elevation / DEM</h4>
-          <p class="text-xs text-slate-600">SRTM 30m Digital Elevation Model capturing watershed slope, drainage basins,
-            and relief.</p>
-          <span class="text-[10px] font-mono text-indigo-700 font-semibold block pt-1">30m Topography</span>
-        </div>
-
-        <div class="aqua-card p-5 text-center space-y-3">
-          <div
-            class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 mx-auto flex items-center justify-center text-amber-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <h4 class="font-bold text-slate-900 text-sm">Environmental</h4>
-          <p class="text-xs text-slate-600">SMAP L4 radiometer vadose soil moisture grids and USDA NRCS soil
-            conductivity tables.</p>
-          <span class="text-[10px] font-mono text-amber-700 font-semibold block pt-1">0–100cm Profile</span>
-        </div>
-
-      </div>
-    </section>
 
     <!-- SECTION 6: AMDFE (ADAPTIVE MULTIMODAL DATA FUSION ENGINE) -->
     <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
@@ -1185,95 +1049,7 @@
       </div>
     </section>
 
-    <!-- SECTION 7: AI ENGINE -->
-    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="badge-demo mb-3">AI / ML MODELING SUITE</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Machine Learning Prediction
-          Architecture</h2>
-        <p class="mt-3 text-slate-600 text-sm sm:text-base">
-          Multiple model paradigms evaluated rigorously using GroupKFold unseen-well cross-validation. No single model
-          is claimed as universally superior.
-        </p>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <!-- Random Forest -->
-        <div class="aqua-card p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">Random
-              Forest</span>
-            <span class="badge-demo">DEMO METRICS</span>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900">Quantile Bagging Trees</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Constructs decorrelated decision trees over random feature subsets; highly stable against noise and
-            non-linear interactions.
-          </p>
-          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
-            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
-                class="text-slate-900 font-bold">0.7848</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
-                class="text-slate-900 font-bold">14.53 ft (4.43 m)</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
-                class="text-slate-900 font-bold">22.97 ft (7.00 m)</span></div>
-          </div>
-          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
-          </p>
-        </div>
-
-        <!-- XGBoost -->
-        <div class="aqua-card p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-50 text-cyan-700 border border-cyan-200">XGBoost</span>
-            <span class="badge-demo">DEMO METRICS</span>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900">Extreme Gradient Boosting</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Sequential gradient boosting with second-order Taylor expansion loss and pinball quantile loss for
-            uncertainty bounds.
-          </p>
-          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
-            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
-                class="text-slate-900 font-bold">0.8046</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
-                class="text-slate-900 font-bold">12.75 ft (3.89 m)</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
-                class="text-slate-900 font-bold">21.89 ft (6.67 m)</span></div>
-          </div>
-          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
-          </p>
-        </div>
-
-        <!-- LightGBM -->
-        <div class="aqua-card p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-50 text-teal-700 border border-teal-200">LightGBM</span>
-            <span class="badge-demo">DEMO METRICS</span>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900">Histogram Leaf-Wise</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Gradient-based one-side sampling (GOSS) and exclusive feature bundling (EFB) offering exceptional inference
-            throughput.
-          </p>
-          <div class="space-y-1.5 text-xs font-mono pt-3 border-t border-slate-100">
-            <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><span
-                class="text-slate-900 font-bold">0.8107</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">MAE:</span><span
-                class="text-slate-900 font-bold">12.75 ft (3.89 m)</span></div>
-            <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><span
-                class="text-slate-900 font-bold">21.55 ft (6.57 m)</span></div>
-          </div>
-          <p class="text-[10px] text-slate-500 italic pt-1">Demonstration benchmark metrics under GroupKFold validation
-          </p>
-        </div>
-
-      </div>
-    </section>
 
     <!-- SECTION 8: WHAT AQUASENSE PROVIDES -->
     <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
@@ -1437,68 +1213,7 @@
       </div>
     </section>
 
-    <!-- SECTION 10: UNCERTAINTY & RELIABILITY -->
-    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="badge-demo mb-3">CONFIDENCE & ROBUSTNESS</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Uncertainty & Spatial
-          Applicability</h2>
-        <p class="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-          A machine learning prediction should never be interpreted as an absolute point estimate. AquaSense AI couples
-          each forecast with 4 dimensions of reliability.
-        </p>
-        <p class="text-[11px] text-sky-700 font-mono mt-2 font-medium">All Confidence Metrics Below Are Illustrative
-          (DEMO)</p>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-mono font-bold text-purple-700">01 INTERVAL</span>
-            <span class="badge-demo">DEMO</span>
-          </div>
-          <h4 class="font-bold text-slate-900 text-base">Prediction Interval</h4>
-          <p class="text-xs text-slate-600">90% conformal prediction interval bounds representing quantile risk
-            envelopes (e.g. 50.1 – 54.5 m).</p>
-          <div class="pt-2 text-xs font-mono text-purple-700 font-bold">Confidence: ±0.9 m</div>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-mono font-bold text-sky-700">02 FRESHNESS</span>
-            <span class="badge-demo">DEMO</span>
-          </div>
-          <h4 class="font-bold text-slate-900 text-base">Observation Freshness</h4>
-          <p class="text-xs text-slate-600">Dynamic penalty based on sounding age and elapsed days since the last
-            verified calibration inspection.</p>
-          <div class="pt-2 text-xs font-mono text-sky-700 font-bold">Sounding Age: 14 Days</div>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-mono font-bold text-teal-700">03 CONSENSUS</span>
-            <span class="badge-demo">DEMO</span>
-          </div>
-          <h4 class="font-bold text-slate-900 text-base">Model Agreement</h4>
-          <p class="text-xs text-slate-600">Variance metric between Random Forest, XGBoost, and LightGBM predictions for
-            the target station.</p>
-          <div class="pt-2 text-xs font-mono text-teal-700 font-bold">Variance: σ = 0.28 m</div>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-mono font-bold text-indigo-700">04 DOMAIN</span>
-            <span class="badge-demo">DEMO</span>
-          </div>
-          <h4 class="font-bold text-slate-900 text-base">Spatial Applicability</h4>
-          <p class="text-xs text-slate-600">Mahalanobis environmental distance ensuring the prediction well lies inside
-            the training distribution.</p>
-          <div class="pt-2 text-xs font-mono text-indigo-700 font-bold">Applicability: 96.4%</div>
-        </div>
-
-      </div>
-    </section>
 
     <!-- SECTION 11: GIS INTELLIGENCE (PREVIEW OF GROUNDWATER MAP) -->
     <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
@@ -1589,7 +1304,7 @@
     </section>
 
     <!-- SECTION 12: USE CASES -->
-    <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="badge-demo mb-3">APPLICATIONS</span>
         <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Real-World Operational Use Cases
@@ -1655,104 +1370,6 @@
           </p>
         </div>
 
-      </div>
-    </section>
-
-    <!-- SECTION 13: RESEARCH / INNOVATION -->
-    <section id="team-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-slate-200">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="badge-demo mb-3">SCIENTIFIC RIGOR</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Research Innovation & Methodology
-        </h2>
-        <p class="mt-3 text-slate-600 text-sm sm:text-base">
-          Built upon strict scientific validation standards to prevent ML target leakage and overoptimistic performance
-          metrics.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Adaptive Multimodal Fusion</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Dynamically models data quality and missingness per observation timestep, weighting sensing modalities by
-            real-time signal-to-noise ratio.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Hyperlocal Well Intelligence</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Well-specific physical attribution rather than broad regional generalizations, accounting for local
-            lithology and elevation gradients.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Explainable AI (TreeSHAP)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Rigorous game-theoretic decomposition of feature influence to satisfy scientific scrutiny and regulatory
-            review.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Prediction Uncertainty Bounds</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Conformal prediction bounds establishing 90% confidence envelopes, preventing deceptive overconfidence in
-            point forecasts.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Response Assessment (Δh)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Decadal drawdown velocity and recovery dynamics evaluated without making unsubstantiated claims of physical
-            infiltration volume.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <h3 class="font-bold text-slate-900 text-base">Spatial Decision Support</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Translation of machine learning probabilities into concrete priority rankings for natural resource district
-            stewardship.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SECTION 14: FINAL CALL TO ACTION -->
-    <section id="contact-section" class="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-      <div class="aqua-card p-12 relative overflow-hidden bg-gradient-to-b from-sky-50/50 to-white">
-        <span class="badge-demo mb-4">EXPLORE THE PLATFORM</span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mt-2">
-          Explore Groundwater Intelligence
-        </h2>
-        <p class="mt-4 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-          Navigate through our interactive dashboard, spatial GIS map, predictive horizon workspaces, and model
-          performance benchmarks.
-        </p>
-
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <button onclick="navigate('/dashboard')"
-            class="px-7 py-3.5 rounded-xl glow-primary-btn font-bold text-xs tracking-wide">
-            Open Dashboard
-          </button>
-          <button onclick="navigate('/groundwater-map')"
-            class="px-7 py-3.5 rounded-xl glow-outline-btn font-semibold text-xs tracking-wide shadow-xs">
-            Explore Groundwater Map
-          </button>
-          <button onclick="navigate('/model-performance')"
-            class="px-7 py-3.5 rounded-xl glow-outline-btn font-semibold text-xs tracking-wide shadow-xs">
-            View Model Performance
-          </button>
-        </div>
-
-        <p class="text-[11px] text-slate-400 font-mono mt-8">
-          Frontend Prototype Specification • Phelps County, Nebraska • 2000–2024 Dataset
-        </p>
       </div>
     </section>
 
@@ -1925,8 +1542,8 @@
 
         <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
           <span class="text-emerald-700 font-semibold font-mono">Error reduction: -38.2% RMSE vs unweighted</span>
-          <button onclick="navigate('/model-performance')"
-            class="text-xs font-semibold text-sky-600 hover:text-sky-700">Model Metrics →</button>
+          <button onclick="navigate('/prediction-analysis')"
+            class="text-xs font-semibold text-sky-600 hover:text-sky-700">Prediction Analysis →</button>
         </div>
       </div>
 
@@ -2526,345 +2143,7 @@
 
   </main>
 
-  <!-- ======================================================== -->
-  <!-- 7. DATA EXPLORER PAGE (PREMIUM LIGHT THEME)              -->
-  <!-- ======================================================== -->
-  <main id="page-data-explorer"
-    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
-      <div>
-        <div class="flex items-center space-x-2">
-          <span class="badge-demo">CURATED DATASET</span>
-          <span class="text-xs text-slate-500 font-mono">Phelps County 2000–2024</span>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Data Explorer</h1>
-        <p class="text-xs sm:text-sm text-slate-500">Search, filter and inspect 3,844 curated groundwater and
-          hydro-meteorological observations</p>
-      </div>
-      <button onclick="handleExplorerExport()"
-        class="px-4 py-2 glow-primary-btn font-bold text-xs rounded-xl transition-colors self-start sm:self-auto font-mono">
-        Export Filtered Records (CSV)
-      </button>
-    </div>
-
-    <!-- Filters Row -->
-    <div class="aqua-card p-4 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs font-mono">
-      <div>
-        <label class="block text-slate-500 font-medium mb-1">Search Station ID</label>
-        <input id="explorer-search" oninput="filterExplorerTable()" type="text" placeholder="e.g. NE-PH-004"
-          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
-      </div>
-      <div>
-        <label class="block text-slate-500 font-medium mb-1">Township Sector</label>
-        <select id="explorer-township" onchange="filterExplorerTable()"
-          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
-          <option value="all">All Townships</option>
-          <option value="Holdrege">Holdrege</option>
-          <option value="Funk">Funk</option>
-          <option value="Bertrand">Bertrand</option>
-          <option value="Platte">Platte Margin</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-slate-500 font-medium mb-1">Telemetry Source</label>
-        <select id="explorer-source" onchange="filterExplorerTable()"
-          class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-sky-500 shadow-2xs">
-          <option value="all">All Telemetry Sources</option>
-          <option value="Continuous">Continuous Telemetry</option>
-          <option value="Manual">Manual Sounding</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-slate-500 font-medium mb-1">Dataset Horizon</label>
-        <input type="text" value="2000–2024 (Verified QA)" disabled
-          class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 font-medium">
-      </div>
-    </div>
-
-    <!-- Observations Table -->
-    <div class="aqua-card p-6 space-y-4">
-      <div class="flex items-center justify-between text-xs font-mono">
-        <span class="text-slate-500" id="explorer-row-count">Showing 20 of 3,844 Records (Page 1)</span>
-        <span class="badge-demo">DEMO RECORDS</span>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="border-b border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
-              <th class="py-2.5 px-3">Observation ID</th>
-              <th class="py-2.5 px-3">Well ID</th>
-              <th class="py-2.5 px-3">Date</th>
-              <th class="py-2.5 px-3">Coordinates</th>
-              <th class="py-2.5 px-3">Water Depth</th>
-              <th class="py-2.5 px-3">Temperature</th>
-              <th class="py-2.5 px-3">Rainfall</th>
-              <th class="py-2.5 px-3">Soil Moisture</th>
-              <th class="py-2.5 px-3">Data Quality</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100" id="explorer-table-body">
-            <!-- Populated via Javascript -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Pagination Footer -->
-      <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
-        <span>Page 1 of 192</span>
-        <div class="flex space-x-2">
-          <button class="px-3 py-1 bg-slate-100 rounded-lg text-slate-400 cursor-not-allowed" disabled>Previous</button>
-          <button class="px-3 py-1 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-500 shadow-2xs">Next
-            →</button>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ======================================================== -->
-  <!-- 8. MODEL PERFORMANCE PAGE (PREMIUM LIGHT THEME)          -->
-  <!-- ======================================================== -->
-  <main id="page-model-performance"
-    class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1 w-full">
-
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
-      <div>
-        <div class="flex items-center space-x-2">
-          <span class="badge-demo">RESEARCH BENCHMARK</span>
-          <span class="text-xs text-slate-500 font-mono">Unseen-Well Evaluation Protocol</span>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Model Performance</h1>
-        <p class="text-xs sm:text-sm text-slate-500">Evaluation of machine learning groundwater level prediction models
-          against held-out benchmark splits</p>
-      </div>
-      <span class="badge-demo">DEMO METRICS</span>
-    </div>
-
-    <!-- Validation Protocol Explanation Banner -->
-    <div class="p-4 bg-sky-50 border border-sky-200 rounded-xl space-y-2 text-xs text-slate-700">
-      <div class="flex items-center space-x-2">
-        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-        <span class="font-bold text-slate-900 font-mono">Strict Cross-Validation Protocol:</span>
-      </div>
-      <p class="text-slate-600 leading-relaxed">
-        Cross-validation is partitioned strictly by <code
-          class="text-sky-800 bg-sky-100 px-1 py-0.5 rounded font-mono">well_id</code> (GroupKFold) so test wells have
-        0% exposure during training. Causal temporal lags strictly enforce <span
-          class="font-mono text-sky-800 font-bold">t_prev &lt; t_target</span> to eliminate data leakage. No model is
-        declared universally superior.
-      </p>
-    </div>
-
-    <!-- 3 Benchmark Model Metric Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-      <div class="aqua-card p-6 space-y-3">
-        <div class="flex justify-between items-center">
-          <span
-            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">Random
-            Forest</span>
-          <span class="badge-demo">DEMO</span>
-        </div>
-        <h2 class="text-lg font-bold text-slate-900">RF Quantile Regressor</h2>
-        <p class="text-xs text-slate-500">Bagging ensemble with quantile leaf trees</p>
-        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
-          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
-              class="text-slate-900 font-mono">0.7848</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
-              class="text-slate-900 font-mono">22.97 ft (7.00 m)</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
-              class="text-slate-900 font-mono">14.53 ft (4.43 m)</strong></div>
-        </div>
-      </div>
-
-      <div class="aqua-card p-6 space-y-3">
-        <div class="flex justify-between items-center">
-          <span
-            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-50 text-cyan-700 border border-cyan-200">XGBoost</span>
-          <span class="badge-demo">DEMO</span>
-        </div>
-        <h2 class="text-lg font-bold text-slate-900">Gradient Boosted Trees</h2>
-        <p class="text-xs text-slate-500">Second-order gradient optimization</p>
-        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
-          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
-              class="text-slate-900 font-mono">0.8046</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
-              class="text-slate-900 font-mono">21.89 ft (6.67 m)</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
-              class="text-slate-900 font-mono">12.75 ft (3.89 m)</strong></div>
-        </div>
-      </div>
-
-      <div class="aqua-card p-6 space-y-3 border-teal-300">
-        <div class="flex justify-between items-center">
-          <span
-            class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-50 text-teal-700 border border-teal-200">LightGBM</span>
-          <span class="badge-demo">DEMO</span>
-        </div>
-        <h2 class="text-lg font-bold text-teal-900">Fast Histogram GOSS</h2>
-        <p class="text-xs text-slate-500">Leaf-wise gradient-based sampling</p>
-        <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-100">
-          <div class="flex justify-between"><span class="text-slate-500">R² (Unseen Wells):</span><strong
-              class="text-teal-700 font-mono font-bold">0.8107</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">RMSE:</span><strong
-              class="text-slate-900 font-mono">21.55 ft (6.57 m)</strong></div>
-          <div class="flex justify-between"><span class="text-slate-500">MAE:</span><strong
-              class="text-slate-900 font-mono">12.75 ft (3.89 m)</strong></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Comparative Table -->
-    <div class="aqua-card p-6 space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 class="text-base font-bold text-slate-900">Benchmark Model Comparison Matrix</h2>
-        <span class="badge-demo font-mono">ILLUSTRATIVE</span>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="border-b border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
-              <th class="py-2.5 px-3">Model Architecture</th>
-              <th class="py-2.5 px-3">Features</th>
-              <th class="py-2.5 px-3">R²</th>
-              <th class="py-2.5 px-3">RMSE (ft)</th>
-              <th class="py-2.5 px-3">MAE (ft)</th>
-              <th class="py-2.5 px-3">Uncertainty Bounds</th>
-              <th class="py-2.5 px-3">Validation Protocol</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            <tr class="hover:bg-slate-50/80">
-              <td class="py-3 px-3 font-bold text-slate-900">Random Forest Regressor</td>
-              <td class="px-3 text-slate-600 font-sans">Lagged GW + NASA Precipitation</td>
-              <td class="px-3 font-semibold text-slate-900">0.7848</td>
-              <td class="px-3">22.97</td>
-              <td class="px-3">14.53</td>
-              <td class="px-3">Quantile Trees (90% PI)</td>
-              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
-            </tr>
-            <tr class="hover:bg-slate-50/80">
-              <td class="py-3 px-3 font-bold text-slate-900">XGBoost Gradient Boosting</td>
-              <td class="px-3 text-slate-600 font-sans">Lags + Soil Moisture + Radar + DEM</td>
-              <td class="px-3 font-semibold text-slate-900">0.8046</td>
-              <td class="px-3">21.89</td>
-              <td class="px-3">12.75</td>
-              <td class="px-3">Pinball Loss (90% PI)</td>
-              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
-            </tr>
-            <tr class="hover:bg-slate-50/80">
-              <td class="py-3 px-3 font-bold text-slate-900">LightGBM (AMDFE Fusion)</td>
-              <td class="px-3 text-slate-600 font-sans">AMDFE Weighted Latents + Lags + Topo</td>
-              <td class="px-3 font-semibold text-teal-700">0.8107</td>
-              <td class="px-3">21.55</td>
-              <td class="px-3">12.75</td>
-              <td class="px-3">Conformal Quantiles (90% PI)</td>
-              <td class="px-3"><span class="text-slate-600">GroupKFold Unseen Wells</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ======================================================== -->
-  <!-- 9. ABOUT PAGE (PREMIUM LIGHT THEME)                      -->
-  <!-- ======================================================== -->
-  <main id="page-about" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
-
-    <div class="border-b border-slate-200 pb-6">
-      <div class="flex items-center space-x-2">
-        <span class="badge-demo">RESEARCH PLATFORM</span>
-        <span class="text-xs text-slate-500 font-mono">Academic Documentation</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">About AquaSense AI</h1>
-      <p class="text-sm sm:text-base text-slate-600 max-w-3xl mt-1">Adaptive Multimodal AI for Hyperlocal Groundwater
-        Prediction, Recharge Assessment & Decision Support</p>
-    </div>
-
-    <!-- Vision & Overview -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div class="aqua-card p-6 space-y-4">
-        <h2 class="text-lg font-bold text-slate-900">Project Vision & Context</h2>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          The High Plains (Ogallala) Aquifer in South-Central Nebraska underpins vital agricultural economies but faces
-          decadal drawdown pressure from intensive irrigation and fluctuating climate patterns. AquaSense AI was created
-          to provide hyperlocal, well-level predictive intelligence that water managers can trust.
-        </p>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          By combining in-situ telemetry with satellite earth observations through an Adaptive Multimodal Data Fusion
-          Engine (AMDFE), the platform bridges the gap between raw data collection and actionable decision support.
-        </p>
-      </div>
-
-      <div class="aqua-card p-6 space-y-4">
-        <h2 class="text-lg font-bold text-slate-900">Study Area: Phelps County, Nebraska</h2>
-        <div class="space-y-2 text-xs font-mono text-slate-700">
-          <div class="flex justify-between"><span class="text-slate-500">Geographic Extent:</span><span>40.3508°N –
-              40.6841°N, 99.6432°W – 99.1795°W</span></div>
-          <div class="flex justify-between"><span class="text-slate-500">Total Monitored Wells:</span><span>170
-              Stations</span></div>
-          <div class="flex justify-between"><span class="text-slate-500">Verified Observations:</span><span>3,844
-              Measurements</span></div>
-          <div class="flex justify-between"><span class="text-slate-500">Temporal Coverage:</span><span>2000–2024
-              (25-Year Decadal Alignment)</span></div>
-          <div class="flex justify-between"><span class="text-slate-500">Aquifer System:</span><span>High Plains
-              (Ogallala) Aquifer</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scientific Approach & Pillars -->
-    <div class="space-y-4">
-      <h2 class="text-xl font-bold text-slate-900">Core Architectural Pillars</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="text-sky-700 font-mono text-xs font-bold">PILLAR 01</div>
-          <h3 class="font-bold text-slate-900 text-base">Adaptive Fusion (AMDFE)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Dynamic reliability and quality weighting per observation timestep, minimizing errors caused by sensor noise
-            and temporal gaps.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="text-teal-700 font-mono text-xs font-bold">PILLAR 02</div>
-          <h3 class="font-bold text-slate-900 text-base">Unseen-Well Validation</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Strict GroupKFold partitioning ensuring zero target spatial leakage and genuine generalization to
-            unmonitored geographic coordinates.
-          </p>
-        </div>
-
-        <div class="aqua-card p-6 space-y-3">
-          <div class="text-purple-700 font-mono text-xs font-bold">PILLAR 03</div>
-          <h3 class="font-bold text-slate-900 text-base">Explainable AI (XAI)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            TreeSHAP feature attributions that explain the exact physical hydro-climatic mechanisms behind every
-            hyperlocal prediction.
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Technology Stack & Disclaimer -->
-    <div class="aqua-card p-6 space-y-4 bg-sky-50/50 border-sky-200">
-      <h3 class="text-sm font-bold text-slate-900">UI Prototype Disclaimer</h3>
-      <p class="text-xs text-slate-600 leading-relaxed">
-        This platform interface is a high-fidelity frontend prototype designed for demonstration, stakeholder review,
-        and academic presentation. Real model APIs and scientific inference backends will be connected in a later
-        deployment phase. All metrics and numerical predictions displayed are illustrative demonstration values.
-      </p>
-    </div>
-
-  </main>
 
   <!-- ======================================================== -->
   <!-- NOTIFICATIONS / ALERTS MODAL                             -->
@@ -2909,32 +2188,7 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- SETTINGS / DOCUMENTATION MODAL                           -->
-  <!-- ======================================================== -->
-  <div id="settings-modal"
-    class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="aqua-card max-w-lg w-full p-6 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <h3 class="font-bold text-slate-900 text-sm">System Documentation & Settings</h3>
-        <button onclick="toggleSettingsModal()" class="text-slate-400 hover:text-slate-600 text-xs font-mono">✕
-          Close</button>
-      </div>
 
-      <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
-        <p><strong>Platform:</strong> AquaSense AI v1.0.0 (Environmental AI & GIS)</p>
-        <p><strong>Primary Model Candidate:</strong> LightGBM with AMDFE Fusion (R² = 0.8107 Unseen Wells)</p>
-        <p><strong>Validation Standard:</strong> GroupKFold unseen-well spatial partition with causal lags.</p>
-        <p><strong>Theme Configuration:</strong> Unified Premium Environmental Light Mode.</p>
-        <p><strong>Data Contract:</strong> Section 13 REST API compliant (Ready for backend connection).</p>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 flex justify-end">
-        <button onclick="toggleSettingsModal()"
-          class="px-4 py-1.5 glow-primary-btn text-xs font-bold rounded-lg">Close</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ======================================================== -->
   <!-- HERO OVERVIEW WALKTHROUGH MODAL                          -->
@@ -2998,9 +2252,113 @@
   </div>
 
   <!-- ======================================================== -->
+  <!-- AUTHENTICATION / LOGIN MODAL                             -->
+  <!-- ======================================================== -->
+  <div id="login-modal"
+    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div
+      class="relative bg-slate-900 border border-slate-700/80 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(0,229,255,0.15)] text-white">
+
+      <!-- Modal Close Button -->
+      <button onclick="closeLoginModal()"
+        class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+        title="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Header -->
+      <div class="space-y-2">
+        <div
+          class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>SECURE ACCESS PORTAL</span>
+        </div>
+        <h2 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+          <span>Sign In to</span>
+          <span class="text-white">AquaSense<span class="text-[#00e5ff]">AI</span></span>
+        </h2>
+        <p class="text-xs text-slate-400">
+          Enter your credentials to unlock groundwater telemetry, multi-horizon ML predictions, and recharge decision
+          support.
+        </p>
+      </div>
+
+      <!-- Quick Demo Access Banner -->
+      <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-400 font-medium">Demo Credentials:</span>
+          <span class="font-mono text-cyan-400">Pre-filled</span>
+        </div>
+        <button onclick="performDemoLogin()" type="button"
+          class="w-full py-2 px-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-semibold text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer">
+          <span>⚡ Instant 1-Click Demo Login</span>
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Email / Username</label>
+          <div class="relative">
+            <input id="login-email" type="email" value="analyst@aquasense.ai" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Password</label>
+          <div class="relative">
+            <input id="login-password" type="password" value="aquasense2026" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <label class="flex items-center space-x-2 cursor-pointer select-none">
+            <input type="checkbox" checked class="rounded border-slate-700 text-cyan-500 focus:ring-cyan-400 bg-slate-900" />
+            <span>Keep me signed in</span>
+          </label>
+          <span class="text-cyan-400 hover:underline cursor-pointer">Phelps NRD Access</span>
+        </div>
+
+        <button type="submit"
+          class="hero-btn-primary w-full py-3 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center space-x-2 cursor-pointer shadow-lg mt-2">
+          <span>Sign In & Unlock Platform</span>
+          <span class="text-base leading-none">→</span>
+        </button>
+      </form>
+
+      <!-- Footer Info -->
+      <div class="text-[11px] text-center text-slate-500 font-mono pt-1">
+        High Plains (Ogallala) Aquifer Monitoring System • v1.0
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Access Denied Notification Toast -->
+  <div id="auth-toast"
+    class="hidden fixed bottom-6 right-6 z-50 max-w-sm p-4 rounded-xl bg-slate-900/95 border border-amber-500/40 shadow-2xl text-white transition-all transform duration-300 flex items-start space-x-3 backdrop-blur-md">
+    <div
+      class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+    <div class="space-y-1">
+      <h4 class="text-xs font-bold text-amber-300">Access Restricted</h4>
+      <p id="auth-toast-msg" class="text-xs text-slate-300 leading-tight">Please sign in to access this platform feature.
+      </p>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
   <!-- GLOBAL FOOTER (CONSISTENT ON EVERY PAGE)                 -->
   <!-- ======================================================== -->
-  <footer class="border-t border-slate-200 bg-white text-xs text-slate-500 mt-20">
+  <footer class="border-t border-slate-200 bg-white text-xs text-slate-500 mt-10 sm:mt-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
 
@@ -3026,28 +2384,17 @@
           <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-3">Navigation</h4>
           <ul class="space-y-2 text-xs">
             <li><button onclick="navigate('/')" class="hover:text-sky-600 transition-colors">Home</button></li>
-            <li><button onclick="navigate('/dashboard')" class="hover:text-sky-600 transition-colors">Dashboard</button>
-            </li>
-            <li><button onclick="navigate('/groundwater-map')" class="hover:text-sky-600 transition-colors">Groundwater
-                Map</button></li>
-            <li><button onclick="navigate('/prediction-analysis')"
-                class="hover:text-sky-600 transition-colors">Prediction Analysis</button></li>
-            <li><button onclick="navigate('/recharge-analysis')" class="hover:text-sky-600 transition-colors">Recharge
-                Analysis</button></li>
+            <li><button onclick="navigate('/dashboard')" class="hover:text-sky-600 transition-colors">Dashboard</button></li>
+            <li><button onclick="navigate('/groundwater-map')" class="hover:text-sky-600 transition-colors">Groundwater Map</button></li>
           </ul>
         </div>
 
         <div>
           <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-3">Intelligence</h4>
           <ul class="space-y-2 text-xs">
-            <li><button onclick="navigate('/risk-assessment')" class="hover:text-sky-600 transition-colors">Risk
-                Assessment</button></li>
-            <li><button onclick="navigate('/data-explorer')" class="hover:text-sky-600 transition-colors">Data
-                Explorer</button></li>
-            <li><button onclick="navigate('/model-performance')" class="hover:text-sky-600 transition-colors">Model
-                Performance</button></li>
-            <li><button onclick="navigate('/about')" class="hover:text-sky-600 transition-colors">About AquaSense
-                AI</button></li>
+            <li><button onclick="navigate('/prediction-analysis')" class="hover:text-sky-600 transition-colors">Prediction Analysis</button></li>
+            <li><button onclick="navigate('/recharge-analysis')" class="hover:text-sky-600 transition-colors">Recharge Analysis</button></li>
+            <li><button onclick="navigate('/risk-assessment')" class="hover:text-sky-600 transition-colors">Risk Assessment</button></li>
           </ul>
         </div>
 
@@ -3153,71 +2500,338 @@
       return obs;
     }
 
-    // Navigation Router
+    // ========================================================
+    // AUTHENTICATION & ACCESS CONTROL STATE
+    // ========================================================
+    let isAuthenticated = localStorage.getItem('aquasense_auth') === 'true';
+    const protectedRoutes = ['/dashboard', '/groundwater-map', '/prediction-analysis', '/recharge-analysis', '/risk-assessment'];
+
+    function showAuthToast(msg) {
+      const toast = document.getElementById('auth-toast');
+      const toastMsg = document.getElementById('auth-toast-msg');
+      if (toast && toastMsg) {
+        toastMsg.textContent = msg || 'Authentication required: Please log in to access this platform feature.';
+        toast.classList.remove('hidden');
+        if (window._toastTimer) clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => {
+          toast.classList.add('hidden');
+        }, 4000);
+      }
+    }
+
+    function openLoginModal(targetRoute) {
+      if (targetRoute) {
+        window._pendingRoute = targetRoute;
+      }
+      const modal = document.getElementById('login-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+      const modal = document.getElementById('login-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function performDemoLogin() {
+      isAuthenticated = true;
+      localStorage.setItem('aquasense_auth', 'true');
+      closeLoginModal();
+      updateNavbarUI();
+      const nextRoute = window._pendingRoute || '/dashboard';
+      window._pendingRoute = null;
+      navigate(nextRoute);
+    }
+
+    function handleLoginSubmit(e) {
+      if (e) e.preventDefault();
+      performDemoLogin();
+    }
+
+    function handleLogout() {
+      isAuthenticated = false;
+      localStorage.removeItem('aquasense_auth');
+      updateNavbarUI();
+      navigate('/');
+    }
+
+    function updateNavbarUI() {
+      const header = document.getElementById('master-navbar');
+      const navContainer = document.getElementById('master-nav-links');
+      const authContainer = document.getElementById('master-nav-auth');
+      const mobileContainer = document.getElementById('master-mobile-menu');
+
+      // Brand Elements
+      const brandEmblem = document.getElementById('master-brand-emblem');
+      const brandIcon = document.getElementById('master-brand-icon');
+      const brandTitle = document.getElementById('master-brand-title');
+      const brandAi = document.getElementById('master-brand-ai');
+      const brandSub = document.getElementById('master-brand-sub');
+
+      // Live Monitoring Elements
+      const liveBeacon = document.getElementById('master-live-beacon');
+      const liveBadge = document.getElementById('master-live-badge');
+      const liveLoc = document.getElementById('master-live-loc');
+
+      // Mobile Toggle Button
+      const mobileToggle = document.getElementById('master-mobile-toggle');
+
+      const isHome = (currentPage === '/');
+
+      // 1. Header Background & Border Adaptation
+      if (header) {
+        if (isHome) {
+          header.className = 'sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-dark';
+        } else {
+          header.className = 'sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-white';
+        }
+      }
+
+      // 2. Left Brand Elements Adaptation
+      if (brandEmblem && brandTitle && brandAi && brandSub) {
+        if (isHome) {
+          brandEmblem.className = 'w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0 transition-all';
+          if (brandIcon) brandIcon.setAttribute('stroke', '#00e5ff');
+          brandTitle.className = 'text-xl sm:text-2xl font-black tracking-tight text-white transition-colors';
+          brandAi.className = 'text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff] transition-colors';
+          brandSub.className = 'text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none transition-colors';
+        } else {
+          brandEmblem.className = 'w-10 h-10 rounded-full bg-sky-50 border border-sky-300 shadow-sm flex items-center justify-center p-2 shrink-0 transition-all';
+          if (brandIcon) brandIcon.setAttribute('stroke', '#0284c7');
+          brandTitle.className = 'text-xl sm:text-2xl font-black tracking-tight text-slate-900 transition-colors';
+          brandAi.className = 'text-xl sm:text-2xl font-black tracking-tight text-sky-600 transition-colors';
+          brandSub.className = 'text-[11px] font-sans font-medium text-slate-500 tracking-wider mt-1 leading-none transition-colors';
+        }
+      }
+
+      // 3. Live Monitoring Elements Adaptation
+      if (liveBadge && liveLoc) {
+        if (isHome) {
+          if (liveBeacon) liveBeacon.style.boxShadow = '0 0 8px rgba(16,185,129,0.7)';
+          liveBadge.className = 'text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none';
+          liveBadge.style.textShadow = '0 0 8px rgba(16,185,129,0.5)';
+          liveLoc.className = 'text-[11px] text-slate-200 font-sans mt-0.5 leading-none';
+        } else {
+          if (liveBeacon) liveBeacon.style.boxShadow = '0 0 5px rgba(16,185,129,0.4)';
+          liveBadge.className = 'text-[10px] font-mono font-bold tracking-widest text-emerald-600 leading-none';
+          liveBadge.style.textShadow = 'none';
+          liveLoc.className = 'text-[11px] text-slate-500 font-sans mt-0.5 leading-none font-medium';
+        }
+      }
+
+      // 4. Mobile Toggle Icon Adaptation
+      if (mobileToggle) {
+        if (isHome) {
+          mobileToggle.className = 'xl:hidden p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors';
+        } else {
+          mobileToggle.className = 'xl:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors';
+        }
+      }
+
+      const allNavItems = [
+        { route: '/', label: 'Home', isProtected: false },
+        { route: '/dashboard', label: 'Dashboard', isProtected: true },
+        { route: '/groundwater-map', label: 'Groundwater Map', isProtected: true },
+        { route: '/prediction-analysis', label: 'Prediction Analysis', isProtected: true },
+        { route: '/recharge-analysis', label: 'Recharge Analysis', isProtected: true },
+        { route: '/risk-assessment', label: 'Risk Assessment', isProtected: true }
+      ];
+
+      const visibleItems = allNavItems.filter(item => !item.isProtected || isAuthenticated);
+
+      // 5. Desktop Nav Links (Guaranteed Single-Line with whitespace-nowrap)
+      if (navContainer) {
+        if (isHome) {
+          // Homepage: Move "Home" navigation item slightly toward the LEFT closer to AquaSenseAI branding with a balanced professional gap
+          navContainer.className = 'hidden xl:flex items-center justify-start flex-1 ml-4 2xl:ml-6 space-x-3 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap';
+        } else {
+          // Dashboard: Keep EXACTLY as is, centered with original spacing
+          navContainer.className = 'hidden xl:flex items-center justify-center flex-1 mx-2 2xl:mx-6 space-x-2 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap';
+        }
+
+        navContainer.innerHTML = visibleItems.map(item => {
+          const isActive = currentPage === item.route;
+          let activeClass;
+          if (isHome) {
+            activeClass = isActive 
+              ? 'hero-nav-active px-2.5 2xl:px-3 py-1 font-semibold whitespace-nowrap flex-shrink-0 transition-all' 
+              : 'text-slate-300 hover:text-white px-2.5 2xl:px-3 py-1 whitespace-nowrap flex-shrink-0 transition-colors cursor-pointer';
+          } else {
+            activeClass = isActive 
+              ? 'dashboard-nav-active px-2.5 2xl:px-3 py-1 font-bold whitespace-nowrap flex-shrink-0 transition-all' 
+              : 'text-slate-600 hover:text-sky-600 px-2.5 2xl:px-3 py-1 whitespace-nowrap flex-shrink-0 transition-colors cursor-pointer';
+          }
+          return `<button onclick="navigate('${item.route}')" class="${activeClass}">${item.label}</button>`;
+        }).join('');
+      }
+
+      // 6. Desktop Auth Actions (Far Right)
+      if (authContainer) {
+        if (isAuthenticated) {
+          if (isHome) {
+            authContainer.innerHTML = `
+              <div class="hidden md:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300 shrink-0">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-[11px] text-cyan-300">Analyst</span>
+              </div>
+              <button onclick="handleLogout()"
+                class="hero-btn-secondary px-4 py-2 rounded-full font-bold text-xs tracking-wide flex items-center space-x-1.5 cursor-pointer shrink-0">
+                <span>Logout</span>
+                <span class="text-xs leading-none">⎋</span>
+              </button>
+            `;
+          } else {
+            authContainer.innerHTML = `
+              <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-700 shrink-0 shadow-2xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="font-mono text-[11px] font-semibold text-slate-700">Analyst</span>
+              </div>
+              <button onclick="handleLogout()"
+                class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-700 hover:text-rose-600 font-bold text-xs tracking-wide flex items-center space-x-1.5 transition-all cursor-pointer shrink-0 shadow-2xs">
+                <span>Logout</span>
+                <span class="text-xs leading-none">⎋</span>
+              </button>
+            `;
+          }
+        } else {
+          if (isHome) {
+            authContainer.innerHTML = `
+              <button onclick="openLoginModal()"
+                class="hero-btn-primary px-6 py-2.5 rounded-full font-bold text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg shrink-0">
+                <span>Login</span>
+                <span class="text-base leading-none">→</span>
+              </button>
+            `;
+          } else {
+            authContainer.innerHTML = `
+              <button onclick="openLoginModal()"
+                class="hero-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs tracking-wide flex items-center space-x-1.5 cursor-pointer shadow-sm shrink-0">
+                <span>Login</span>
+                <span class="text-sm leading-none">→</span>
+              </button>
+            `;
+          }
+        }
+      }
+
+      // 7. Mobile Drawer Menu Adaptation
+      if (mobileContainer) {
+        if (isHome) {
+          mobileContainer.style.background = 'rgba(3, 7, 18, 0.98)';
+          mobileContainer.style.borderColor = '#1e293b';
+          let mobileHtml = visibleItems.map(item => {
+            const isActive = currentPage === item.route;
+            const activeClass = isActive
+              ? 'text-[#00e5ff] font-bold bg-cyan-950/40 border-l-2 border-[#00e5ff]'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800/50';
+            return `<button onclick="navigate('${item.route}'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-lg text-sm transition-colors ${activeClass}">${item.label}</button>`;
+          }).join('');
+
+          if (isAuthenticated) {
+            mobileHtml += `
+              <div class="pt-3 mt-3 border-t border-slate-800 flex items-center justify-between px-3">
+                <div class="flex items-center space-x-2 text-xs text-slate-400">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Signed in as <strong class="text-cyan-300">analyst@aquasense.ai</strong></span>
+                </div>
+                <button onclick="handleLogout(); toggleMobileMenu();" class="text-xs text-rose-400 hover:text-rose-300 font-semibold py-1.5 px-3 rounded-lg bg-rose-500/10 border border-rose-500/30">
+                  Logout ⎋
+                </button>
+              </div>
+            `;
+          } else {
+            mobileHtml += `
+              <div class="pt-3 mt-3 border-t border-slate-800 px-3">
+                <button onclick="openLoginModal(); toggleMobileMenu();" class="hero-btn-primary w-full py-2.5 rounded-xl font-bold text-sm text-center flex items-center justify-center space-x-2 cursor-pointer">
+                  <span>Login to Platform</span>
+                  <span>→</span>
+                </button>
+              </div>
+            `;
+          }
+          mobileContainer.innerHTML = mobileHtml;
+        } else {
+          // White theme mobile menu for Dashboard
+          mobileContainer.style.background = '#ffffff';
+          mobileContainer.style.borderColor = '#e2e8f0';
+          let mobileHtml = visibleItems.map(item => {
+            const isActive = currentPage === item.route;
+            const activeClass = isActive
+              ? 'text-sky-600 font-bold bg-sky-50 border-l-3 border-sky-600'
+              : 'text-slate-700 hover:text-sky-600 hover:bg-slate-50';
+            return `<button onclick="navigate('${item.route}'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium transition-colors ${activeClass}">${item.label}</button>`;
+          }).join('');
+
+          if (isAuthenticated) {
+            mobileHtml += `
+              <div class="pt-3 mt-3 border-t border-slate-200 flex items-center justify-between px-3">
+                <div class="flex items-center space-x-2 text-xs text-slate-600">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>Signed in as <strong class="text-slate-900">analyst@aquasense.ai</strong></span>
+                </div>
+                <button onclick="handleLogout(); toggleMobileMenu();" class="text-xs text-rose-600 hover:text-rose-700 font-semibold py-1.5 px-3 rounded-lg bg-rose-50 border border-rose-200 hover:bg-rose-100 transition-colors">
+                  Logout ⎋
+                </button>
+              </div>
+            `;
+          } else {
+            mobileHtml += `
+              <div class="pt-3 mt-3 border-t border-slate-200 px-3">
+                <button onclick="openLoginModal(); toggleMobileMenu();" class="hero-btn-primary w-full py-2.5 rounded-xl font-bold text-sm text-center flex items-center justify-center space-x-2 cursor-pointer">
+                  <span>Login to Platform</span>
+                  <span>→</span>
+                </button>
+              </div>
+            `;
+          }
+          mobileContainer.innerHTML = mobileHtml;
+        }
+      }
+    }
+
+    // Unified Master Navigation Router with Access Control Guard
     function navigate(route) {
-      currentPage = route;
-      window.location.hash = route === '/' ? '#/' : `#${route}`;
+      if (!route || route === '' || route === '#') route = '/';
+      if (route.startsWith('#')) route = route.substring(1);
+
+      // Access Control: Block protected routes when logged out
+      if (protectedRoutes.includes(route) && !isAuthenticated) {
+        showAuthToast('Authentication required: Please sign in to access ' + route.replace('/', '').replace(/-/g, ' ') + '.');
+        openLoginModal(route);
+        route = '/';
+        currentPage = '/';
+        window.location.hash = '#/';
+      } else {
+        currentPage = route;
+        window.location.hash = route === '/' ? '#/' : `#${route}`;
+      }
 
       // Hide all page views
       document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
 
-      // Reset all nav button classes to default inactive light style
-      const routeMap = {
-        '/': 'home',
-        '/dashboard': 'dashboard',
-        '/groundwater-map': 'map',
-        '/prediction-analysis': 'prediction',
-        '/recharge-analysis': 'recharge',
-        '/risk-assessment': 'risk',
-        '/data-explorer': 'explorer',
-        '/model-performance': 'models',
-        '/about': 'about'
-      };
+      // Update Unified Master Navbar UI
+      updateNavbarUI();
 
-      Object.values(routeMap).forEach(key => {
-        const btn = document.getElementById(`nav-item-${key}`);
-        if (btn) {
-          btn.className = 'px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all';
-        }
-      });
-
-      // Highlight active nav item with clean sky blue active pill
-      const activeKey = routeMap[route] || 'home';
-      const activeBtn = document.getElementById(`nav-item-${activeKey}`);
-      if (activeBtn) {
-        activeBtn.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-50 text-sky-700 border border-sky-200 transition-all shadow-xs';
-      }
-
-      // Toggle global header visibility based on route
-      const globalHeader = document.getElementById('global-header');
-      if (globalHeader) {
-        if (route === '/') {
-          globalHeader.classList.add('hidden');
-        } else {
-          globalHeader.classList.remove('hidden');
-        }
-      }
-
-      // Show the requested page view
-      const pageId = route === '/' ? 'page-home' : `page-${route.replace('/', '')}`;
+      // Show requested page view
+      const pageId = currentPage === '/' ? 'page-home' : `page-${currentPage.replace('/', '')}`;
       const pageEl = document.getElementById(pageId);
       if (pageEl) {
         pageEl.classList.remove('hidden');
+      } else {
+        const homeEl = document.getElementById('page-home');
+        if (homeEl) homeEl.classList.remove('hidden');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       // Trigger page-specific initializations
-      if (route === '/') {
+      if (currentPage === '/') {
         if (window._satelliteResize) setTimeout(window._satelliteResize, 50);
-      } else if (route === '/dashboard') {
+      } else if (currentPage === '/dashboard') {
         setTimeout(initDashboardChart, 50);
-      } else if (route === '/groundwater-map') {
+      } else if (currentPage === '/groundwater-map') {
         setTimeout(initFullMap, 50);
-      } else if (route === '/prediction-analysis') {
+      } else if (currentPage === '/prediction-analysis') {
         setTimeout(initPredictionChart, 50);
-      } else if (route === '/data-explorer') {
-        renderExplorerTable(explorerObservations);
       }
     }
 
@@ -3547,11 +3161,9 @@
     function toggleNotifModal() {
       document.getElementById('notif-modal').classList.toggle('hidden');
     }
-    function toggleSettingsModal() {
-      document.getElementById('settings-modal').classList.toggle('hidden');
-    }
     function toggleMobileMenu() {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
+      const menu = document.getElementById('master-mobile-menu');
+      if (menu) menu.classList.toggle('hidden');
     }
 
     // ========================================================
