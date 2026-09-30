@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Inspect Satellite Pixels</title></head>
+<body style="background:#000;color:#fff;">
+  <canvas id="c"></canvas>
+  <div id="info"></div>
+  <script>
+    const img = new Image();
+    img.src = '/hero_earth_satellite_clean.jpg';
+    img.onload = () => {
+      const c = document.getElementById('c');
+      c.width = img.width;
+      c.height = img.height;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      c.onmousemove = (e) => {
+        const rect = c.getBoundingClientRect();
+        const scaleX = c.width / rect.width;
+        const scaleY = c.height / rect.height;
+        const x = Math.round((e.clientX - rect.left) * scaleX);
+        const y = Math.round((e.clientY - rect.top) * scaleY);
+        const p = ctx.getImageData(x, y, 1, 1).data;
+        document.getElementById('info').innerText = `X: ${x}, Y: ${y} | RGB: (${p[0]}, ${p[1]}, ${p[2]})`;
+      };
+    };
+  </script>
+</body>
+</html>

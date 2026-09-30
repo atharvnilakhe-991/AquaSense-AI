@@ -1,0 +1,24 @@
+Feature_Name,Mean_Absolute_SHAP,Feature_Group
+Previous_Level_Change,0.560061,Groundwater History
+Days_Since_Previous,0.435751,Groundwater History
+Precip_Interval_Sum,0.373567,Interval Precipitation
+Precip_60D_Sum,0.283633,Precipitation Windows
+Recent_Trend,0.194766,Groundwater History
+Rolling_Std_3,0.175212,Groundwater History
+Precip_180D_Sum,0.151136,Precipitation Windows
+Previous_WatLevel,0.145857,Groundwater History
+Precip_30D_Sum,0.13751,Precipitation Windows
+Previous2_WatLevel,0.117638,Groundwater History
+LatDD,0.108951,Geography
+Years_Since_Previous,0.108603,Groundwater History
+Precip_7D_Sum,0.102824,Precipitation Windows
+Rolling_Mean_3,0.083528,Groundwater History
+Previous_Observation_Count,0.074746,Groundwater History
+Historical_Min,0.062762,Groundwater History
+Historical_Std,0.058918,Groundwater History
+Precip_14D_Sum,0.056228,Precipitation Windows
+Historical_Mean,0.052971,Groundwater History
+LongDD,0.051354,Geography
+Historical_Max,0.035911,Groundwater History
+Precip_90D_Sum,0.031823,Precipitation Windows
+Surf_Elev,0.024127,Topography

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head><title>Clean Satellite Mask</title></head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="status">Processing...</div>
+  <script>
+    async function run() {
+      const img = new Image();
+      img.src = '/satellite_transparent.png';
+      await new Promise(r => img.onload = r);
+
+      const w = img.width;
+      const h = img.height;
+      const c = document.getElementById('c');
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const d = imgData.data;
+
+      // In cropped coordinates:
+      // The satellite is centered. The stray lines are thin lines projecting outwards at the edges.
+      // We can define a clean convex/polygonal mask around the satellite body,
+      // OR remove thin low-density components outside the main satellite mass.
+
+      // Let's create an offscreen mask canvas
+      const maskCanvas = document.createElement('canvas');
+      maskCanvas.width = w;
+      maskCanvas.height = h;
+      const mctx = maskCanvas.getContext('2d');
+
+      // Define satellite body polygon path in local cropped coordinates (w ≈ 689, h ≈ 549)
+      // Exact hull vertices tightly hugging the satellite structure
+      mctx.filter = 'blur(1px)';
+      mctx.beginPath();
+      // Solar panel tip (top-left)
+      mctx.moveTo(w * 0.09, h * 0.28);
+      // Solar panel bottom-left tip
+      mctx.lineTo(w * 0.02, h * 0.31);
+      // Solar panel straight bottom edge
+      mctx.lineTo(w * 0.48, h * 0.64);
+      // Lower instrument cluster
+      mctx.lineTo(w * 0.52, h * 0.76);
+      // Lower bus panel
+      mctx.lineTo(w * 0.62, h * 0.76);
+      // Thruster gimbal
+      mctx.lineTo(w * 0.74, h * 0.68);
+      // Right heat shield / radar panel
+      mctx.lineTo(w * 0.93, h * 0.38);
+      // Top right sensor tower
+      mctx.lineTo(w * 0.94, h * 0.12);
+      // Top antenna mast
+      mctx.lineTo(w * 0.86, h * 0.07);
+      // Top bus junction
+      mctx.lineTo(w * 0.64, h * 0.32);
+      mctx.closePath();
+
+      mctx.fillStyle = '#ffffff';
+      mctx.fill();
+
+      const maskData = mctx.getImageData(0, 0, w, h).data;
+
+      // Apply mask: any pixel outside the polygon is set to 0 alpha
+      for (let i = 0; i < w * h; i++) {
+        const p = i * 4;
+        const maskAlpha = maskData[p] / 255;
+        d[p + 3] = Math.round(d[p + 3] * maskAlpha);
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+
+      const cleanPng = c.toDataURL('image/png');
+      const res = await fetch('/api/save-transparent-satellite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: cleanPng
+      });
+      const result = await res.json();
+      document.getElementById('status').innerText = 'Cleaned satellite saved: ' + result.size + ' bytes';
+    }
+    run().catch(e => document.getElementById('status').innerText = e.message);
+  </script>
+</body>
+</html>

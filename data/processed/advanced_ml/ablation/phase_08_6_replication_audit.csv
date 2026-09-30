@@ -1,0 +1,7 @@
+Validation_Type,Ablation_Config,Phase_08_6_Config,Evaluated_Runs,Max_MAE_Diff,Max_R2_Diff,Replication_Status
+Repeated_Holdout,A2,Model_A,90,0.0,0.0,PASS
+Repeated_Holdout,A3,Model_B,90,0.0,0.0,PASS
+Repeated_Holdout,A4,Model_C,90,0.0,0.0,PASS
+Spatial_Cluster,A2,Model_A,45,0.0,0.0,PASS
+Spatial_Cluster,A3,Model_B,45,0.0,0.0,PASS
+Spatial_Cluster,A4,Model_C,45,0.0,0.0,PASS

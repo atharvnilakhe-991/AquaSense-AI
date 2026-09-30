@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Composite</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #030712;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .earth-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('/earth_clean_bg.jpg');
+      background-size: cover;
+      background-position: center center;
+    }
+    .satellite-layer {
+      position: absolute;
+      /* 
+         bg is 1376 x 768.
+         crop was: cropX=441, cropY=151, cropW=689, cropH=549.
+         left: (441/1376)*100% = 32.049%
+         top: (151/768)*100% = 19.661%
+         width: (689/1376)*100% = 50.073%
+         height: (549/768)*100% = 71.484%
+      */
+      left: 32.05%;
+      top: 19.66%;
+      width: 50.07%;
+      height: 71.48%;
+      pointer-events: auto;
+      cursor: pointer;
+      transform-origin: 65% 45%;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .satellite-layer:hover {
+      transform: perspective(1000px) rotate(-2.5deg) scale(1.0);
+    }
+    .satellite-layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport">
+    <div class="earth-bg"></div>
+    <div class="satellite-layer" id="sat">
+      <img src="/satellite_transparent.png" alt="Satellite" />
+    </div>
+  </div>
+</body>
+</html>

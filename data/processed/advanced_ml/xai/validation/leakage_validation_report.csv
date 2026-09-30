@@ -1,0 +1,11 @@
+Layer_ID,Validation_Layer,Status,Details
+G,TIFF Exclusion Check,PASS,TIFF_Value strictly absent from all feature configurations.
+C,Feature-Order & Target Segregation,PASS,Target 'WatLevel' strictly segregated from predictor matrices.
+F,Temporal Precedence Validation,PASS,"Date_prior < Date_pred verified across all 3,844 rows (0 violations)."
+A,Prediction Reproduction Validation,PASS,"Row-level prediction reproduction verified: 11,632/11,632 exact match (Max diff: 0.0000000000 ft, 0 > 1e-4 ft)."
+B,SHAP Additivity Validation,PASS,"PASS under approved <1e-3 ft implementation tolerance (Max: 0.00036621 ft; 1,050/11,632 > 1e-4 ft, 0 > 1e-3 ft due to float32 tree accumulation)."
+H,Train/Test Separation Validation,PASS,Zero well overlap across all 10 seed holdouts.
+D,Held-Out Sample Alignment,PASS,"All 7,788 repeated and 3,844 spatial SHAP vectors strictly mapped to true well IDs."
+E,Warm/Cold Integrity Validation,PASS,"Strictly partitioned: 7,448 warm records and 340 cold records."
+I,SHAP Stability across Folds,PASS,Mean multi-seed rank correlation rho = 0.9547
+J,Baseline-Phase Preservation,PASS,"All 25 CSV files across Phases 08.5, 08.6, and 08.7 verified 100% untouched."

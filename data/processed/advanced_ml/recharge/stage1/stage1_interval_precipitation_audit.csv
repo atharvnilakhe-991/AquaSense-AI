@@ -1,0 +1,11 @@
+Metric,Value,Unit,Description
+Pearson_Correlation,0.9089,dimensionless,Linear correlation between Precip_Interval_Sum and Days_Since_Previous
+Spearman_Correlation,0.7794,dimensionless,Rank correlation between Precip_Interval_Sum and Days_Since_Previous
+Min_Interval_Duration,1.0,days,Minimum monitoring interval between successive observations
+Max_Interval_Duration,6189.0,days,Maximum monitoring interval between successive observations
+Median_Interval_Duration,338.5,days,Median monitoring interval across warm-start records
+Mean_Interval_Duration,284.85,days,Mean monitoring interval across warm-start records
+Min_Interval_Precipitation,0.0,mm,Minimum cumulative interval precipitation (0.0 mm for 1-day gap)
+Max_Interval_Precipitation,10460.97,mm,Maximum cumulative interval precipitation (for long monitoring gap)
+Median_Interval_Precipitation,501.41,mm,Median cumulative interval precipitation
+Mean_Interval_Precipitation,485.69,mm,Mean cumulative interval precipitation

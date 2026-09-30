@@ -1,0 +1,16 @@
+Regime,Split_ID,Phase_08_6_MAE,Reproduced_MAE,MAE_Difference,Rows_Compared,Max_Row_Level_Diff,Mean_Row_Level_Diff,Rows_Exceeding_1e4,Row_Level_Status
+Repeated_Holdout,Seed_42,4.693772,4.693772,0.0,783,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_101,2.354205,2.354205,0.0,685,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_202,5.502209,5.502209,0.0,751,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_303,4.286995,4.286995,0.0,830,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_404,1.872383,1.872383,0.0,741,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_505,3.082859,3.082859,0.0,854,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_606,2.985184,2.985184,0.0,786,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_707,3.877612,3.877612,0.0,867,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_808,2.621471,2.621471,0.0,779,0.0,0.0,0,PASS
+Repeated_Holdout,Seed_909,2.514421,2.514421,0.0,712,0.0,0.0,0,PASS
+Spatial_Cluster,Cluster_0_Northwest Phelps,2.378929,2.378929,0.0,648,0.0,0.0,0,PASS
+Spatial_Cluster,Cluster_1_North-Central Phelps,9.287327,9.287327,0.0,759,0.0,0.0,0,PASS
+Spatial_Cluster,Cluster_2_East Phelps,6.22734,6.22734,0.0,860,0.0,0.0,0,PASS
+Spatial_Cluster,Cluster_3_South-Central Phelps,3.149058,3.149058,0.0,806,0.0,0.0,0,PASS
+Spatial_Cluster,Cluster_4_Southwest Phelps,4.184715,4.184715,0.0,771,0.0,0.0,0,PASS

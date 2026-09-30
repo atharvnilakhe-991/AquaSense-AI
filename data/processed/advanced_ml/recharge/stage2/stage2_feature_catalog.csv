@@ -1,0 +1,32 @@
+Feature_Name,Feature_Group,Information_Cutoff,Warm_Missing_Count,Warm_Missing_Pct,Cold_Missing_Count,Handling_Strategy
+LatDD,Group G (Geography),Static Geographic Coordinate,0,0.0,0,Complete
+LongDD,Group G (Geography),Static Geographic Coordinate,0,0.0,0,Complete
+Surf_Elev,Group T (Topography),Static Topographic Elevation,0,0.0,0,Complete
+Previous_WatLevel,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Previous2_WatLevel,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),166,4.52,170,Native Tree Routing
+Days_Since_Previous,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Years_Since_Previous,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Previous_Observation_Count,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,0,Complete
+Rolling_Mean_3,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Rolling_Std_3,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),166,4.52,170,Native Tree Routing
+Previous_Level_Change,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),166,4.52,170,Native Tree Routing
+Recent_Trend,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),166,4.52,170,Native Tree Routing
+Historical_Mean,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Historical_Std,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),166,4.52,170,Native Tree Routing
+Historical_Min,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Historical_Max,Group H (Prior Groundwater State),Strictly Prior Measurement Date (< DateMsr),0,0.0,170,Complete
+Precip_7D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_14D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_30D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_60D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_90D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_180D_Sum,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Rain_Days_30D,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Max_Daily_Precip_30D,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Dry_Spell_Days,Group P (Precipitation Antecedent Exposure),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Precip_Interval_Sum,Group P (Precipitation Antecedent Exposure),"Elapsed Intermediate Interval [D_prev+1, D-1]",0,0.0,170,Complete
+Temp_Mean_30D,Group A (Atmospheric Context),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Temp_Max_30D,Group A (Atmospheric Context),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Radiation_30D_Sum,Group A (Atmospheric Context),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+Humidity_Mean_30D,Group A (Atmospheric Context),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete
+WindSpeed_Mean_30D,Group A (Atmospheric Context),Strict Prior-Day Cutoff (<= DateMsr - 1 day),0,0.0,0,Complete

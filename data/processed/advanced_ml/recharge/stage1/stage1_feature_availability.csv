@@ -1,0 +1,33 @@
+Feature_Name,Category,Availability_Status,Data_Source,Information_Cutoff,Scientific_Notes
+Precip_7D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 7D window),No leak; strictly D-1 cutoff
+Precip_14D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 14D window),No leak; strictly D-1 cutoff
+Precip_30D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 30D window),No leak; strictly D-1 cutoff
+Precip_60D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 60D window),No leak; strictly D-1 cutoff
+Precip_90D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 90D window),No leak; strictly D-1 cutoff
+Precip_180D_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (strictly prior 180D window),No leak; strictly D-1 cutoff
+Precip_Interval_Sum,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,Date_prev + 1 to DateMsr - 1 day (strictly intermediate window),Environmental exposure only; strictly D-1 cutoff
+Rain_Days_30D,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (30D rain days > 1mm),Rainfall frequency; strictly D-1 cutoff
+Max_Daily_Precip_30D,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (30D max daily rain),Rainfall intensity; strictly D-1 cutoff
+Dry_Spell_Days,Precipitation,AVAILABLE,NASA POWER Daily Precipitation,DateMsr - 1 day (consecutive dry days prior to DateMsr),Dry period indicator; strictly D-1 cutoff
+Temp_Mean_30D,Atmospheric,AVAILABLE,NASA POWER T2M,DateMsr - 1 day (30D mean temperature),Thermal driver; strictly D-1 cutoff
+Temp_Max_30D,Atmospheric,AVAILABLE,NASA POWER T2M,DateMsr - 1 day (30D max temperature),Thermal driver; strictly D-1 cutoff
+Radiation_30D_Sum,Atmospheric,AVAILABLE,NASA POWER ALLSKY_SFC_SW_DWN,DateMsr - 1 day (30D sum solar irradiance),Energy input; strictly D-1 cutoff
+Humidity_Mean_30D,Atmospheric,AVAILABLE,NASA POWER RH2M,DateMsr - 1 day (30D mean relative humidity),Moisture proxy; strictly D-1 cutoff
+WindSpeed_Mean_30D,Atmospheric,AVAILABLE,NASA POWER WS2M,DateMsr - 1 day (30D mean wind speed),Aerodynamic proxy; strictly D-1 cutoff
+PET,Atmospheric,UNAVAILABLE,Not in NASA POWER,N/A,Relegated to future enhancement
+Previous_WatLevel,Groundwater State,AVAILABLE,Locked Phase 08.4,Date_prev (< DateMsr),Antecedent state indicator
+Previous2_WatLevel,Groundwater State,AVAILABLE,Locked Phase 08.4,Date_prev2 (< DateMsr),Historical antecedent state
+Days_Since_Previous,Monitoring Cadence,AVAILABLE,Locked Phase 08.4,DateMsr - Date_prev,Elapsed accumulation days
+Years_Since_Previous,Monitoring Cadence,AVAILABLE,Locked Phase 08.4,Days_Since_Previous / 365.25,Elapsed decimal years
+Rolling_Mean_3,Groundwater State,AVAILABLE,Locked Phase 08.4,Latest 3 prior dates,Memory indicator
+Rolling_Std_3,Groundwater State,AVAILABLE,Locked Phase 08.4,Latest 3 prior dates,Fluctuation indicator
+Previous_Level_Change,Groundwater State,AVAILABLE,Locked Phase 08.4,Prev1 - Prev2,Prior velocity indicator
+Recent_Trend,Groundwater State,AVAILABLE,Locked Phase 08.4,Prev_Change / Elapsed,Prior rate indicator
+Historical_Mean,Groundwater State,AVAILABLE,Locked Phase 08.4,All strictly prior dates,Long-term aquifer baseline
+Historical_Std,Groundwater State,AVAILABLE,Locked Phase 08.4,All strictly prior dates,Historical variance
+LatDD,Spatial Context,AVAILABLE,Well coordinate,Static coordinate,Spatial location
+LongDD,Spatial Context,AVAILABLE,Well coordinate,Static coordinate,Spatial location
+Surf_Elev,Topographic Context,AVAILABLE,Well elevation,Static elevation,Topography
+Season,Temporal Context,AVAILABLE,Groundwater dataset,DateMsr,Seasonal indicator
+WatLevel (Current),Target Variable,EXCLUDED FROM PREDICTORS,Observation date,Current target y_i,FATAL TARGET LEAKAGE IF USED
+TIFF_Value,Interpolated Surface,PROHIBITED,Kriging/Spline interpolation,Post-hoc interpolated product,PROHIBITED LEAKAGE

@@ -1,0 +1,12 @@
+Check_ID,Description,Status,Details
+CHECK_01,No TIFF_Value,PASS,TIFF_Value is strictly absent from input and all feature matrices
+CHECK_02,No TIFF-derived features,PASS,No predictor contains target-derived raster information
+CHECK_03,No current WatLevel predictor,PASS,Target 'WatLevel' strictly segregated from feature matrix
+CHECK_04,No future WatLevel accessible,PASS,Cold-start rows have strictly NaN for history; no future leakage
+CHECK_05,Strict historical temporal precedence,PASS,All history features precede observation timestamp
+CHECK_06,No same-date history leakage,PASS,Duplicate-date observations receive identical prior-only history
+CHECK_07,Zero well overlap in unseen test,PASS,Train wells (136) and Test wells (34) disjoint
+CHECK_08,No random row splitting,PASS,Temporal split is strictly calendar-based; unseen is strictly well-grouped
+CHECK_09,Target strictly segregated,PASS,'WatLevel' never fed to any regressor
+CHECK_10,Row alignment preserved,PASS,Total rows across temporal splits equals exactly 3844
+CHECK_11,Prior-only cold/warm classification,PASS,Classification strictly defined by prior count; 0 future knowledge
