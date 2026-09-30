@@ -1,0 +1,11 @@
+Experiment,Purpose,Protocol,Modalities,Mechanism,Models,Status
+E1,Temporal forward prediction on known well network,"Train <= 2017, Val 2018-2020, Test 2021-2024","A, B, C",A0 - A6,"LightGBM, XGBoost, RF",Completed
+E2,Spatial generalization on unseen wells (Warm-Start),80/20 Unseen Well split (N_prior > 0),"A, B, C",A0 - A6,"LightGBM, XGBoost, RF",Completed
+E3,Spatial generalization on unseen wells (Cold-Start),80/20 Unseen Well split (N_prior == 0),"A, B, C",A0 - A6,"LightGBM, XGBoost, RF",Completed
+E4,Low vs Medium vs High monitoring density resilience,Train-fitted tertiles of observation counts,"A, B, C","A2, A4, A5, A6","LightGBM, XGBoost, RF",Completed
+E5,Short vs Moderate vs Long temporal gap resilience,Train-fitted tertiles of elapsed gap days,"A, B, C","A2, A4, A5, A6","LightGBM, XGBoost, RF",Completed
+E6,Controlled weather degradation stress test,"Pointwise / Burst / Outage (20%, 40%, 60%, 100%)","A, B, C","A2, A4, A5, A6","LightGBM, XGBoost, RF",Completed
+E7,Controlled groundwater history degradation stress test,"Pointwise / Burst / Outage (20%, 40%, 60%, 100%)","A, B, C","A2, A4, A5, A6","LightGBM, XGBoost, RF",Completed
+E8,Total single-modality outage stress test,100% masking of Modality B or Modality A,"A, B, C","A2, A4, A5, A6","LightGBM, XGBoost, RF",Completed
+E9,"Reliability vs Observability (alpha, beta) sensitivity","(alpha, beta) in [0.5, 2.0] grid","A, B, C",A5,"LightGBM, XGBoost, RF",Completed
+E10,Model-independence check across architectures,LightGBM vs XGBoost vs Random Forest,"A, B, C",A0 - A6,All 3 Models,Completed

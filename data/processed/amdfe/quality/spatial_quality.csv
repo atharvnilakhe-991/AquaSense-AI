@@ -1,0 +1,2 @@
+Modality,Completeness_C,Temporal_Consistency_T,Spatial_Coverage_S,Observation_Density_O,Measurement_Quality_M,Outlier_Ratio,Total_Observations,Valid_Coordinate_Fraction
+Modality C (Spatial/Topography),1.0,1.0,0.5,1.0,unavailable,0.0,3844,1.0

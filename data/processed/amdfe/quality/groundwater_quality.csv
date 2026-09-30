@@ -1,0 +1,2 @@
+Modality,Completeness_C,Temporal_Consistency_T,Spatial_Coverage_S,Observation_Density_O,Measurement_Quality_M,Outlier_Ratio,Total_Observations,Unique_Wells,Warm_Start_Fraction,Long_Gap_Fraction
+Modality A (Groundwater State),0.9533363683662851,0.9435918349447386,1.0,0.39608625274598214,unavailable,0.0,3844,170,0.9557752341311134,0.025494276795005204

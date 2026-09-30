@@ -1,0 +1,5 @@
+Modality,Completeness_C,Temporal_Consistency_T,Spatial_Coverage_S,Observation_Density_O,Measurement_Quality_M,Outlier_Ratio
+Modality A (Groundwater State),0.9533363683662851,0.9435918349447386,1.0,0.39608625274598214,unavailable,0.0
+Modality B (Weather),0.964360041623309,0.964360041623309,1.0,1.0,unavailable,0.0
+Modality C (Spatial/Topography),1.0,1.0,0.5,1.0,unavailable,0.0
+Modality D (Earth Observation / SoilGrids),0.0,0.0,0.0,0.0,unavailable,0.0

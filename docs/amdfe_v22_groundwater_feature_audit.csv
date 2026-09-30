@@ -1,0 +1,31 @@
+Feature,Source,Time relation to target,Allowed?,Reason
+Previous_WatLevel,In-situ Piezometer Telemetry,Prior observation (t-1),YES,Strict historical observation prior to prediction timestamp
+Previous2_WatLevel,In-situ Piezometer Telemetry,Prior observation (t-2),YES,Strict historical observation prior to prediction timestamp
+Days_Since_Previous,Observation Timestamp Difference,Historical time interval (t - (t-1)),YES,Elapsed days between previous and current measurement
+Years_Since_Previous,Observation Timestamp Difference,Historical time interval (t - (t-1)),YES,Annualized elapsed time between previous and current measurement
+Rolling_Mean_3,In-situ Telemetry Rolling Window,Prior 3 observations (t-1 to t-3),YES,Computed exclusively on historical values prior to prediction
+Rolling_Std_3,In-situ Telemetry Rolling Window,Prior 3 observations (t-1 to t-3),YES,Computed exclusively on historical values prior to prediction
+Previous_Level_Change,In-situ Telemetry Difference,Prior difference ((t-1) - (t-2)),YES,Difference between consecutive historical measurements
+Recent_Trend,In-situ Telemetry Slope,Prior slope ((t-1) - (t-2)) / dt,YES,Directional derivative of past observations
+Historical_Mean,In-situ Telemetry Cumulative,All observations <= (t-1),YES,Cumulative mean of historical record prior to current observation
+Historical_Std,In-situ Telemetry Cumulative,All observations <= (t-1),YES,Cumulative standard deviation of historical record prior to current observation
+Historical_Min,In-situ Telemetry Cumulative,All observations <= (t-1),YES,Cumulative minimum of historical record prior to current observation
+Historical_Max,In-situ Telemetry Cumulative,All observations <= (t-1),YES,Cumulative maximum of historical record prior to current observation
+Previous_Observation_Count,Observation Sequence Index,Count of observations <= (t-1),YES,Number of historical measurements recorded prior to current observation
+Observation_Density,Observation Frequency,Historical count / Monitored years,YES,Frequency of historical monitoring prior to current observation
+Long_Gap_Flag,Binary Threshold Flag,Historical indicator (dt > 365d),YES,Indicator for monitoring latency exceeding 1 year
+Very_Long_Gap_Flag,Binary Threshold Flag,Historical indicator (dt > 730d),YES,Indicator for monitoring latency exceeding 2 years
+Annual_Temperature_Mean,Meteorological Reanalysis,Completed Calendar Year Y-1,YES,Strict prior completed year climate summary (no target-year lookahead)
+Annual_Precipitation_Total,Meteorological Reanalysis,Completed Calendar Year Y-1,YES,Strict prior completed year climate summary (no target-year lookahead)
+Annual_Humidity_Mean,Meteorological Reanalysis,Completed Calendar Year Y-1,YES,Strict prior completed year climate summary (no target-year lookahead)
+Annual_WindSpeed_Mean,Meteorological Reanalysis,Completed Calendar Year Y-1,YES,Strict prior completed year climate summary (no target-year lookahead)
+Annual_SolarRadiation_Mean,Meteorological Reanalysis,Completed Calendar Year Y-1,YES,Strict prior completed year climate summary (no target-year lookahead)
+LatDD,Spatial Registry,Static well coordinate,YES,Spatial geographic coordinate invariant over time
+LongDD,Spatial Registry,Static well coordinate,YES,Spatial geographic coordinate invariant over time
+Surf_Elev,Spatial Registry / DEM,Static well surface altitude,YES,Physical topographic elevation invariant over time
+WatLevel,Current Monitoring Observation,Current Timestamp (t),NO (TARGET),Target variable to be predicted (strictly excluded from X predictors)
+TIFF_Value,Interpolated Groundwater Raster,Target-Year Derived Raster,NO (BANNED),Interpolated raster containing target information (CRITICAL LEAKAGE)
+groundwater_depth_raster,Interpolated Raster Layer,Target-Year Derived Raster,NO (BANNED),Interpolated raster containing target information (CRITICAL LEAKAGE)
+DEM_Elevation,Interpolated Terrain Layer,Currently Missing in Repo,NO (UNAVAILABLE),Topographic elevation raster not currently linked in repo (marked unavailable)
+Sentinel_1_SAR,Earth Observation Satellite,Currently Missing in Repo,NO (UNAVAILABLE),Sentinel-1 backscatter not integrated in repo (marked unavailable)
+SoilGrids_Hydraulic,Digital Soil Map,Currently Missing in Repo,NO (UNAVAILABLE),Soil hydraulic conductivity not integrated in repo (marked unavailable)
