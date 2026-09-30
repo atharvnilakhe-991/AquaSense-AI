@@ -1,0 +1,10 @@
+Validation_Regime,Model,Sample_Count,MAE_Mean,MAE_Std,RMSE_Mean,RMSE_Std,R2_Mean,R2_Std,Median_AE
+Temporal Holdout (2023-2024),Random Forest,180,1.2126,0.0,1.7136,0.0,0.2291,0.0,0.8326
+Temporal Holdout (2023-2024),XGBoost,180,1.2112,0.0,1.6922,0.0,0.2483,0.0,0.8361
+Temporal Holdout (2023-2024),LightGBM,180,1.1435,0.0,1.5854,0.0,0.3401,0.0,0.8793
+Repeated Grouped-Well (10 Seeds),Random Forest,748,1.0444,0.0931,1.8288,0.3541,0.5486,0.0913,
+Repeated Grouped-Well (10 Seeds),XGBoost,748,1.0983,0.0898,1.8713,0.3566,0.5275,0.0926,
+Repeated Grouped-Well (10 Seeds),LightGBM,748,1.1095,0.093,1.8824,0.3547,0.5216,0.0925,
+Spatial Cluster Holdout (5 Folds),Random Forest,734,1.2511,0.1258,1.9263,0.3271,0.443,0.07,
+Spatial Cluster Holdout (5 Folds),XGBoost,734,1.2804,0.1055,1.9706,0.2958,0.4141,0.0783,
+Spatial Cluster Holdout (5 Folds),LightGBM,734,1.2797,0.142,1.9524,0.3682,0.4284,0.0941,

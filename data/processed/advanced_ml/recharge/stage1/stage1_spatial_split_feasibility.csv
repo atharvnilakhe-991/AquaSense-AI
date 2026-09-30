@@ -1,0 +1,6 @@
+Spatial_Cluster_ID,Cluster_Label,Computational_Partition,Well_Count,Total_Observations,Warm_Start_Observations,Cold_Start_Observations
+Cluster 0,Spatial Cluster 0 (informal visualization label: Northwest Phelps),Standardized-Coordinate K-Means (k=5),33,648,615,33
+Cluster 1,Spatial Cluster 1 (informal visualization label: North-Central Phelps),Standardized-Coordinate K-Means (k=5),27,759,732,27
+Cluster 2,Spatial Cluster 2 (informal visualization label: East Phelps),Standardized-Coordinate K-Means (k=5),36,860,824,36
+Cluster 3,Spatial Cluster 3 (informal visualization label: South-Central Phelps),Standardized-Coordinate K-Means (k=5),37,806,769,37
+Cluster 4,Spatial Cluster 4 (informal visualization label: Southwest Phelps),Standardized-Coordinate K-Means (k=5),37,771,734,37

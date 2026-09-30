@@ -1,0 +1,12 @@
+Gate_ID,Gate_Name,Status,Details
+RCH-LC-01,Future Weather Isolation,PASS,Max weather date (2024-12-31) >= all weather cutoffs (0 violations).
+RCH-LC-01B,Same-Day Weather Exclusion,PASS,"max(weather_date_used) < DateMsr verified for 100% of records (0 violations, latest weather date is DateMsr - 1 day)."
+RCH-LC-02,Future Groundwater Isolation,PASS,"Date_prior < Date_current verified across all 3,674 warm-start records (0 violations)."
+RCH-LC-03,Target Exclusion from Features,PASS,Current WatLevel and Delta_h strictly absent from predictor sets.
+RCH-LC-04,Same-Event Circularity Check,PASS,Previous_WatLevel strictly encodes y_{i-1} with zero same-event circularity.
+RCH-LC-05,Temporal Partition Precedence,PASS,Strict temporal ordering: Train max (2019-04-29) < Val min (2020-04-13) < Test min (2023-04-06).
+RCH-LC-06,Well-Level Separation (10 Seeds),PASS,Zero well overlap across all 10 repeated holdout seeds (136 Train / 34 Test).
+RCH-LC-07,Spatial Fold Isolation,PASS,Zero well overlap across all 5 spatial cluster folds.
+RCH-LC-08,Static Raster Exclusion,PASS,TIFF_Value strictly absent from dataset and all feature configurations.
+RCH-LC-09,Cold-Start Integrity Check,PASS,All 170 cold-start records have 100% NaN for Delta_h (zero fabricated targets).
+RCH-LC-10,Diagnostic Construction Independence,PASS,Cold-start environmental predictors respect DateMsr - 1 day cutoff with zero future dependency.

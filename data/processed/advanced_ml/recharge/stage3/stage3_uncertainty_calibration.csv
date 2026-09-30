@@ -1,0 +1,4 @@
+Model,Calibration_Samples,Mean_Residual,Median_Residual,P90_Cutoff_q90,P95_Cutoff_q95,Interval_Width_90,Interval_Width_95
+Random Forest,408,2.1981,1.7084,4.918,6.196,9.836,12.392
+XGBoost,408,2.2181,1.6399,4.7828,6.205,9.5656,12.4101
+LightGBM,408,2.102,1.4549,4.7838,6.198,9.5677,12.3961

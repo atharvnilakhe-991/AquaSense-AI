@@ -1,0 +1,4 @@
+Dataset_Name,Row_Count,Column_Count,Unique_Wells,Unique_Counties,Min_Date,Max_Date,Unique_Observation_Dates,Lat_Min,Lat_Max,Long_Min,Long_Max,Surf_Elev_Min,Surf_Elev_Max,WatLevel_Min,WatLevel_Max,WatLevel_Mean,WatLevel_Median,Duplicate_Well_Date_Rows,Total_Missing_Cells
+Groundwater_2000_2025.csv (Raw Full),3944,9,170,PHELPS,2000-04-04,2025-06-18,330,40.3508,40.6841,-99.6432,-99.1795,2193.97,2519.15,-99.0,223.29,67.11,37.61,36,632
+Groundwater_Clean.csv (Raw Clean),3943,9,170,PHELPS,2000-04-04,2025-06-18,330,40.3508,40.6841,-99.6432,-99.1795,2193.97,2519.15,-2.7,223.29,67.15,37.63,36,632
+groundwater_irregular_observation_features.csv (Locked Phase 08.4),3844,32,170,PHELPS,2000-04-04,2024-05-01,321,40.3508,40.6841,-99.6432,-99.1795,2193.97,2519.15,-2.7,223.29,67.22,37.64,36,2870

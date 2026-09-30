@@ -1,0 +1,5 @@
+Experiment,Model,R2,MAE,RMSE
+Experiment A - Spatial Baseline,Linear Regression,0.783541327083564,24.839071663934778,31.419670469168192
+Experiment A - Spatial Baseline,Random Forest,0.9050961189070907,14.917095837211216,20.80444414203298
+Experiment B - Environmental Baseline,Linear Regression,0.7836277859120966,24.837454793642564,31.41339495435753
+Experiment B - Environmental Baseline,Random Forest,0.9094628416570536,14.456151846778772,20.32018042332593

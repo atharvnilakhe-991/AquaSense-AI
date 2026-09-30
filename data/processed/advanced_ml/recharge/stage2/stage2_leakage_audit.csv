@@ -1,0 +1,12 @@
+Gate_ID,Gate_Name,Status,Details
+RCH2-LC-01,Prior-Day Weather Cutoff,PASS,"max(weather_date_used) < DateMsr verified for 100% of records (0 violations, latest date is D-1 day)."
+RCH2-LC-02,Groundwater Temporal Precedence,PASS,"Date_prior < Date_current verified across all 3,674 warm-start records (0 violations)."
+RCH2-LC-03,Target Segregation (WatLevel),PASS,Current WatLevel strictly absent from candidate predictors.
+RCH2-LC-04,Target Segregation (Delta_h),PASS,Delta_h strictly absent from candidate predictors.
+RCH2-LC-05,Static Raster Exclusion,PASS,TIFF_Value strictly absent from dataset and all feature configurations.
+RCH2-LC-06,Grouped Well Separation,PASS,Zero well overlap between train and test across all 10 repeated holdout seeds.
+RCH2-LC-07,Spatial Fold Isolation,PASS,Zero well overlap across all 5 spatial cluster folds.
+RCH2-LC-08,Transformation Leakage Isolation,PASS,"All model transformations, metrics, and scalers fit strictly on training partitions."
+RCH2-LC-09,Cold-Start Target Integrity,PASS,All 170 cold-start records have 100% NaN for Delta_h (zero fabricated targets).
+RCH2-LC-10,RRPI Reference Population Fidelity,PASS,RRPI reference parameters fit strictly on 2000-2019 baseline (zero future test influence).
+RCH2-LC-11,Baseline Phase Preservation,PASS,All 49 locked files from Phases 08.4-08.9 & Stage 1.1 verified 100% identical.

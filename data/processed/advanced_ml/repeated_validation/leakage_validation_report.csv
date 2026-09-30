@@ -1,0 +1,11 @@
+Check_ID,Check_Name,Status,Details
+LC-07,Target Segregation Check,PASS,Target 'WatLevel' strictly segregated from feature matrices.
+LC-08,TIFF Exclusion Check,PASS,TIFF_Value strictly excluded from all model configurations.
+LC-02,Temporal Precedence Check,PASS,"Date_prior < Date_prediction verified across all 3,844 rows (0 violations)."
+LC-03,Current-Target Leakage Check,PASS,Previous_WatLevel matches strictly prior measurement date with 0 current-target leakage.
+LC-05,Same-Date Leakage Check,PASS,Same-date observations receive identical prior state (0 inconsistencies across 36 rows).
+LC-06,Cold-Start Integrity Check,PASS,All 170 cold-start rows have 100% NaN across all 12 history features (0 fabricated values).
+LC-01,Well Overlap Check (Repeated Holdout),PASS,Strict 0 well overlap verified across all 10 seed holdouts.
+LC-09,Row-Level Split Contamination Check (Repeated Holdout),PASS,Splits partitioned strictly at well-level with 0 row leakage.
+LC-01b,Well Overlap Check (Spatial Clusters),PASS,Strict 0 well overlap verified across all 5 spatial cluster folds.
+LC-04,Future-Target Leakage Check (Temporal),PASS,Strict chronological separation: Train < 2020 <= Val < 2023 <= Test.

@@ -1,0 +1,14 @@
+Feature,Role
+LatDD,Primary_ML_Feature
+LongDD,Primary_ML_Feature
+Surf_Elev,Primary_ML_Feature
+Annual_Temperature_Mean,Primary_ML_Feature
+Annual_Precipitation_Total,Primary_ML_Feature
+Annual_Humidity_Mean,Primary_ML_Feature
+Annual_WindSpeed_Mean,Primary_ML_Feature
+Annual_SolarRadiation_Mean,Primary_ML_Feature
+TIFF_Value,Potential_Target_Leakage
+CSD_ID,Metadata
+County,Metadata
+DateMsr,Metadata
+Season,Metadata

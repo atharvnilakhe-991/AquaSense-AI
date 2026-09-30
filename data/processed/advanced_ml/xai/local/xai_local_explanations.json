@@ -1,0 +1,513 @@
+[
+  {
+    "prototype_id": "Median_Error_Warm_Start",
+    "well_id": "402233099341700",
+    "date": "2022-10-06",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "warm_start",
+    "observed_level_ft": 112.31,
+    "predicted_level_ft": 110.99,
+    "absolute_error_ft": 1.32,
+    "base_value_ft": 61.92,
+    "top_positive_contributors": [
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": 110.38,
+        "is_feature_available": true,
+        "shap_value_ft": 17.3901,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "LatDD",
+        "feature_block": "Geography",
+        "feature_value": 40.376269444444446,
+        "is_feature_available": true,
+        "shap_value_ft": 17.1207,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Mean",
+        "feature_block": "Observation_History",
+        "feature_value": 112.65875,
+        "is_feature_available": true,
+        "shap_value_ft": 6.5457,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": 110.88,
+        "is_feature_available": true,
+        "shap_value_ft": 5.3771,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Min",
+        "feature_block": "Observation_History",
+        "feature_value": 110.38,
+        "is_feature_available": true,
+        "shap_value_ft": 2.845,
+        "direction": "increases_depth"
+      }
+    ],
+    "top_negative_contributors": [
+      {
+        "feature": "Surf_Elev",
+        "feature_block": "Topography",
+        "feature_value": 2335.32,
+        "is_feature_available": true,
+        "shap_value_ft": -1.0525,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "LongDD",
+        "feature_block": "Geography",
+        "feature_value": -99.57279166666666,
+        "is_feature_available": true,
+        "shap_value_ft": -0.6069,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Annual_Precipitation_Total",
+        "feature_block": "Climate",
+        "feature_value": 392.3,
+        "is_feature_available": true,
+        "shap_value_ft": -0.4094,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Annual_SolarRadiation_Mean",
+        "feature_block": "Climate",
+        "feature_value": 17.027561643835618,
+        "is_feature_available": true,
+        "shap_value_ft": -0.1271,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Std",
+        "feature_block": "Observation_History",
+        "feature_value": 1.1329045663295108,
+        "is_feature_available": true,
+        "shap_value_ft": -0.1009,
+        "direction": "decreases_depth"
+      }
+    ]
+  },
+  {
+    "prototype_id": "P95_High_Error_Warm_Start",
+    "well_id": "402320099231001",
+    "date": "2022-04-27",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "warm_start",
+    "observed_level_ft": 212.21,
+    "predicted_level_ft": 200.48,
+    "absolute_error_ft": 11.73,
+    "base_value_ft": 64.52,
+    "top_positive_contributors": [
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": 213.59,
+        "is_feature_available": true,
+        "shap_value_ft": 43.9487,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Max",
+        "feature_block": "Observation_History",
+        "feature_value": 223.29,
+        "is_feature_available": true,
+        "shap_value_ft": 29.5734,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": 213.4,
+        "is_feature_available": true,
+        "shap_value_ft": 23.7014,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "LatDD",
+        "feature_block": "Geography",
+        "feature_value": 40.38914722222222,
+        "is_feature_available": true,
+        "shap_value_ft": 16.3183,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Mean",
+        "feature_block": "Observation_History",
+        "feature_value": 217.72472222222223,
+        "is_feature_available": true,
+        "shap_value_ft": 10.891,
+        "direction": "increases_depth"
+      }
+    ],
+    "top_negative_contributors": [
+      {
+        "feature": "Annual_Precipitation_Total",
+        "feature_block": "Climate",
+        "feature_value": 392.3,
+        "is_feature_available": true,
+        "shap_value_ft": -0.4225,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Annual_SolarRadiation_Mean",
+        "feature_block": "Climate",
+        "feature_value": 17.027561643835618,
+        "is_feature_available": true,
+        "shap_value_ft": -0.4194,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Days_Since_Previous",
+        "feature_block": "Observation_History",
+        "feature_value": 205.0,
+        "is_feature_available": true,
+        "shap_value_ft": -0.3188,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Std",
+        "feature_block": "Observation_History",
+        "feature_value": 2.6638548717559227,
+        "is_feature_available": true,
+        "shap_value_ft": -0.1657,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Rolling_Std_3",
+        "feature_block": "Observation_History",
+        "feature_value": 0.1769180601295386,
+        "is_feature_available": true,
+        "shap_value_ft": -0.1536,
+        "direction": "decreases_depth"
+      }
+    ]
+  },
+  {
+    "prototype_id": "Median_Error_Cold_Start",
+    "well_id": "403230099195901",
+    "date": "2000-04-28",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "cold_start",
+    "observed_level_ft": 6.72,
+    "predicted_level_ft": 13.85,
+    "absolute_error_ft": 7.13,
+    "base_value_ft": 66.16,
+    "top_positive_contributors": [
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": 1.2346,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "LongDD",
+        "feature_block": "Geography",
+        "feature_value": -99.3339024,
+        "is_feature_available": true,
+        "shap_value_ft": 0.7345,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Std",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": 0.0518,
+        "direction": "increases_depth"
+      }
+    ],
+    "top_negative_contributors": [
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -16.1407,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Max",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -12.0943,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Surf_Elev",
+        "feature_block": "Topography",
+        "feature_value": 2269.36,
+        "is_feature_available": true,
+        "shap_value_ft": -10.3956,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "LatDD",
+        "feature_block": "Geography",
+        "feature_value": 40.54167314,
+        "is_feature_available": true,
+        "shap_value_ft": -9.4047,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Min",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -2.9766,
+        "direction": "decreases_depth"
+      }
+    ]
+  },
+  {
+    "prototype_id": "P95_High_Error_Cold_Start",
+    "well_id": "403946099383201",
+    "date": "2007-04-20",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "cold_start",
+    "observed_level_ft": 95.34,
+    "predicted_level_ft": 53.45,
+    "absolute_error_ft": 41.89,
+    "base_value_ft": 61.92,
+    "top_positive_contributors": [
+      {
+        "feature": "Surf_Elev",
+        "feature_block": "Topography",
+        "feature_value": 2446.94,
+        "is_feature_available": true,
+        "shap_value_ft": 16.439,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Min",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": 1.6796,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": 1.059,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Annual_Temperature_Mean",
+        "feature_block": "Climate",
+        "feature_value": 11.085424657534244,
+        "is_feature_available": true,
+        "shap_value_ft": 0.0987,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Previous2_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": 0.0132,
+        "direction": "increases_depth"
+      }
+    ],
+    "top_negative_contributors": [
+      {
+        "feature": "LatDD",
+        "feature_block": "Geography",
+        "feature_value": 40.66301611111111,
+        "is_feature_available": true,
+        "shap_value_ft": -15.9505,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Mean",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -4.1777,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -2.4936,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Max",
+        "feature_block": "Observation_History",
+        "feature_value": null,
+        "is_feature_available": false,
+        "shap_value_ft": -2.1226,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Annual_Precipitation_Total",
+        "feature_block": "Climate",
+        "feature_value": 846.89,
+        "is_feature_available": true,
+        "shap_value_ft": -0.748,
+        "direction": "decreases_depth"
+      }
+    ]
+  },
+  {
+    "prototype_id": "Shallowest_Groundwater_Case",
+    "well_id": "403959099282801",
+    "date": "2021-04-01",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "warm_start",
+    "observed_level_ft": -1.39,
+    "predicted_level_ft": 0.14,
+    "absolute_error_ft": 1.53,
+    "base_value_ft": 67.57,
+    "top_positive_contributors": [],
+    "top_negative_contributors": [
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": 5.28,
+        "is_feature_available": true,
+        "shap_value_ft": -25.8024,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Max",
+        "feature_block": "Observation_History",
+        "feature_value": 6.05,
+        "is_feature_available": true,
+        "shap_value_ft": -9.5094,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": 4.960000000000001,
+        "is_feature_available": true,
+        "shap_value_ft": -9.0999,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Mean",
+        "feature_block": "Observation_History",
+        "feature_value": 3.950588235294117,
+        "is_feature_available": true,
+        "shap_value_ft": -7.5795,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Min",
+        "feature_block": "Observation_History",
+        "feature_value": 2.75,
+        "is_feature_available": true,
+        "shap_value_ft": -6.6144,
+        "direction": "decreases_depth"
+      }
+    ]
+  },
+  {
+    "prototype_id": "Deepest_Groundwater_Case",
+    "well_id": "402320099231001",
+    "date": "2006-10-20",
+    "model_id": "xgboost_a3",
+    "configuration": "A3_Environmental_and_Observation_History",
+    "regime": "warm_start",
+    "observed_level_ft": 223.29,
+    "predicted_level_ft": 203.21,
+    "absolute_error_ft": 20.08,
+    "base_value_ft": 64.52,
+    "top_positive_contributors": [
+      {
+        "feature": "Previous_WatLevel",
+        "feature_block": "Observation_History",
+        "feature_value": 219.56,
+        "is_feature_available": true,
+        "shap_value_ft": 43.7822,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Max",
+        "feature_block": "Observation_History",
+        "feature_value": 220.37,
+        "is_feature_available": true,
+        "shap_value_ft": 29.6363,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Rolling_Mean_3",
+        "feature_block": "Observation_History",
+        "feature_value": 219.28,
+        "is_feature_available": true,
+        "shap_value_ft": 23.6266,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "LatDD",
+        "feature_block": "Geography",
+        "feature_value": 40.38914722222222,
+        "is_feature_available": true,
+        "shap_value_ft": 16.1963,
+        "direction": "increases_depth"
+      },
+      {
+        "feature": "Historical_Mean",
+        "feature_block": "Observation_History",
+        "feature_value": 218.238125,
+        "is_feature_available": true,
+        "shap_value_ft": 10.9118,
+        "direction": "increases_depth"
+      }
+    ],
+    "top_negative_contributors": [
+      {
+        "feature": "Rolling_Std_3",
+        "feature_block": "Observation_History",
+        "feature_value": 0.4014971979977011,
+        "is_feature_available": true,
+        "shap_value_ft": -0.1154,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Recent_Trend",
+        "feature_block": "Observation_History",
+        "feature_value": 6.087499999999654,
+        "is_feature_available": true,
+        "shap_value_ft": -0.0232,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Historical_Std",
+        "feature_block": "Observation_History",
+        "feature_value": 1.0843997955858642,
+        "is_feature_available": true,
+        "shap_value_ft": -0.0219,
+        "direction": "decreases_depth"
+      },
+      {
+        "feature": "Annual_SolarRadiation_Mean",
+        "feature_block": "Climate",
+        "feature_value": 16.53980821917808,
+        "is_feature_available": true,
+        "shap_value_ft": -0.0065,
+        "direction": "decreases_depth"
+      }
+    ]
+  }
+]
