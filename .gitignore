@@ -3,11 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environments
+# Virtual environments & dependencies
 .venv/
 env/
 venv/
+node_modules/
+dist/
+
+# Environment files
 .env
+.env.local
 
 # Model binaries & large weights (prevent committing binaries)
 *.joblib

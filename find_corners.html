@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head><title>Find Satellite Corners</title></head>
+<body>
+  <canvas id="c"></canvas>
+  <pre id="log"></pre>
+  <script>
+    const img = new Image();
+    img.src = '/hero_earth_satellite_clean.jpg';
+    img.onload = () => {
+      const c = document.getElementById('c');
+      c.width = img.width;
+      c.height = img.height;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      // Search for corners of solar panel
+      // Solar panel has dark blue cells: R around 10-40, G around 25-60, B around 60-120
+      // Surrounding Earth has bright white/light cyan clouds: R,G,B all > 150
+      // Upper space is black: R,G,B < 15
+      
+      const imgData = ctx.getImageData(0, 0, c.width, c.height);
+      const d = imgData.data;
+
+      // Let's log sample points across the satellite
+      const points = [
+        // Solar panel top edge
+        { name: 'solar_top_left', x: 504, y: 290 },
+        { name: 'solar_top_right', x: 885, y: 440 },
+        // Solar panel bottom edge
+        { name: 'solar_bottom_left', x: 498, y: 395 }, // wait, let's check
+      ];
+
+      document.getElementById('log').innerText = JSON.stringify(points, null, 2);
+    };
+  </script>
+</body>
+</html>

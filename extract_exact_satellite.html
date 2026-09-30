@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exact Satellite Extractor</title>
+</head>
+<body style="background:#111;color:#eee;font-family:sans-serif;padding:20px;">
+  <h2>Extracting Exact Satellite from Clean Reference</h2>
+  <div id="status">Loading images...</div>
+  <canvas id="c1" style="display:none;"></canvas>
+  <canvas id="c2" style="display:none;"></canvas>
+  <canvas id="out" style="max-width:100%;border:1px solid #00e5ff;margin-top:10px;"></canvas>
+  
+  <script>
+    async function run() {
+      const status = document.getElementById('status');
+      
+      const loadImg = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+
+      const [imgWithSat, imgClean] = await Promise.all([
+        loadImg('/hero_earth_satellite_clean.jpg'),
+        loadImg('/earth_clean_bg.jpg')
+      ]);
+
+      const w = imgWithSat.width;
+      const h = imgWithSat.height;
+      status.innerText = `Images loaded: ${w}x${h}. Extracting satellite...`;
+
+      const c1 = document.getElementById('c1');
+      c1.width = w; c1.height = h;
+      const ctx1 = c1.getContext('2d');
+      ctx1.drawImage(imgWithSat, 0, 0);
+      const data1 = ctx1.getImageData(0, 0, w, h).data;
+
+      const c2 = document.getElementById('c2');
+      c2.width = w; c2.height = h;
+      const ctx2 = c2.getContext('2d');
+      ctx2.drawImage(imgClean, 0, 0);
+      const data2 = ctx2.getImageData(0, 0, w, h).data;
+
+      const out = document.getElementById('out');
+      out.width = w; out.height = h;
+      const outCtx = out.getContext('2d');
+      const outImgData = outCtx.createImageData(w, h);
+      const outData = outImgData.data;
+
+      // Precise extraction: Find connected components of satellite
+      // The satellite solar panel center is around (650, 360) and main bus is around (900, 400)
+      const isSatPixel = new Uint8Array(w * h);
+      
+      // Mark candidate pixels with strong difference
+      for (let y = 170; y < 550; y++) {
+        for (let x = 480; x < 1080; x++) {
+          const idx = (y * w + x) * 4;
+          const r1 = data1[idx], g1 = data1[idx+1], b1 = data1[idx+2];
+          const r2 = data2[idx], g2 = data2[idx+1], b2 = data2[idx+2];
+          const diff = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
+
+          // Strong difference threshold to eliminate cloud noise
+          if (diff > 42) {
+            isSatPixel[y * w + x] = 1;
+          }
+        }
+      }
+
+      // Flood fill from known satellite seed points
+      const seeds = [
+        [650, 360], // solar panel center
+        [550, 300], // solar panel top-left
+        [750, 420], // solar panel junction
+        [880, 420], // satellite bus
+        [940, 350], // top right bus
+        [820, 520], // bottom panels
+        [980, 450], // right edge
+      ];
+
+      const visited = new Uint8Array(w * h);
+      const queue = new Int32Array(w * h);
+      let qHead = 0, qTail = 0;
+
+      for (const [sx, sy] of seeds) {
+        const sidx = sy * w + sx;
+        visited[sidx] = 1;
+        queue[qTail++] = sidx;
+      }
+
+      while (qHead < qTail) {
+        const cur = queue[qHead++];
+        const cx = cur % w;
+        const cy = (cur / w) | 0;
+
+        const neighbors = [
+          [cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1],
+          [cx + 1, cy + 1], [cx - 1, cy - 1], [cx + 1, cy - 1], [cx - 1, cy + 1]
+        ];
+
+        for (const [nx, ny] of neighbors) {
+          if (nx >= 460 && nx < 1100 && ny >= 160 && ny < 560) {
+            const nidx = ny * w + nx;
+            if (!visited[nidx]) {
+              visited[nidx] = 1;
+              const idx4 = nidx * 4;
+              const diff = Math.abs(data1[idx4] - data2[idx4]) + 
+                           Math.abs(data1[idx4+1] - data2[idx4+1]) + 
+                           Math.abs(data1[idx4+2] - data2[idx4+2]);
+              // Expand across satellite body
+              if (diff > 25 || isSatPixel[nidx]) {
+                queue[qTail++] = nidx;
+              }
+            }
+          }
+        }
+      }
+
+      let minX = w, maxX = 0, minY = h, maxY = 0;
+
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const idx = (y * w + x) * 4;
+          const nidx = y * w + x;
+
+          if (visited[nidx]) {
+            outData[idx] = data1[idx];
+            outData[idx+1] = data1[idx+1];
+            outData[idx+2] = data1[idx+2];
+            outData[idx+3] = 255;
+
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          } else {
+            outData[idx+3] = 0;
+          }
+        }
+      }
+
+      outCtx.putImageData(outImgData, 0, 0);
+      status.innerText = `Satellite bounding box: [${minX}, ${minY}] to [${maxX}, ${maxY}] (${maxX-minX+1}x${maxY-minY+1}). Saving...`;
+
+      // Crop tightly to satellite
+      const pad = 10;
+      const cropX = Math.max(0, minX - pad);
+      const cropY = Math.max(0, minY - pad);
+      const cropW = Math.min(w - cropX, (maxX - minX + 1) + pad * 2);
+      const cropH = Math.min(h - cropY, (maxY - minY + 1) + pad * 2);
+
+      const croppedCanvas = document.createElement('canvas');
+      croppedCanvas.width = cropW;
+      croppedCanvas.height = cropH;
+      const croppedCtx = croppedCanvas.getContext('2d');
+      croppedCtx.drawImage(out, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+      const croppedPng = croppedCanvas.toDataURL('image/png');
+      
+      // Also export relative positioning info
+      const meta = {
+        bgWidth: w,
+        bgHeight: h,
+        cropX,
+        cropY,
+        cropW,
+        cropH,
+        leftPercent: (cropX / w) * 100,
+        topPercent: (cropY / h) * 100,
+        widthPercent: (cropW / w) * 100,
+        heightPercent: (cropH / h) * 100
+      };
+
+      console.log('SATELLITE POSITION METADATA:', meta);
+
+      // Save via Vite API
+      const res = await fetch('/api/save-transparent-satellite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: croppedPng
+      });
+      const result = await res.json();
+      
+      status.innerText = `SUCCESS! Saved exact satellite PNG (${result.size} bytes). Dimensions: ${cropW}x${cropH} at (${meta.leftPercent.toFixed(2)}%, ${meta.topPercent.toFixed(2)}%).`;
+      status.style.color = '#10b981';
+      
+      const metaElem = document.createElement('pre');
+      metaElem.id = 'meta-output';
+      metaElem.innerText = JSON.stringify(meta, null, 2);
+      document.body.appendChild(metaElem);
+    }
+
+    run().catch(err => {
+      document.getElementById('status').innerText = 'Error: ' + err.message;
+      document.getElementById('status').style.color = '#ef4444';
+    });
+  </script>
+</body>
+</html>
