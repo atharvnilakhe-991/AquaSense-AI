@@ -58,27 +58,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
+    :root {
+      --bg-primary: #080D18;
+      --bg-secondary: #0D1422;
+      --bg-card: #111A2A;
+      --bg-card-elevated: #151F31;
+      --border: rgba(30, 41, 59, 0.8);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-cyan: #00e5ff;
+      --accent-sky: #38bdf8;
+      --accent-blue: #0284c7;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #a855f7;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
+      background-color: #080D18;
+      color: #cbd5e1;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
     }
 
-    /* Custom Clean Light Scrollbars */
+    /* Custom Sleek Dark Scrollbars */
     ::-webkit-scrollbar {
       width: 7px;
       height: 7px;
     }
 
     ::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: #080D18;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #1e293b;
       border-radius: 4px;
     }
 
@@ -86,25 +105,32 @@
       background: #0284c7;
     }
 
-    /* Premium Light Card Tokens */
+    /* Premium Dark Card Tokens */
     .aqua-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: #111A2A;
+      border: 1px solid rgba(30, 41, 59, 0.8);
       border-radius: 1rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #cbd5e1;
     }
 
     .aqua-card:hover {
-      border-color: #93c5fd;
-      box-shadow: 0 10px 25px -4px rgba(2, 132, 199, 0.08), 0 4px 10px -2px rgba(2, 132, 199, 0.04);
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 10px 30px -4px rgba(0, 229, 255, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+    }
+
+    .aqua-card-elevated {
+      background: #151F31;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 1rem;
     }
 
     .aqua-header {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(8, 13, 24, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .glow-primary-btn {
@@ -121,19 +147,19 @@
     }
 
     .glow-outline-btn {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      color: #0f172a;
+      background: #151F31;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
       transition: all 0.2s ease-in-out;
     }
 
     .glow-outline-btn:hover {
-      background: #f0f9ff;
-      border-color: #38bdf8;
-      color: #0284c7;
+      background: rgba(2, 132, 199, 0.2);
+      border-color: #00e5ff;
+      color: #ffffff;
     }
 
-    /* Light Status Badges */
+    /* Status Badges */
     .badge-demo {
       display: inline-flex;
       align-items: center;
@@ -143,34 +169,34 @@
       font-size: 0.65rem;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 600;
-      background: #f0f9ff;
-      color: #0284c7;
-      border: 1px solid #bae6fd;
+      background: rgba(2, 132, 199, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
       letter-spacing: 0.03em;
     }
 
     .badge-critical {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
+      background: rgba(239, 68, 68, 0.15) !important;
+      color: #f87171 !important;
+      border: 1px solid rgba(239, 68, 68, 0.3) !important;
     }
 
     .badge-high {
-      background: #fff7ed;
-      color: #ea580c;
-      border: 1px solid #fed7aa;
+      background: rgba(249, 115, 22, 0.15) !important;
+      color: #fb923c !important;
+      border: 1px solid rgba(249, 115, 22, 0.3) !important;
     }
 
     .badge-moderate {
-      background: #fffbeb;
-      color: #d97706;
-      border: 1px solid #fde68a;
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #fbbf24 !important;
+      border: 1px solid rgba(245, 158, 11, 0.3) !important;
     }
 
     .badge-stable {
-      background: #ecfdf5;
-      color: #059669;
-      border: 1px solid #a7f3d0;
+      background: rgba(16, 185, 129, 0.15) !important;
+      color: #34d399 !important;
+      border: 1px solid rgba(16, 185, 129, 0.3) !important;
     }
 
     /* Pulsing Well Marker */
@@ -222,11 +248,10 @@
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      /* NO animation, NO transform, NO transition, NO filter */
+      /* Completely STATIC: NO transform, NO transition, NO filter */
     }
 
-    /* Thin left-side dark gradient so white text stays readable.
-       Does NOT alter the satellite or Earth on the right half. */
+    /* Left-side dark gradient so white text stays readable. */
     .hero-text-overlay {
       position: absolute;
       inset: 0;
@@ -235,65 +260,59 @@
       user-select: none;
       background: linear-gradient(
         to right,
-        rgba(3,7,18,0.82) 0%,
-        rgba(3,7,18,0.60) 25%,
-        rgba(3,7,18,0.18) 48%,
-        transparent 62%
+        rgba(3,7,18,0.85) 0%,
+        rgba(3,7,18,0.65) 25%,
+        rgba(3,7,18,0.22) 48%,
+        transparent 65%
       );
     }
 
     /* ======================================================== */
-    /* HERO BOTTOM FADE: PREMIUM BLUE + AQUA + WHITE TRANSITION  */
+    /* HERO BOTTOM FADE: SEAMLESS TRANSITION INTO DARK NAVY     */
     /* ======================================================== */
     .hero-bottom-fade {
       position: absolute;
       bottom: -1px;
       left: 0;
       right: 0;
-      height: 115px;
+      height: 120px;
       pointer-events: none;
       z-index: 15;
       user-select: none;
       background:
-        /* Layer 1: Ambient soft aqua atmospheric diffusion */
+        /* Ambient soft cyan diffusion */
         radial-gradient(
-          ellipse 85% 65% at 50% 68%,
-          rgba(56, 189, 248, 0.16) 0%,
-          rgba(14, 116, 180, 0.08) 50%,
+          ellipse 85% 65% at 50% 70%,
+          rgba(0, 229, 255, 0.08) 0%,
+          rgba(14, 116, 180, 0.04) 50%,
           transparent 80%
         ),
-        /* Layer 2: Main vertical multi-phase atmospheric dissolve */
+        /* Atmospheric dissolve into unified dark background */
         linear-gradient(
           to bottom,
           rgba(3, 7, 18, 0) 0%,
-          rgba(4, 18, 42, 0.35) 18%,
-          rgba(8, 36, 76, 0.65) 34%,
-          rgba(12, 56, 112, 0.75) 48%,
-          rgba(16, 88, 154, 0.72) 60%,
-          rgba(34, 138, 202, 0.65) 72%,
-          rgba(110, 198, 242, 0.68) 82%,
-          rgba(195, 230, 250, 0.85) 90%,
-          rgba(235, 245, 252, 0.96) 96%,
-          #f8fafc 100%
+          rgba(5, 10, 22, 0.35) 25%,
+          rgba(8, 13, 24, 0.75) 60%,
+          #080D18 100%
         );
     }
 
     @media (min-width: 640px) {
       .hero-bottom-fade {
-        height: 140px;
+        height: 145px;
       }
     }
 
-    /* Primary Glowing Blue Button */
+    /* Primary Glowing Blue/Cyan Button */
     .hero-btn-primary {
       background: linear-gradient(135deg, #0284c7 0%, #0099ff 50%, #00d2ff 100%);
       color: #ffffff;
-      box-shadow: 0 0 25px rgba(0, 180, 255, 0.55), 0 4px 14px rgba(0, 118, 223, 0.4);
+      box-shadow: 0 0 25px rgba(0, 180, 255, 0.45), 0 4px 14px rgba(0, 118, 223, 0.35);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .hero-btn-primary:hover {
-      box-shadow: 0 0 35px rgba(0, 210, 255, 0.75), 0 6px 20px rgba(0, 150, 255, 0.6);
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.7), 0 6px 20px rgba(0, 150, 255, 0.55);
       transform: translateY(-1px) scale(1.02);
     }
 
@@ -303,17 +322,17 @@
 
     /* Secondary Transparent Button */
     .hero-btn-secondary {
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .hero-btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.6);
       transform: translateY(-1px);
     }
 
@@ -321,9 +340,10 @@
       transform: translateY(0);
     }
 
-    /* Active Nav Link with Cyan Underline for Dark Theme */
+    /* Active Nav Link with Cyan Underline */
     .hero-nav-active {
-      color: #38bdf8 !important;
+      color: #00e5ff !important;
+      font-weight: 700 !important;
       position: relative;
     }
 
@@ -331,47 +351,21 @@
       content: '';
       position: absolute;
       bottom: -6px;
-      left: 10px;
-      right: 10px;
-      height: 2px;
-      background: #38bdf8;
-      box-shadow: 0 0 8px #38bdf8;
-      border-radius: 2px;
+      left: 6px;
+      right: 6px;
+      height: 2.5px;
+      background: #00e5ff;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.75);
+      border-radius: 9999px;
     }
 
-    /* Master Navbar Adaptive Themes */
+    /* Unified Master Navbar (Consistent across all views) */
     .navbar-theme-dark {
-      background: rgba(3, 7, 18, 0.95) !important;
+      background: rgba(8, 13, 24, 0.94) !important;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-      box-shadow: none !important;
-    }
-
-    .navbar-theme-white {
-      background: #ffffff !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid #e2e8f0 !important;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
-    }
-
-    /* Active Nav Link for Dashboard White Theme */
-    .dashboard-nav-active {
-      color: #0284c7 !important;
-      font-weight: 700 !important;
-      position: relative;
-    }
-
-    .dashboard-nav-active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 8px;
-      right: 8px;
-      height: 2.5px;
-      background: #0284c7;
-      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
     }
 
     /* Mouse Scroll Wheel Animation */
@@ -416,26 +410,95 @@
       }
     }
 
-
-    /* Subsurface Strata Grid for Light Mode */
+    /* Subsurface Strata Grid for Dark Mode */
     .subsurface-grid-light {
-      background-image: linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
-      background-size: 28px 28px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px) !important;
+      background-size: 28px 28px !important;
     }
 
-    /* Leaflet Light Popup */
+    /* Leaflet Dark Styles */
     .leaflet-popup-content-wrapper {
-      background: #ffffff !important;
-      color: #0f172a !important;
-      border: 1px solid #cbd5e1 !important;
+      background: #111A2A !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(56, 189, 248, 0.3) !important;
       border-radius: 12px !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
     }
 
     .leaflet-popup-tip {
-      background: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
+      background: #111A2A !important;
+      border: 1px solid rgba(56, 189, 248, 0.3) !important;
+    }
+
+    .leaflet-container {
+      background: #080D18 !important;
+    }
+
+    /* ======================================================== */
+    /* UNIFIED DARK THEME TOKENS & UTILITY OVERRIDES             */
+    /* ======================================================== */
+    .text-slate-900 { color: #ffffff !important; }
+    .text-slate-800 { color: #f1f5f9 !important; }
+    .text-slate-700 { color: #cbd5e1 !important; }
+    .text-slate-600 { color: #94a3b8 !important; }
+    .text-slate-500 { color: #64748b !important; }
+
+    .bg-white { background-color: #111A2A !important; }
+    .bg-slate-50 { background-color: #0D1422 !important; }
+    .bg-slate-100 { background-color: #151F31 !important; }
+    .bg-slate-200 { background-color: #1e293b !important; }
+
+    .border-slate-100 { border-color: rgba(255, 255, 255, 0.06) !important; }
+    .border-slate-200 { border-color: rgba(30, 41, 59, 0.8) !important; }
+    .border-slate-300 { border-color: rgba(51, 65, 85, 0.8) !important; }
+
+    /* Semantic Soft Badge Backgrounds in Dark Mode */
+    .bg-sky-50 { background-color: rgba(2, 132, 199, 0.14) !important; }
+    .border-sky-200 { border-color: rgba(56, 189, 248, 0.25) !important; }
+    .text-sky-700, .text-sky-600 { color: #38bdf8 !important; }
+
+    .bg-purple-50 { background-color: rgba(168, 85, 247, 0.14) !important; }
+    .border-purple-200 { border-color: rgba(168, 85, 247, 0.25) !important; }
+    .text-purple-700, .text-purple-600 { color: #c084fc !important; }
+
+    .bg-teal-50 { background-color: rgba(20, 184, 166, 0.14) !important; }
+    .border-teal-200 { border-color: rgba(45, 212, 191, 0.25) !important; }
+    .text-teal-700, .text-teal-600 { color: #2dd4bf !important; }
+
+    .bg-emerald-50, .bg-emerald-500\/10 { background-color: rgba(16, 185, 129, 0.14) !important; }
+    .border-emerald-200 { border-color: rgba(52, 211, 153, 0.25) !important; }
+    .text-emerald-700, .text-emerald-600 { color: #34d399 !important; }
+
+    .bg-amber-50 { background-color: rgba(245, 158, 11, 0.14) !important; }
+    .border-amber-200 { border-color: rgba(251, 191, 36, 0.25) !important; }
+    .text-amber-700, .text-amber-600 { color: #fbbf24 !important; }
+
+    .bg-rose-50, .bg-rose-500\/10 { background-color: rgba(239, 68, 68, 0.14) !important; }
+    .border-rose-200 { border-color: rgba(248, 113, 113, 0.25) !important; }
+    .text-rose-700, .text-rose-600 { color: #f87171 !important; }
+
+    .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.14) !important; }
+    .border-indigo-200 { border-color: rgba(129, 140, 248, 0.25) !important; }
+    .text-indigo-700, .text-indigo-600 { color: #818cf8 !important; }
+
+    /* Form Controls Dark Theme */
+    select, input[type="text"], input[type="email"], input[type="password"] {
+      background-color: #0D1422 !important;
+      color: #ffffff !important;
+      border-color: rgba(51, 65, 85, 0.8) !important;
+    }
+
+    select option {
+      background-color: #0D1422 !important;
+      color: #ffffff !important;
+    }
+
+    /* Footer Dark Theme */
+    footer {
+      background-color: #080D18 !important;
+      border-top: 1px solid rgba(30, 41, 59, 0.8) !important;
+      color: #64748b !important;
     }
   </style>
 </head>
@@ -2255,9 +2318,9 @@
   <!-- AUTHENTICATION / LOGIN MODAL                             -->
   <!-- ======================================================== -->
   <div id="login-modal"
-    class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    class="hidden fixed inset-0 z-50 bg-[#080D18]/85 backdrop-blur-md flex items-center justify-center p-4">
     <div
-      class="relative bg-slate-900 border border-slate-700/80 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(0,229,255,0.15)] text-white">
+      class="relative bg-[#111A2A] border border-cyan-500/30 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(0,229,255,0.12)] text-white">
 
       <!-- Modal Close Button -->
       <button onclick="closeLoginModal()"
@@ -2279,20 +2342,25 @@
           <span>Sign In to</span>
           <span class="text-white">AquaSense<span class="text-[#00e5ff]">AI</span></span>
         </h2>
-        <p class="text-xs text-slate-400">
-          Enter your credentials to unlock groundwater telemetry, multi-horizon ML predictions, and recharge decision
-          support.
+        <p class="text-xs text-slate-300">
+          Sign in to access AquaSense AI groundwater intelligence.
         </p>
       </div>
 
+      <!-- Destination Indicator (when redirected from a protected route) -->
+      <div id="login-dest-banner" class="hidden p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs font-mono text-cyan-300 flex items-center space-x-2">
+        <span class="text-slate-400">Target Module:</span>
+        <span id="login-dest-name" class="font-bold text-white"></span>
+      </div>
+
       <!-- Quick Demo Access Banner -->
-      <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 space-y-2">
+      <div class="p-3.5 rounded-xl bg-[#151F31] border border-slate-700/60 space-y-2">
         <div class="flex items-center justify-between text-xs">
           <span class="text-slate-400 font-medium">Demo Credentials:</span>
           <span class="font-mono text-cyan-400">Pre-filled</span>
         </div>
         <button onclick="performDemoLogin()" type="button"
-          class="w-full py-2 px-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-semibold text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer">
+          class="w-full py-2.5 px-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-semibold text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer">
           <span>⚡ Instant 1-Click Demo Login</span>
         </button>
       </div>
@@ -2303,7 +2371,7 @@
           <label class="block text-xs font-medium text-slate-300 mb-1">Email / Username</label>
           <div class="relative">
             <input id="login-email" type="email" value="analyst@aquasense.ai" required
-              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#0D1422] border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
           </div>
         </div>
 
@@ -2311,7 +2379,7 @@
           <label class="block text-xs font-medium text-slate-300 mb-1">Password</label>
           <div class="relative">
             <input id="login-password" type="password" value="aquasense2026" required
-              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#0D1422] border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono" />
           </div>
         </div>
 
@@ -2522,6 +2590,22 @@
     function openLoginModal(targetRoute) {
       if (targetRoute) {
         window._pendingRoute = targetRoute;
+        const banner = document.getElementById('login-dest-banner');
+        const destName = document.getElementById('login-dest-name');
+        if (banner && destName) {
+          const names = {
+            '/dashboard': 'Dashboard',
+            '/groundwater-map': 'Groundwater Map',
+            '/prediction-analysis': 'Prediction Analysis',
+            '/recharge-analysis': 'Recharge Analysis',
+            '/risk-assessment': 'Risk Assessment'
+          };
+          destName.textContent = names[targetRoute] || targetRoute;
+          banner.classList.remove('hidden');
+        }
+      } else {
+        const banner = document.getElementById('login-dest-banner');
+        if (banner) banner.classList.add('hidden');
       }
       const modal = document.getElementById('login-modal');
       if (modal) modal.classList.remove('hidden');
@@ -2536,9 +2620,9 @@
       isAuthenticated = true;
       localStorage.setItem('aquasense_auth', 'true');
       closeLoginModal();
-      updateNavbarUI();
       const nextRoute = window._pendingRoute || '/dashboard';
       window._pendingRoute = null;
+      updateNavbarUI();
       navigate(nextRoute);
     }
 
@@ -2575,235 +2659,130 @@
       // Mobile Toggle Button
       const mobileToggle = document.getElementById('master-mobile-toggle');
 
-      const isHome = (currentPage === '/');
-
-      // 1. Header Background & Border Adaptation
+      // Header is ALWAYS unified dark navy across all views
       if (header) {
-        if (isHome) {
-          header.className = 'sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-dark';
-        } else {
-          header.className = 'sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-white';
-        }
+        header.className = 'sticky top-0 z-50 w-full transition-all duration-200 navbar-theme-dark';
       }
 
-      // 2. Left Brand Elements Adaptation
+      // Brand Elements: Consistent unified dark theme styling
       if (brandEmblem && brandTitle && brandAi && brandSub) {
-        if (isHome) {
-          brandEmblem.className = 'w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0 transition-all';
-          if (brandIcon) brandIcon.setAttribute('stroke', '#00e5ff');
-          brandTitle.className = 'text-xl sm:text-2xl font-black tracking-tight text-white transition-colors';
-          brandAi.className = 'text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff] transition-colors';
-          brandSub.className = 'text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none transition-colors';
-        } else {
-          brandEmblem.className = 'w-10 h-10 rounded-full bg-sky-50 border border-sky-300 shadow-sm flex items-center justify-center p-2 shrink-0 transition-all';
-          if (brandIcon) brandIcon.setAttribute('stroke', '#0284c7');
-          brandTitle.className = 'text-xl sm:text-2xl font-black tracking-tight text-slate-900 transition-colors';
-          brandAi.className = 'text-xl sm:text-2xl font-black tracking-tight text-sky-600 transition-colors';
-          brandSub.className = 'text-[11px] font-sans font-medium text-slate-500 tracking-wider mt-1 leading-none transition-colors';
-        }
+        brandEmblem.className = 'w-10 h-10 rounded-full bg-slate-950/80 border border-cyan-400/60 shadow-[0_0_15px_rgba(0,229,255,0.45)] flex items-center justify-center p-2 shrink-0 transition-all';
+        if (brandIcon) brandIcon.setAttribute('stroke', '#00e5ff');
+        brandTitle.className = 'text-xl sm:text-2xl font-black tracking-tight text-white transition-colors';
+        brandAi.className = 'text-xl sm:text-2xl font-black tracking-tight text-[#00e5ff] transition-colors';
+        brandSub.className = 'text-[11px] font-sans font-medium text-slate-400 tracking-wider mt-1 leading-none transition-colors';
       }
 
-      // 3. Live Monitoring Elements Adaptation
+      // Live Monitoring Elements: Always active green beacon with text glow
       if (liveBadge && liveLoc) {
-        if (isHome) {
-          if (liveBeacon) liveBeacon.style.boxShadow = '0 0 8px rgba(16,185,129,0.7)';
-          liveBadge.className = 'text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none';
-          liveBadge.style.textShadow = '0 0 8px rgba(16,185,129,0.5)';
-          liveLoc.className = 'text-[11px] text-slate-200 font-sans mt-0.5 leading-none';
-        } else {
-          if (liveBeacon) liveBeacon.style.boxShadow = '0 0 5px rgba(16,185,129,0.4)';
-          liveBadge.className = 'text-[10px] font-mono font-bold tracking-widest text-emerald-600 leading-none';
-          liveBadge.style.textShadow = 'none';
-          liveLoc.className = 'text-[11px] text-slate-500 font-sans mt-0.5 leading-none font-medium';
-        }
+        if (liveBeacon) liveBeacon.style.boxShadow = '0 0 8px rgba(16,185,129,0.7)';
+        liveBadge.className = 'text-[10px] font-mono font-bold tracking-widest text-[#10b981] leading-none';
+        liveBadge.style.textShadow = '0 0 8px rgba(16,185,129,0.5)';
+        liveLoc.className = 'text-[11px] text-slate-300 font-sans mt-0.5 leading-none';
       }
 
-      // 4. Mobile Toggle Icon Adaptation
       if (mobileToggle) {
-        if (isHome) {
-          mobileToggle.className = 'xl:hidden p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors';
-        } else {
-          mobileToggle.className = 'xl:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors';
-        }
+        mobileToggle.className = 'xl:hidden p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors';
       }
 
+      // Complete navigation: ALL 6 navigation links are ALWAYS visible (logged-in or logged-out)
       const allNavItems = [
-        { route: '/', label: 'Home', isProtected: false },
-        { route: '/dashboard', label: 'Dashboard', isProtected: true },
-        { route: '/groundwater-map', label: 'Groundwater Map', isProtected: true },
-        { route: '/prediction-analysis', label: 'Prediction Analysis', isProtected: true },
-        { route: '/recharge-analysis', label: 'Recharge Analysis', isProtected: true },
-        { route: '/risk-assessment', label: 'Risk Assessment', isProtected: true }
+        { route: '/', label: 'Home' },
+        { route: '/dashboard', label: 'Dashboard' },
+        { route: '/groundwater-map', label: 'Groundwater Map' },
+        { route: '/prediction-analysis', label: 'Prediction Analysis' },
+        { route: '/recharge-analysis', label: 'Recharge Analysis' },
+        { route: '/risk-assessment', label: 'Risk Assessment' }
       ];
 
-      const visibleItems = allNavItems.filter(item => !item.isProtected || isAuthenticated);
-
-      // 5. Desktop Nav Links (Guaranteed Single-Line with whitespace-nowrap)
+      // Desktop Nav Links
       if (navContainer) {
-        if (isHome) {
-          // Homepage: Move "Home" navigation item slightly toward the LEFT closer to AquaSenseAI branding with a balanced professional gap
-          navContainer.className = 'hidden xl:flex items-center justify-start flex-1 ml-4 2xl:ml-6 space-x-3 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap';
-        } else {
-          // Dashboard: Keep EXACTLY as is, centered with original spacing
-          navContainer.className = 'hidden xl:flex items-center justify-center flex-1 mx-2 2xl:mx-6 space-x-2 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap';
-        }
+        navContainer.className = 'hidden xl:flex items-center justify-start flex-1 ml-4 2xl:ml-6 space-x-3 2xl:space-x-5 text-[13px] 2xl:text-sm font-medium whitespace-nowrap';
 
-        navContainer.innerHTML = visibleItems.map(item => {
+        navContainer.innerHTML = allNavItems.map(item => {
           const isActive = currentPage === item.route;
-          let activeClass;
-          if (isHome) {
-            activeClass = isActive 
-              ? 'hero-nav-active px-2.5 2xl:px-3 py-1 font-semibold whitespace-nowrap flex-shrink-0 transition-all' 
-              : 'text-slate-300 hover:text-white px-2.5 2xl:px-3 py-1 whitespace-nowrap flex-shrink-0 transition-colors cursor-pointer';
-          } else {
-            activeClass = isActive 
-              ? 'dashboard-nav-active px-2.5 2xl:px-3 py-1 font-bold whitespace-nowrap flex-shrink-0 transition-all' 
-              : 'text-slate-600 hover:text-sky-600 px-2.5 2xl:px-3 py-1 whitespace-nowrap flex-shrink-0 transition-colors cursor-pointer';
-          }
+          const activeClass = isActive 
+            ? 'hero-nav-active px-2.5 2xl:px-3 py-1 font-bold whitespace-nowrap flex-shrink-0 transition-all' 
+            : 'text-slate-300 hover:text-[#00e5ff] px-2.5 2xl:px-3 py-1 whitespace-nowrap flex-shrink-0 transition-colors cursor-pointer';
           return `<button onclick="navigate('${item.route}')" class="${activeClass}">${item.label}</button>`;
         }).join('');
       }
 
-      // 6. Desktop Auth Actions (Far Right)
+      // Desktop Auth Actions (Far Right)
       if (authContainer) {
         if (isAuthenticated) {
-          if (isHome) {
-            authContainer.innerHTML = `
-              <div class="hidden md:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300 shrink-0">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="font-mono text-[11px] text-cyan-300">Analyst</span>
-              </div>
-              <button onclick="handleLogout()"
-                class="hero-btn-secondary px-4 py-2 rounded-full font-bold text-xs tracking-wide flex items-center space-x-1.5 cursor-pointer shrink-0">
-                <span>Logout</span>
-                <span class="text-xs leading-none">⎋</span>
-              </button>
-            `;
-          } else {
-            authContainer.innerHTML = `
-              <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-700 shrink-0 shadow-2xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="font-mono text-[11px] font-semibold text-slate-700">Analyst</span>
-              </div>
-              <button onclick="handleLogout()"
-                class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-700 hover:text-rose-600 font-bold text-xs tracking-wide flex items-center space-x-1.5 transition-all cursor-pointer shrink-0 shadow-2xs">
-                <span>Logout</span>
-                <span class="text-xs leading-none">⎋</span>
-              </button>
-            `;
-          }
+          authContainer.innerHTML = `
+            <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-xs text-slate-300 shrink-0">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="font-mono text-[11px] text-cyan-300 font-semibold">Analyst</span>
+            </div>
+            <button onclick="handleLogout()"
+              class="hero-btn-secondary px-4 py-2 rounded-full font-bold text-xs tracking-wide flex items-center space-x-1.5 cursor-pointer shrink-0">
+              <span>Logout</span>
+              <span class="text-xs leading-none">⎋</span>
+            </button>
+          `;
         } else {
-          if (isHome) {
-            authContainer.innerHTML = `
-              <button onclick="openLoginModal()"
-                class="hero-btn-primary px-6 py-2.5 rounded-full font-bold text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg shrink-0">
-                <span>Login</span>
-                <span class="text-base leading-none">→</span>
-              </button>
-            `;
-          } else {
-            authContainer.innerHTML = `
-              <button onclick="openLoginModal()"
-                class="hero-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs tracking-wide flex items-center space-x-1.5 cursor-pointer shadow-sm shrink-0">
-                <span>Login</span>
-                <span class="text-sm leading-none">→</span>
-              </button>
-            `;
-          }
+          authContainer.innerHTML = `
+            <button onclick="openLoginModal()"
+              class="hero-btn-primary px-5 sm:px-6 py-2 rounded-full font-bold text-xs sm:text-sm tracking-wide flex items-center space-x-2 cursor-pointer shadow-lg shrink-0">
+              <span>Login</span>
+              <span class="text-sm sm:text-base leading-none">→</span>
+            </button>
+          `;
         }
       }
 
-      // 7. Mobile Drawer Menu Adaptation
+      // Mobile Drawer Menu
       if (mobileContainer) {
-        if (isHome) {
-          mobileContainer.style.background = 'rgba(3, 7, 18, 0.98)';
-          mobileContainer.style.borderColor = '#1e293b';
-          let mobileHtml = visibleItems.map(item => {
-            const isActive = currentPage === item.route;
-            const activeClass = isActive
-              ? 'text-[#00e5ff] font-bold bg-cyan-950/40 border-l-2 border-[#00e5ff]'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800/50';
-            return `<button onclick="navigate('${item.route}'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-lg text-sm transition-colors ${activeClass}">${item.label}</button>`;
-          }).join('');
+        mobileContainer.style.background = 'rgba(8, 13, 24, 0.98)';
+        mobileContainer.style.borderColor = '#1e293b';
+        let mobileHtml = allNavItems.map(item => {
+          const isActive = currentPage === item.route;
+          const activeClass = isActive
+            ? 'text-[#00e5ff] font-bold bg-cyan-950/40 border-l-2 border-[#00e5ff]'
+            : 'text-slate-300 hover:text-white hover:bg-slate-800/50';
+          return `<button onclick="navigate('${item.route}'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-lg text-sm transition-colors ${activeClass}">${item.label}</button>`;
+        }).join('');
 
-          if (isAuthenticated) {
-            mobileHtml += `
-              <div class="pt-3 mt-3 border-t border-slate-800 flex items-center justify-between px-3">
-                <div class="flex items-center space-x-2 text-xs text-slate-400">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  <span>Signed in as <strong class="text-cyan-300">analyst@aquasense.ai</strong></span>
-                </div>
-                <button onclick="handleLogout(); toggleMobileMenu();" class="text-xs text-rose-400 hover:text-rose-300 font-semibold py-1.5 px-3 rounded-lg bg-rose-500/10 border border-rose-500/30">
-                  Logout ⎋
-                </button>
+        if (isAuthenticated) {
+          mobileHtml += `
+            <div class="pt-3 mt-3 border-t border-slate-800 flex items-center justify-between px-3">
+              <div class="flex items-center space-x-2 text-xs text-slate-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>Signed in as <strong class="text-cyan-300">analyst@aquasense.ai</strong></span>
               </div>
-            `;
-          } else {
-            mobileHtml += `
-              <div class="pt-3 mt-3 border-t border-slate-800 px-3">
-                <button onclick="openLoginModal(); toggleMobileMenu();" class="hero-btn-primary w-full py-2.5 rounded-xl font-bold text-sm text-center flex items-center justify-center space-x-2 cursor-pointer">
-                  <span>Login to Platform</span>
-                  <span>→</span>
-                </button>
-              </div>
-            `;
-          }
-          mobileContainer.innerHTML = mobileHtml;
+              <button onclick="handleLogout(); toggleMobileMenu();" class="text-xs text-rose-400 hover:text-rose-300 font-semibold py-1.5 px-3 rounded-lg bg-rose-500/10 border border-rose-500/30">
+                Logout ⎋
+              </button>
+            </div>
+          `;
         } else {
-          // White theme mobile menu for Dashboard
-          mobileContainer.style.background = '#ffffff';
-          mobileContainer.style.borderColor = '#e2e8f0';
-          let mobileHtml = visibleItems.map(item => {
-            const isActive = currentPage === item.route;
-            const activeClass = isActive
-              ? 'text-sky-600 font-bold bg-sky-50 border-l-3 border-sky-600'
-              : 'text-slate-700 hover:text-sky-600 hover:bg-slate-50';
-            return `<button onclick="navigate('${item.route}'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium transition-colors ${activeClass}">${item.label}</button>`;
-          }).join('');
-
-          if (isAuthenticated) {
-            mobileHtml += `
-              <div class="pt-3 mt-3 border-t border-slate-200 flex items-center justify-between px-3">
-                <div class="flex items-center space-x-2 text-xs text-slate-600">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  <span>Signed in as <strong class="text-slate-900">analyst@aquasense.ai</strong></span>
-                </div>
-                <button onclick="handleLogout(); toggleMobileMenu();" class="text-xs text-rose-600 hover:text-rose-700 font-semibold py-1.5 px-3 rounded-lg bg-rose-50 border border-rose-200 hover:bg-rose-100 transition-colors">
-                  Logout ⎋
-                </button>
-              </div>
-            `;
-          } else {
-            mobileHtml += `
-              <div class="pt-3 mt-3 border-t border-slate-200 px-3">
-                <button onclick="openLoginModal(); toggleMobileMenu();" class="hero-btn-primary w-full py-2.5 rounded-xl font-bold text-sm text-center flex items-center justify-center space-x-2 cursor-pointer">
-                  <span>Login to Platform</span>
-                  <span>→</span>
-                </button>
-              </div>
-            `;
-          }
-          mobileContainer.innerHTML = mobileHtml;
+          mobileHtml += `
+            <div class="pt-3 mt-3 border-t border-slate-800 px-3">
+              <button onclick="openLoginModal(); toggleMobileMenu();" class="hero-btn-primary w-full py-2.5 rounded-xl font-bold text-sm text-center flex items-center justify-center space-x-2 cursor-pointer">
+                <span>Login →</span>
+              </button>
+            </div>
+          `;
         }
+        mobileContainer.innerHTML = mobileHtml;
       }
     }
 
-    // Unified Master Navigation Router with Access Control Guard
+    // Unified Master Navigation Router with Protected Route Login Guard
     function navigate(route) {
       if (!route || route === '' || route === '#') route = '/';
       if (route.startsWith('#')) route = route.substring(1);
 
-      // Access Control: Block protected routes when logged out
+      // Access Control: Block protected routes when logged out and smoothly prompt login
       if (protectedRoutes.includes(route) && !isAuthenticated) {
-        showAuthToast('Authentication required: Please sign in to access ' + route.replace('/', '').replace(/-/g, ' ') + '.');
         openLoginModal(route);
-        route = '/';
-        currentPage = '/';
-        window.location.hash = '#/';
-      } else {
-        currentPage = route;
-        window.location.hash = route === '/' ? '#/' : `#${route}`;
+        return;
       }
+
+      currentPage = route;
+      window.location.hash = route === '/' ? '#/' : `#${route}`;
 
       // Hide all page views
       document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
@@ -2824,9 +2803,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       // Trigger page-specific initializations
-      if (currentPage === '/') {
-        if (window._satelliteResize) setTimeout(window._satelliteResize, 50);
-      } else if (currentPage === '/dashboard') {
+      if (currentPage === '/dashboard') {
         setTimeout(initDashboardChart, 50);
       } else if (currentPage === '/groundwater-map') {
         setTimeout(initFullMap, 50);
@@ -2835,7 +2812,7 @@
       }
     }
 
-    // Initialize Dashboard Chart (Light Theme)
+    // Initialize Dashboard Chart (Dark Theme)
     function initDashboardChart() {
       const ctx = document.getElementById('dashTrendChart');
       if (!ctx) return;
@@ -2844,8 +2821,8 @@
         dashChart.destroy();
       }
 
-      Chart.defaults.color = '#64748b';
-      Chart.defaults.borderColor = 'rgba(226, 232, 240, 0.8)';
+      Chart.defaults.color = '#94a3b8';
+      Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
 
       dashChart = new Chart(ctx, {
         type: 'line',
@@ -2855,22 +2832,22 @@
             {
               label: 'Observed Depth (m)',
               data: [42.1, 43.5, 45.2, 47.0, 48.8, 49.6, 50.7, null],
-              borderColor: '#0284c7',
-              backgroundColor: 'rgba(2, 132, 199, 0.08)',
+              borderColor: '#00e5ff',
+              backgroundColor: 'rgba(0, 229, 255, 0.12)',
               fill: true,
               tension: 0.35,
               borderWidth: 2.5,
-              pointBackgroundColor: '#0284c7',
+              pointBackgroundColor: '#00e5ff',
               pointRadius: 4
             },
             {
               label: 'ML Forecast Horizon (m)',
               data: [null, null, null, null, null, null, 50.7, 52.3],
-              borderColor: '#7c3aed',
+              borderColor: '#a855f7',
               borderDash: [5, 5],
               borderWidth: 2.5,
               tension: 0.35,
-              pointBackgroundColor: '#7c3aed',
+              pointBackgroundColor: '#a855f7',
               pointRadius: 4
             }
           ]
@@ -2882,25 +2859,27 @@
             legend: {
               labels: {
                 boxWidth: 12,
-                color: '#334155',
+                color: '#e2e8f0',
                 font: { family: 'Inter', size: 11, weight: '500' }
               }
             }
           },
           scales: {
             y: {
-              title: { display: true, text: 'Depth to Groundwater (m)', color: '#64748b' },
-              grid: { color: 'rgba(226, 232, 240, 0.7)' }
+              title: { display: true, text: 'Depth to Groundwater (m)', color: '#94a3b8' },
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: { color: '#94a3b8' }
             },
             x: {
-              grid: { display: false }
+              grid: { display: false },
+              ticks: { color: '#94a3b8' }
             }
           }
         }
       });
     }
 
-    // Initialize Prediction Chart (Light Theme)
+    // Initialize Prediction Chart (Dark Theme)
     function initPredictionChart() {
       const ctx = document.getElementById('predictionChartCanvas');
       if (!ctx) return;
@@ -2918,7 +2897,7 @@
               label: 'Upper 90% Bound (m)',
               data: [null, null, null, null, null, 50.7, 53.6, 55.4],
               borderColor: 'transparent',
-              backgroundColor: 'rgba(124, 58, 237, 0.1)',
+              backgroundColor: 'rgba(168, 85, 247, 0.14)',
               fill: '+1',
               pointRadius: 0
             },
@@ -2932,20 +2911,20 @@
             {
               label: 'Historical Observed (m)',
               data: [47.5, 48.2, 49.1, 49.8, 50.3, 50.7, null, null],
-              borderColor: '#0284c7',
-              backgroundColor: 'rgba(2, 132, 199, 0.05)',
+              borderColor: '#00e5ff',
+              backgroundColor: 'rgba(0, 229, 255, 0.08)',
               borderWidth: 3,
               pointRadius: 4,
-              pointBackgroundColor: '#0284c7'
+              pointBackgroundColor: '#00e5ff'
             },
             {
               label: 'ML Expected Trajectory (m)',
               data: [null, null, null, null, null, 50.7, 52.2, 53.3],
-              borderColor: '#7c3aed',
+              borderColor: '#a855f7',
               borderDash: [6, 4],
               borderWidth: 2.5,
               pointRadius: 4,
-              pointBackgroundColor: '#7c3aed'
+              pointBackgroundColor: '#a855f7'
             }
           ]
         },
@@ -2956,7 +2935,7 @@
             legend: {
               labels: {
                 boxWidth: 12,
-                color: '#334155',
+                color: '#e2e8f0',
                 filter: function (item) {
                   return !item.text.includes('Bound');
                 }
@@ -2965,11 +2944,13 @@
           },
           scales: {
             y: {
-              title: { display: true, text: 'Depth to Groundwater (m)', color: '#64748b' },
-              grid: { color: 'rgba(226, 232, 240, 0.7)' }
+              title: { display: true, text: 'Depth to Groundwater (m)', color: '#94a3b8' },
+              grid: { color: 'rgba(255, 255, 255, 0.06)' },
+              ticks: { color: '#94a3b8' }
             },
             x: {
-              grid: { display: false }
+              grid: { display: false },
+              ticks: { color: '#94a3b8' }
             }
           }
         }
@@ -2978,11 +2959,11 @@
 
     function setPredTimeframe(tf) {
       document.querySelectorAll('#page-prediction-analysis button[id^="pred-tf-"]').forEach(btn => {
-        btn.className = 'px-3 py-1 text-slate-600 hover:text-slate-900 rounded-lg';
+        btn.className = 'px-3 py-1 text-slate-400 hover:text-white rounded-lg transition-colors';
       });
       const active = document.getElementById(tf === 'all' ? 'pred-tf-all' : (tf === 'fiveYears' ? 'pred-tf-5y' : 'pred-tf-1y'));
       if (active) {
-        active.className = 'px-3 py-1 bg-white text-sky-700 font-bold rounded-lg shadow-xs';
+        active.className = 'px-3 py-1 bg-cyan-500/20 text-[#00e5ff] font-bold rounded-lg border border-cyan-500/40 shadow-xs';
       }
     }
 
@@ -2995,7 +2976,7 @@
       }
     }
 
-    // Initialize Full GIS Map (Leaflet with CartoDB Voyager Light Tiles)
+    // Initialize Full GIS Map (Leaflet with CartoDB Voyager Tiles)
     function initFullMap() {
       if (fullMap) {
         fullMap.invalidateSize();
@@ -3007,7 +2988,7 @@
         attributionControl: false
       }).setView([40.5175, -99.4114], 11);
 
-      // CartoDB Voyager Tiles for beautiful scientific light map cartography
+      // CartoDB Voyager Tiles for beautiful scientific map cartography
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         maxZoom: 18,
         subdomains: 'abcd',
@@ -3015,11 +2996,11 @@
 
       // Phelps County Study Area Perimeter Boundary Polygon
       L.rectangle([[40.3508, -99.6432], [40.6841, -99.1795]], {
-        color: '#0284c7',
+        color: '#00e5ff',
         weight: 1.5,
         dashArray: '5, 5',
-        fillColor: '#0284c7',
-        fillOpacity: 0.04
+        fillColor: '#00e5ff',
+        fillOpacity: 0.06
       }).addTo(fullMap);
 
       markersLayer = L.layerGroup().addTo(fullMap);
@@ -3043,10 +3024,10 @@
         });
 
         marker.bindPopup(`
-          <div style="font-family: 'Inter', sans-serif; font-size: 11px; padding: 4px; min-width: 140px;">
-            <div style="font-weight: 700; color: #0f172a; font-family: 'JetBrains Mono', monospace; font-size: 12px;">${well.id}</div>
-            <div style="color: #64748b; margin-top: 2px;">${well.township}</div>
-            <div style="margin-top: 6px; font-weight: 600; color: #0284c7;">Depth: ${well.waterDepthM} m</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 11px; padding: 4px; min-width: 140px; color: #f1f5f9;">
+            <div style="font-weight: 700; color: #00e5ff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">${well.id}</div>
+            <div style="color: #94a3b8; margin-top: 2px;">${well.township} Township</div>
+            <div style="margin-top: 6px; font-weight: 600; color: #ffffff;">Depth: ${well.waterDepthM} m</div>
             <div style="margin-top: 2px; color: ${well.color}; font-weight: 600;">Status: ${well.riskCategory}</div>
           </div>
         `);
@@ -3068,9 +3049,9 @@
         const btn = document.getElementById(`map-btn-${b}`);
         if (btn) {
           if (b === category) {
-            btn.className = 'px-3 py-1 bg-sky-600 text-white rounded-lg text-xs font-bold shadow-xs';
+            btn.className = 'px-3 py-1 bg-cyan-500/20 text-[#00e5ff] border border-cyan-500/40 rounded-lg text-xs font-bold shadow-xs';
           } else {
-            btn.className = 'px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium';
+            btn.className = 'px-3 py-1 bg-[#151F31] hover:bg-slate-800 text-slate-300 rounded-lg text-xs font-medium border border-slate-700/50';
           }
         }
       });
@@ -3088,7 +3069,7 @@
       document.getElementById('panel-location').innerText = `${well.township}, Phelps Co., NE`;
       document.getElementById('panel-coords').innerText = `${well.lat}° N, ${Math.abs(well.lon)}° W`;
       document.getElementById('panel-depth').innerHTML = `${well.waterDepthM} <span class="text-xs font-normal text-slate-500">m depth</span>`;
-      document.getElementById('panel-pred').innerHTML = `${well.predDepthM} m <span class="text-[10px] font-normal text-purple-600">(90% PI)</span>`;
+      document.getElementById('panel-pred').innerHTML = `${well.predDepthM} m <span class="text-[10px] font-normal text-purple-400">(90% PI)</span>`;
       document.getElementById('panel-recharge').innerText = well.recharge;
       document.getElementById('panel-date').innerText = well.date;
       document.getElementById('panel-trend').innerText = `${well.trend} Drawdown Rate`;
@@ -3104,16 +3085,16 @@
       if (!tbody) return;
 
       tbody.innerHTML = records.map(r => `
-        <tr class="hover:bg-slate-50/80 transition-colors">
-          <td class="py-2.5 px-3 font-bold text-slate-900">${r.obsId}</td>
-          <td class="px-3 text-sky-700 font-bold">${r.wellId}</td>
-          <td class="px-3 text-slate-600">${r.date}</td>
-          <td class="px-3 text-slate-500">${r.lat}, ${r.lon}</td>
-          <td class="px-3 font-bold text-slate-900">${r.level} m</td>
-          <td class="px-3 text-slate-600">${r.temp}</td>
-          <td class="px-3 text-slate-600">${r.rain}</td>
-          <td class="px-3 text-slate-600">${r.soil}</td>
-          <td class="px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">${r.quality}</span></td>
+        <tr class="hover:bg-cyan-950/20 transition-colors border-b border-slate-800/60">
+          <td class="py-2.5 px-3 font-bold text-white font-mono">${r.obsId}</td>
+          <td class="px-3 text-[#00e5ff] font-bold font-mono">${r.wellId}</td>
+          <td class="px-3 text-slate-300">${r.date}</td>
+          <td class="px-3 text-slate-400 font-mono">${r.lat}, ${r.lon}</td>
+          <td class="px-3 font-bold text-white font-mono">${r.level} m</td>
+          <td class="px-3 text-slate-300">${r.temp}</td>
+          <td class="px-3 text-slate-300">${r.rain}</td>
+          <td class="px-3 text-slate-300">${r.soil}</td>
+          <td class="px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">${r.quality}</span></td>
         </tr>
       `).join('');
 
@@ -3167,19 +3148,10 @@
     }
 
     // ========================================================
-    // HERO SATELLITE ROTATION HOVER CONTROLLER
+    // HERO SATELLITE (STATIC - NO MOUSE FOLLOW OR HOVER ANIMATION)
     // ========================================================
     function initHeroSatellite() {
-      const container = document.getElementById('hero-satellite-container');
-      const satImg = document.getElementById('hero-satellite-img');
-      if (!container || !satImg) return;
-
-      container.addEventListener('mouseenter', () => {
-        satImg.style.transform = 'rotate(6.5deg)';
-      });
-      container.addEventListener('mouseleave', () => {
-        satImg.style.transform = 'rotate(0deg)';
-      });
+      // Hero satellite remains completely static as required
     }
 
     // Initialization on Page Load

@@ -1,9 +1,9 @@
 {
-<<<<<<< Updated upstream
   "name": "aquasense-ai-frontend",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "AquaSense AI Groundwater Platform",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -26,29 +26,5 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.6"
-=======
-  "name": "frontend",
-  "version": "1.0.0",
-  "description": "AquaSense AI Groundwater Platform",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/atharvnilakhe-991/AquaSense-AI.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/atharvnilakhe-991/AquaSense-AI/issues"
-  },
-  "homepage": "https://github.com/atharvnilakhe-991/AquaSense-AI#readme",
-  "devDependencies": {
-    "vite": "^8.3.1"
->>>>>>> Stashed changes
   }
 }
