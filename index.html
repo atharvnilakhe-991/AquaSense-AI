@@ -2734,6 +2734,23 @@
   <!-- FRONTEND LOGIC & DATA GENERATOR                          -->
   <!-- ======================================================== -->
   <script>
+    // Centralized API Configuration for Local Dev & Cloud Deployment
+    const API_BASE_URL =
+      window.AQUASENSE_API_URL ||
+      (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? "http://localhost:8000"
+          : ""
+      );
+
+    if (!API_BASE_URL && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      console.warn(
+        "[AquaSense AI] Notice: No backend API URL configured for non-localhost host '" + window.location.hostname + "'. " +
+        "Configure window.AQUASENSE_API_URL with your public FastAPI backend URL (e.g. https://<backend-service>.onrender.com)."
+      );
+    }
+
     // Global State
     let currentPage = '/';
     let allWells = [];
@@ -3303,16 +3320,20 @@
 
       // Try fetching well-specific prediction from backend
       let predData = null;
-      try {
-        const targetId = well ? well.id : wellId;
-        const res = await fetch(`http://localhost:8000/api/v1/predictions?well_id=${encodeURIComponent(targetId)}&timeframe=${timeframe}`, {
-          signal: AbortSignal.timeout(2000)
-        });
-        if (res.ok) {
-          predData = await res.json();
+      if (API_BASE_URL) {
+        try {
+          const targetId = well ? well.id : wellId;
+          const res = await fetch(`${API_BASE_URL}/api/v1/predictions?well_id=${encodeURIComponent(targetId)}&timeframe=${timeframe}`, {
+            signal: AbortSignal.timeout(2000)
+          });
+          if (res.ok) {
+            predData = await res.json();
+          }
+        } catch (e) {
+          // Fallback to client-side data
         }
-      } catch (e) {
-        // Fallback to client-side data
+      } else {
+        console.warn(`[AquaSense AI] Backend API URL is not configured on ${window.location.hostname}. Using baseline client-side projections.`);
       }
 
       // Extract metrics
@@ -3721,13 +3742,17 @@
     }
 
     async function loadBackendData() {
+      if (!API_BASE_URL) {
+        console.warn(`[AquaSense AI] Backend API URL is not configured on ${window.location.hostname}. Falling back to baseline demonstration dataset. To connect a live backend, configure window.AQUASENSE_API_URL.`);
+        return;
+      }
       try {
-        const res = await fetch('http://localhost:8000/api/v1/wells', { signal: AbortSignal.timeout(3000) });
+        const res = await fetch(`${API_BASE_URL}/api/v1/wells`, { signal: AbortSignal.timeout(3000) });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
             allWells = data;
-            console.log(`[AquaSense AI] Connected to Backend API. Ingested ${allWells.length} real scientific stations.`);
+            console.log(`[AquaSense AI] Connected to Backend API (${API_BASE_URL}). Ingested ${allWells.length} real scientific stations.`);
             
             // Build real observation records for Data Explorer
             explorerObservations = allWells.slice(0, 20).map((w, idx) => ({
@@ -3775,32 +3800,32 @@
 
             // Defensive secondary endpoints ingestion
             window.AquaSenseData = window.AquaSenseData || {};
-            fetch('http://localhost:8000/api/v1/groundwater', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/groundwater`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.groundwater = d; })
               .catch(() => {});
 
-            fetch('http://localhost:8000/api/v1/predictions', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/predictions`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.predictions = d; })
               .catch(() => {});
 
-            fetch('http://localhost:8000/api/v1/recharge', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/recharge`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.recharge = d; })
               .catch(() => {});
 
-            fetch('http://localhost:8000/api/v1/risk', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/risk`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.risk = d; })
               .catch(() => {});
 
-            fetch('http://localhost:8000/api/v1/amdfe', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/amdfe`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.amdfe = d; })
               .catch(() => {});
 
-            fetch('http://localhost:8000/api/v1/xai', { signal: AbortSignal.timeout(3000) })
+            fetch(`${API_BASE_URL}/api/v1/xai`, { signal: AbortSignal.timeout(3000) })
               .then(r => r.ok ? r.json() : null)
               .then(d => { if (d) window.AquaSenseData.xai = d; })
               .catch(() => {});
