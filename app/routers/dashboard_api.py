@@ -31,9 +31,21 @@ def get_groundwater_data():
 
 @router.get("/api/v1/predictions")
 @router.get("/predictions/overview")
-def get_predictions(timeframe: str = Query("all")):
+def get_predictions(
+    timeframe: str = Query("all"),
+    well_id: Optional[str] = Query(None, alias="well_id")
+):
     """Provides ML prediction horizons, model performance benchmarks, and uncertainty envelopes."""
-    return data_adapter.get_predictions_data(timeframe=timeframe)
+    return data_adapter.get_predictions_data(timeframe=timeframe, well_id=well_id)
+
+
+@router.get("/api/v1/predictions/{well_id}")
+def get_well_prediction_detail(
+    well_id: str,
+    timeframe: str = Query("all")
+):
+    """Provides ML prediction horizons and uncertainty envelopes for a specific well."""
+    return data_adapter.get_predictions_data(timeframe=timeframe, well_id=well_id)
 
 
 @router.get("/api/v1/recharge")
