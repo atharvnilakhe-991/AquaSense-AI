@@ -93,10 +93,11 @@ See the four member Markdown files for detailed task plans.
 ## 5. Technology Stack
 
 ### Frontend
-- React
+- **Active Dashboard Entry Point:** `index.html` (Complete standalone GIS dashboard with Leaflet, Chart.js, Tailwind CSS)
+- **Modular / Prototype Path:** `src/App.jsx` and related `src/` files (retained as modular prototype framework)
 - Tailwind CSS
-- Leaflet / Mapbox
-- Charting library
+- Leaflet / GIS mapping
+- Chart.js
 
 ### Backend
 - Python

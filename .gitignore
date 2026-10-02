@@ -40,3 +40,5 @@ Thumbs.db
 checkpoints/
 .pytest_cache/
 *.log
+*.db
+*.sqlite3
